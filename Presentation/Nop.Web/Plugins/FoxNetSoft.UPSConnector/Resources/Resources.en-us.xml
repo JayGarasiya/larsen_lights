@@ -1,0 +1,557 @@
+﻿<Language Name="English" IsRightToLeft="false">
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.IsRegisted">
+    <Value>Registered version.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.IsNoRegisted">
+    <Value>Unregistered version, plugin has a 15-day trial period.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.IsExpired">
+    <Value>Your license has expired, you should renew the license with a 50% discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.StoreUrl">
+    <Value>Website address (for registration)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.StoreUrl.Hint">
+    <Value>Website address (for registration).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.showDebugInfo">
+    <Value>Enable Debugging</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.showDebugInfo.Hint">
+    <Value>Write debugging information to file in the ~/App_Data/ folder.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.SerialNumber">
+		<Value>Serial number</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.SerialNumber.Hint">
+		<Value>Serial number.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ClearLogFile">
+		<Value>Clear the log file</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.GetLogFile">
+		<Value>Download the log file</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.Enabled">
+			<Value>Enable plugin</Value>
+		</LocaleResource>
+		<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.Enabled.Hint">
+			<Value>Enable plugin.</Value>
+		</LocaleResource>	
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.AccountNumber">
+		<Value>Account number</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.AccountNumber.Hint">
+		<Value>Specify UPS account number (required to get negotiated rates).</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.ClientId">
+		<Value>Client ID</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.ClientId.Hint">
+		<Value>Specify UPS client ID.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.ClientSecret">
+		<Value>Client secret</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.ClientSecret.Hint">
+		<Value>Specify UPS client secret.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.UseSandbox">
+		<Value>Use sandbox</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.UseSandbox.Hint">
+		<Value>Check to use sandbox (testing environment).</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.UseSandboxForLabel">
+		<Value>Use sandbox for Labels</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.UseSandboxForLabel.Hint">
+		<Value>Check to use sandbox for Labels (testing environment). You will be able to test Labels and configure them.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.AdditionalHandlingCharge">
+		<Value>Additional handling charge</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.AdditionalHandlingCharge.Hint">
+		<Value>Enter additional handling fee to charge your customers.</Value>
+	</LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.AdditionalHandlingChargePercentage">
+    <Value>Additional handling charge. Use percentage</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.AdditionalHandlingChargePercentage.Hint">
+    <Value>Determines whether to apply a percentage additional handling charge to the order total. If not enabled, a fixed value is used.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.AvailableCarrierServices">
+		<Value>Carrier Services</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.AvailableCarrierServices.Hint">
+		<Value>Select the services you want to offer to customers.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.CustomerClassification">
+		<Value>UPS Customer Classification</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.CustomerClassification.Hint">
+		<Value>Choose customer classification.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.DimensionsType">
+		<Value>Dimensions type</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.DimensionsType.Hint">
+		<Value>Choose dimensions type (inches or centimeters).</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.LabelImageFormat">
+		<Value>Label Image Format</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.LabelImageFormat.Hint">
+		<Value>Choose Label Image Format type.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.LabelSize">
+		<Value>Label Size</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.LabelSize.Hint">
+		<Value>Choose Label Size type.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.ReturnLabelType">
+		<Value>Return Label Type</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.ReturnLabelType.Hint">
+		<Value>Choose Return Label Type.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.InsurePackage">
+		<Value>Insure package</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.InsurePackage.Hint">
+		<Value>Check to insure packages.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PackagingType">
+		<Value>UPS Packaging Type</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PackagingType.Hint">
+		<Value>Choose UPS packaging type.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PackingPackageVolume">
+		<Value>Package volume</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PackingPackageVolume.Hint">
+		<Value>Enter your package volume.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PackingType">
+		<Value>Packing type</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PackingType.Hint">
+		<Value>Choose preferred packing type.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PassDimensions">
+		<Value>Pass dimensions</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PassDimensions.Hint">
+		<Value>Pass dimensions</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PickupType">
+		<Value>UPS Pickup Type</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.PickupType.Hint">
+		<Value>Choose UPS pickup type.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.SaturdayDeliveryEnabled">
+		<Value>Saturday Delivery enabled</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.SaturdayDeliveryEnabled.Hint">
+		<Value>Check to get rates for Saturday Delivery options.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.SurePostRatesEnabled">
+		<Value>UPS SurePost Rates enabled</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.SurePostRatesEnabled.Hint">
+		<Value>Enable UPS SurePost Rates. UPS SurePost is an economy service for your non-urgent, residential shipments of low value.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.WeightType">
+		<Value>Weight type</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Fields.WeightType.Hint">
+		<Value>Choose the weight type (pounds or kilograms).</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.PackingType.PackByDimensions">
+		<Value>Pack by dimensions</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.PackingType.PackByOneItemPerPackage">
+		<Value>Pack by one item per package</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.PackingType.PackByVolume">
+		<Value>Pack by volume</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.LabelSizeType.Label4x6">
+		<Value>4x6</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.LabelSizeType.Label4x6">
+		<Value>4x8</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.ReturnLabelType.ERL">
+		<Value>UPS Electronic Return Label (ERL)</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.ReturnLabelType.PRL">
+		<Value>UPS Print Return Label (PRL)</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.LabelImageFormatType.PNG">
+		<Value>PNG</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.LabelImageFormatType.GIF">
+		<Value>GIF</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.LabelImageFormatType.ZPL">
+		<Value>ZPL</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.LabelImageFormatType.EPL">
+		<Value>EPL</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.LabelImageFormatType.SPL">
+		<Value>SPL</Value>
+	</LocaleResource>
+	<LocaleResource Name="Enums.FoxNetSoft.Plugin.Shipping.UPSConnector.Domain.LabelImageFormatType.PDF">
+		<Value>PDF</Value>
+	</LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Shipping.UPSConnector.Tracker.Arrived">
+		<Value>Arrived</Value>
+	</LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Shipping.UPSConnector.Tracker.Booked">
+		<Value>Booked</Value>
+	</LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Shipping.UPSConnector.Tracker.Delivered">
+		<Value>Delivered</Value>
+	</LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Shipping.UPSConnector.Tracker.Departed">
+		<Value>Departed</Value>
+	</LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Shipping.UPSConnector.Tracker.ExportScanned">
+		<Value>Export scanned</Value>
+	</LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Shipping.UPSConnector.Tracker.NotDelivered">
+		<Value>Not delivered</Value>
+	</LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Shipping.UPSConnector.Tracker.OriginScanned">
+		<Value>Origin scanned</Value>
+	</LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Shipping.UPSConnector.Tracker.Pickup">
+		<Value>Pickup</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.WrongShippingOriginAddress">
+		<Value>You didn't configure the shipping origin address (ZIP/postal code). UPS uses this ZIP/postal code to calculate rates.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.CheckShippingOriginAddress">
+		<Value>Important! Check the Shipping Origin Address. You have a contract with UPS and UPS requires the same address from the contract.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Error.ShippingCityNameRequired">
+		<Value>Error. Enable "Shipping settings/Use a city name to estimate shipping". This is mandatory for UPS.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingOriginAddress.ZipPostalCode.Required">
+		<Value>Error. Check the Shipping Origin Address. ZIP/Postal Code is empty.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ReturnLabel.EmptyPicture">
+		<Value>Error. The return label doesn't have the picture file.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ReturnLabel.PictureWasSend">
+		<Value>The return label will be sent to the customer's email.</Value>
+	</LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.EnablePaperLessTrade">
+    <Value>Enable PaperLess Trade (PLT)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.EnablePaperLessTrade.Hint">
+    <Value>Enable PaperLess Trade (PLT).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.CarrierService">
+    <Value>Carrier service</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.CarrierService.Hint">
+    <Value>Select the carrier service you want to send to UPS.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.PackagingType">
+    <Value>Packaging type</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.PackagingType.Hint">
+    <Value>Select the Packaging type you want to send to  UPS.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.PackingType">
+		<Value>Packing type</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.PackingType.Hint">
+		<Value>Select the Packing type you want to send to  UPS.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.InsurePackage">
+    <Value>Insure Package</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.InsurePackage.Hint">
+    <Value>Enable Insurance for the parcel.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.IsDutiable">
+    <Value>Dutiable flag</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.IsDutiable.Hint">
+    <Value>The Dutiable flag indicates whether the shipment is dutiable or not.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ReturnLabelType">
+		<Value>Return Label Type</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ReturnLabelType.Hint">
+		<Value>Choose Return Label Type.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.EnableDeliveryConfirmation">
+    <Value>Delivery confirmation</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.EnableDeliveryConfirmation.Hint">
+    <Value>Enable delivery confirmation for this parcel.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.EnableSignatureConfirmation">
+    <Value>Signature confirmation</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.EnableSignatureConfirmation.Hint">
+    <Value>Enable signature confirmation for this parcel.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.HideThePostageAmount">
+    <Value>Hide the postage amount</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.HideThePostageAmount.Hint">
+    <Value>Hide the postage amount for this parcel on the label.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.SaturdayDeliveryEnabled">
+    <Value>Saturday Delivery enabled</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.SaturdayDeliveryEnabled.Hint">
+    <Value>Special service. The shipment can be delivered on Saturday.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.EnableCashOnDelivery">
+    <Value>Enable Cash On Delivery (COD)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.EnableCashOnDelivery.Hint">
+    <Value>Special service. Enable Cash On Delivery (COD).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.CashOnDeliveryAmount">
+    <Value>Amount for Cash on Delivery (COD) (check it!)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.CashOnDeliveryAmount.Hint">
+    <Value>Amount for Cash on Delivery (COD). We use the order total for the default value.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ImageType1">
+    <Value>Document #1</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ImageType1.Hint">
+    <Value>Document #1 for PaperLess Trade (PLT) service.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ImageType2">
+    <Value>Document #2</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ImageType2.Hint">
+    <Value>Document #2 for PaperLess Trade (PLT) service.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ImageType3">
+    <Value>Document #3</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ImageType3.Hint">
+    <Value>Document #3 for PaperLess Trade (PLT) service.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ImageType4">
+    <Value>Document #4</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ImageType4.Hint">
+    <Value>Document #4 for PaperLess Trade (PLT) service.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ShippingDescription">
+    <Value>Shipping description</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabelModel.ShippingDescription.Hint">
+    <Value>Shipping description for the label.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabels">
+    <Value>Shipping Labels</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.NameButtonGroup">
+    <Value>UPS</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.GenerateLabel">
+    <Value>Generate Label</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.RePrintLabel">
+    <Value>Re-Print Label</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.CheckDeliveryConfirmation">
+    <Value>Check Delivery Confirmation</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.VoidLabel">
+    <Value>Void Label</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.ReturnLabel">
+		<Value>Return Label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.RePrintReturnLabel">
+		<Value>Re-Print Return Label</Value>
+	</LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Question2">
+    <Value>Are you sure you want to re-print a label?</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Question3">
+    <Value>Are you sure you want to check for delivery confirmation?</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Question4">
+    <Value>Are you sure you want to void the label?</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Question5">
+		<Value>Are you sure you want to re-print a return label?</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderNotPaid">
+    <Value>Cannot create a label. Order is not paid.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PaperLessTrade">
+    <Value>Add files for PaperLess Trade (PLT) service</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ParcelWasDelivered">
+    <Value>The parcel has been delivered.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ParcelWasNotDelivered">
+    <Value>The parcel hasn't been delivered.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.SomeOfParcelsWasNotDelivered">
+    <Value>All or some of the parcels haven't been delivered.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.WrongOrderId">
+		<Value>Wrong order ID={0} or shipment ID={1}.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShipmentId">
+		<Value>Wrong shipment ID={0}. Select the shipment and try to repeat.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.EmptyTrackingNumber">
+		<Value>Empty tracking number.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabel">
+		<Value>UPS Connector. Create the shipping label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ReturnLabel">
+		<Value>UPS Connector. Create the return label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.BackToOrder">
+		<Value>Back to order</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.BackToShipment">
+		<Value>Back to shipment</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.CreateLabel">
+		<Value>Create Label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Tab.Main">
+		<Value>Main</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Tab.Addresses">
+		<Value>Shipping addresses</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Tab.Products">
+		<Value>Products</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Tab.PaperLessTrade">
+		<Value>PaperLess Trade</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Tab.ReturnLabel">
+		<Value>Extra settings</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Tab.ShippingLabel">
+		<Value>Extra settings</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.VoidLabel.Success">
+		<Value>The shipping label '{0}' was voided.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.VoidLabel.Error">
+		<Value>Error. The shipping label '{0}' wasn't voided. Message: {1}.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.ShippingRates.Caption">
+		<Value>Shipping rates:</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingRate.Name">
+		<Value>Name</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingRate.Description">
+		<Value>Description</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingRate.Rate">
+		<Value>Rate</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingRate.TransitDays">
+		<Value>Transit Days</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.ShippingRate.Button.CalculateRates">
+		<Value>Calculate rates</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Weight">
+		<Value>Weight</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Weight.Hint">
+		<Value>Total weight of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Height">
+		<Value>Height</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Height.Hint">
+		<Value>Total height of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Length">
+		<Value>Length</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Length.Hint">
+		<Value>Total length of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Width">
+		<Value>Width</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Width.Hint">
+		<Value>Total width of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.InsuranceAmount">
+		<Value>Insurance amount</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.InsuranceAmount.Hint">
+		<Value>Insurance amount of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Addresses.AddressFrom">
+		<Value>Ship from:</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Addresses.AddressTo">
+		<Value>Ship to:</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.Packages.Caption">
+		<Value>Packages:</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.Packages.New">
+		<Value>Add new</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.Packages.Remove">
+		<Value>Remove</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Caption">
+		<Value>UPS Connector. Select products/shipments for creating labels</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Tab.Products">
+		<Value>Unshipped products</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Tab.Shipments">
+		<Value>Existing shipments</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Products.Ship">
+		<Value>Ship products</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Shipments.CreateLabel">
+		<Value>Create shipping label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Shipments.ReturnLabel">
+		<Value>Create return label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Shipments.VoidLabel">
+		<Value>Void label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ReturnLabel.Success">
+		<Value>The return label was sent.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.PackingType.Button.Recalculate">
+		<Value>Recalculate packages</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.CommonLabel.AddressFrom.Original">
+		<Value>Original address</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.CommonLabel.AddressTo.Original">
+		<Value>Original address</Value>
+	</LocaleResource>
+</Language>

@@ -1,0 +1,209 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Copyright>Copyright © nopCommercePlus</Copyright>
+    <Company>nopCommercePlus</Company>
+    <Authors>Forefront Infotech</Authors>
+    <OutputPath>..\..\Presentation\Nop.Web\Plugins\Widgets.ProductExtension</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+    <!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your project.
+    You need to set this parameter to true if your plugin has a nuget package 
+    to ensure that the dlls copied from the NuGet cache to the output of your project-->
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+  
+    <ItemGroup>
+      <None Remove="Areas\Admin\Views\Product\List.cshtml" />
+      <None Remove="Areas\Admin\Views\Product\ProductAttributeMappingEdit.cshtml" />
+      <None Remove="Areas\Admin\Views\Product\_CreateOrUpdateProductAttributeMapping.Condition.cshtml" />
+      <None Remove="Areas\Admin\Views\Product\_CreateOrUpdateProductAttributeMapping.Values.cshtml" />
+      <None Remove="Areas\Admin\Views\Product\_CreateOrUpdateProductAttributeMapping.ValuesCondition.cshtml" />
+      <None Remove="Areas\Admin\Views\Report\LowStock.cshtml" />
+      <None Remove="Areas\Admin\Views\_ViewImports.cshtml" />
+      <None Remove="Content\Priceupdate.xlsx" />
+      <None Remove="Content\public.productextension.js" />
+      <None Remove="Content\public.productreview.js" />
+      <None Remove="Content\styles.css" />
+      <None Remove="logo.png" />
+      <None Remove="plugin.json" />
+      <None Remove="Themes\Pacific\Views\Checkout\OpcConfirmOrder.cshtml" />
+      <None Remove="Themes\Pacific\Views\Product\ProductDetailReviews.cshtml" />
+      <None Remove="Themes\Pacific\Views\Product\ProductTemplate.Grouped.cshtml" />
+      <None Remove="Themes\Pacific\Views\Product\ProductTemplate.Simple.cshtml" />
+      <None Remove="Themes\Pacific\Views\Product\_Availability.cshtml" />
+      <None Remove="Themes\Pacific\Views\Product\_ProductAttributes.cshtml" />
+      <None Remove="Themes\Pacific\Views\_ViewImports.cshtml" />
+      <None Remove="Views\Configure.cshtml" />
+      <None Remove="Views\CreateProductNote.cshtml" />
+      <None Remove="Views\DealerPrice.cshtml" />
+      <None Remove="Views\DealerPriceConfirmationPopUp.cshtml" />
+      <None Remove="Views\EditProductNote.cshtml" />
+      <None Remove="Views\ProductNotes.cshtml" />
+      <None Remove="Views\ProductNote\CreateProductNote.cshtml" />
+      <None Remove="Views\ProductNote\EditProductNote.cshtml" />
+      <None Remove="Views\ProductNote\ProductNotes.cshtml" />
+      <None Remove="Views\ProductNote\_CreateOrUpdate.cshtml" />
+      <None Remove="Views\Product\ProductDetailReviews.cshtml" />
+      <None Remove="Views\Product\_Availability.cshtml" />
+      <None Remove="Views\Product\_ProductAttributes.cshtml" />
+      <None Remove="Views\Product\_ProductReviewHelpfulness.cshtml" />
+      <None Remove="Views\PublicInfo.cshtml" />
+      <None Remove="Views\QuoteInfo.cshtml" />
+      <None Remove="Views\ShoppingCart\QuoteInfo.cshtml" />
+      <None Remove="Views\_CreateOrUpdate.cshtml" />
+      <None Remove="Views\_ViewImports.cshtml" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Content Include="Areas\Admin\Views\Product\List.cshtml">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Areas\Admin\Views\Product\ProductAttributeMappingEdit.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Areas\Admin\Views\Product\_CreateOrUpdateProductAttributeMapping.Condition.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Areas\Admin\Views\Product\_CreateOrUpdateProductAttributeMapping.ValuesCondition.cshtml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Areas\Admin\Views\Product\_CreateOrUpdateProductAttributeMapping.Values.cshtml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Areas\Admin\Views\Report\LowStock.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Areas\Admin\Views\_ViewImports.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Files\Stockupdate.xlsx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Files\Priceupdate.xlsx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\js\public.productextension.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\js\public.productreview.js">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Content\Css\styles.css">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="logo.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="plugin.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Themes\Pacific\Views\Checkout\OpcConfirmOrder.cshtml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Themes\Pacific\Views\Product\ProductDetailReviews.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Themes\Pacific\Views\Product\ProductTemplate.Grouped.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="Themes\Pacific\Views\Product\ProductTemplate.Simple.cshtml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Themes\Pacific\Views\Product\_Availability.cshtml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Themes\Pacific\Views\Product\_ProductAttributes.cshtml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Themes\Pacific\Views\Shared\_Header.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="Themes\Pacific\Views\_ViewImports.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Configure.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\DealerPriceConfirmationPopUp.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="Views\DealerPrice.cshtml">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\ProductNote\CreateProductNote.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\ProductNote\EditProductNote.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\ProductNote\ProductNotes.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\ProductNote\_CreateOrUpdate.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Product\ProductDetailReviews.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Product\_Availability.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Product\_ProductAttributes.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Product\_ProductReviewHelpfulness.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\PublicInfo.cshtml">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Shared\Components\HeaderLogin\Default.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="Views\ShoppingCart\QuoteInfo.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\_ViewImports.cshtml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+	<ItemGroup>
+		<ClearPluginAssemblies Include="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Notes.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Themes\Pacific\Views\NopAjaxCartCatalog\_AjaxCartProductAttributes.cshtml">
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </None>
+	  <None Update="Themes\Pacific\Views\QuickViewCatalog\_QuickViewProductAttributes.cshtml">
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </None>
+	  <None Update="Views\NopAjaxCartCatalog\_AjaxCartProductAttributes.cshtml">
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </None>
+	  <None Update="Views\QuickViewCatalog\_QuickViewProductAttributes.cshtml">
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </None>
+	</ItemGroup>
+	
+    <!-- This target execute after "Build" target -->
+    <Target Name="NopTarget" AfterTargets="Build">
+        <!-- Delete unnecessary libraries from plugins path -->
+        <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+    </Target>
+</Project>

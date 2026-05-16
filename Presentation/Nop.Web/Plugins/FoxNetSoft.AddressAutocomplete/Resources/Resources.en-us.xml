@@ -1,0 +1,108 @@
+﻿<Language Name="English" IsRightToLeft="false">
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.IsRegisted">
+    <Value>Registered version.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.IsNoRegisted">
+    <Value>Unregistered version is fully operational. Trial period 15 days.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.IsExpired">
+    <Value>Your license has expired, you should renew the license with a 50% discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Enabled">
+    <Value>Enabled plugin</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Enabled.Hint">
+    <Value>Enabled Address Autocomplete.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.EnableInBackend">
+		<Value>Enable in backend (admin mode)</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.EnableInBackend.Hint">
+		<Value>Enable in backend (admin mode) for orders.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.UseGeoLocationData">
+		<Value>Use geolocation data (new customers)</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.UseGeoLocationData.Hint">
+		<Value>Use geolocation data from the browser and preselect the address for new customers.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.EnabledRestrictCountry">
+		<Value>Restrict the address autocomplite by IP address</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.EnabledRestrictCountry.Hint">
+		<Value>Ablity to restict the address autocomplete to currently selected countries (check the customer's IP address).</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.RestrictCountryIds">
+		<Value>Restrict to the country</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.RestrictCountryIds.Hint">
+		<Value>Choose the list of countries to use to search for an address.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.AutocompleteService">
+    <Value>Source of API</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.AutocompleteService.Hint">
+    <Value>Select the service for autocompleting address.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Google.Description">
+		<Value>Google Address Autocomplete</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Google.APIKey">
+		<Value>API Key</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Google.APIKey.Hint">
+		<Value>Google API Key.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Smarty.Description">
+		<Value>Smarty.com</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Smarty.APIKey">
+		<Value>APIKey</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Smarty.APIKey.Hint">
+		<Value>Smarty APIKey.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Geoapify.Description">
+		<Value>Geoapify Address Autocomplete</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Geoapify.APIKey">
+		<Value>API Key</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Geoapify.APIKey.Hint">
+		<Value>Geoapify API Key.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.StoreUrl">
+    <Value>Website address (for registration)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.StoreUrl.Hint">
+    <Value>Website address (for registration).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.showDebugInfo">
+    <Value>Enable Debugging</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.showDebugInfo.Hint">
+    <Value>Write debugging information into file. In ~/App_Data/ folder.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.SerialNumber">
+    <Value>Serial number</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.SerialNumber.Hint">
+    <Value>Serial number.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.ClearLogFile">
+    <Value>Clear the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.GetLogFile">
+    <Value>Download the log-file</Value>
+  </LocaleResource>
+	<LocaleResource Name="enums.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Domain.AutocompleteService.Google">
+		<Value>Google</Value>
+	</LocaleResource>
+	<LocaleResource Name="enums.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Domain.AutocompleteService.Smarty">
+		<Value>Smarty.com</Value>
+	</LocaleResource>
+	<LocaleResource Name="enums.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Domain.AutocompleteService.Geoapify">
+		<Value>Geoapify</Value>
+	</LocaleResource>
+</Language>
+

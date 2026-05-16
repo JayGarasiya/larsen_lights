@@ -1,0 +1,135 @@
+@model ConfigurationModel
+
+<div class="card-body">
+    <div class="card card-default">
+        <div class="card-header">
+            @T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Product.CommonInfo")
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductTopNChart_OverrideForStore" asp-input="ProductTopNChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductTopNChart" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductTopNChart" />
+                    <span asp-validation-for="ProductTopNChart"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card card-default">
+        <div class="card-header">
+            @T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Product.MenuReports")
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductMenuProductReport_OverrideForStore" asp-input="ProductMenuProductReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductMenuProductReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductMenuProductReport" />
+                    <span asp-validation-for="ProductMenuProductReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductMenuProductAttributeReport_OverrideForStore" asp-input="ProductMenuProductAttributeReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductMenuProductAttributeReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductMenuProductAttributeReport" />
+                    <span asp-validation-for="ProductMenuProductAttributeReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductMenuCategoryReport_OverrideForStore" asp-input="ProductMenuCategoryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductMenuCategoryReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductMenuCategoryReport" />
+                    <span asp-validation-for="ProductMenuCategoryReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductMenuManufacturerReport_OverrideForStore" asp-input="ProductMenuManufacturerReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductMenuManufacturerReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductMenuManufacturerReport" />
+                    <span asp-validation-for="ProductMenuManufacturerReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductMenuVendorReport_OverrideForStore" asp-input="ProductMenuVendorReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductMenuVendorReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductMenuVendorReport" />
+                    <span asp-validation-for="ProductMenuVendorReport"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card card-default">
+        <div class="card-header">
+            @T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Product.DetailReports")
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductDetailProductReport_OverrideForStore" asp-input="ProductDetailProductReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductDetailProductReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductDetailProductReport" />
+                    <span asp-validation-for="ProductDetailProductReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductDetailProductAttributeReport_OverrideForStore" asp-input="ProductDetailProductAttributeReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductDetailProductAttributeReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductDetailProductAttributeReport" />
+                    <span asp-validation-for="ProductDetailProductAttributeReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductDetailCustomerReport_OverrideForStore" asp-input="ProductDetailCustomerReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductDetailCustomerReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductDetailCustomerReport" />
+                    <span asp-validation-for="ProductDetailCustomerReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductDetailCountryReport_OverrideForStore" asp-input="ProductDetailCountryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductDetailCountryReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductDetailCountryReport" />
+                    <span asp-validation-for="ProductDetailCountryReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="ProductDetailGlobalReport_OverrideForStore" asp-input="ProductDetailGlobalReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="ProductDetailGlobalReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="ProductDetailGlobalReport" />
+                    <span asp-validation-for="ProductDetailGlobalReport"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

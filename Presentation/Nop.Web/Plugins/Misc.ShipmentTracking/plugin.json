@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Shipment Tracking",
+  "SystemName": "Misc.ShipmentTracking",
+  "Version": "1.05",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.ShipmentTracking.dll",
+  "Description": "This plugin creates a schedule task which tracks UPS, USPS, FedEx, Speedee Delivery and DHL shipments."
+}

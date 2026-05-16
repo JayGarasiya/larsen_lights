@@ -1,0 +1,19 @@
+
+.picture-thumbs .slick-prev {
+    right: 5px;
+    left: unset;
+    border-right: 1px solid #eee;
+    border-left: unset;
+}
+.picture-thumbs .slick-next {
+    left: 5px;
+    right: unset;
+    border-right: unset;
+    border-left: 1px solid #eee;
+}
+.picture-thumbs .slick-prev:after {
+    content: "\e90c";
+}
+.picture-thumbs .slick-next:after {
+    content: "\e90b";
+}

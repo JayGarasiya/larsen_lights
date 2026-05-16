@@ -1,0 +1,80 @@
+﻿@model DashboardReportModel
+@{
+    NopHtml.AppendScriptParts(ResourceLocation.Footer, "~/lib_npm/chart.js/chart.umd.min.js", excludeFromBundle: true);
+    NopHtml.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Reports.ChartsAndTables/Content/Js/report.chart.js", excludeFromBundle: true);
+}
+
+@if (Model.ManageProducts)
+{
+    <div class="row">
+        @if (Model.DashboardWeekChart)
+        {
+            <div class="col-md-4">
+                @await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Dashboard/_DashboardWeekChart.cshtml")
+            </div>
+        }
+
+        @if (Model.DashboardMonthChart)
+        {
+            <div class="col-md-4">
+                @await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Dashboard/_DashboardMonthChart.cshtml")
+            </div>
+        }
+
+        @if (Model.DashboardYearChart)
+        {
+            <div class="col-md-4">
+                @await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Dashboard/_DashboardYearChart.cshtml")
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        @if (Model.DashboardMonthYearChart)
+        {
+            <div class="col-md-12">
+                @await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Dashboard/_DashboardMonthYearChart.cshtml")
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        @if (Model.DashboardBestSellerProductYearChart)
+        {
+            <div class="col-md-6">
+                @await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Dashboard/_DashboardBestSellerProductYearChart.cshtml")
+            </div>
+        }
+
+        @if (Model.DashboardBestSellerProductMonthChart)
+        {
+            <div class="col-md-6">
+                @await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Dashboard/_DashboardBestSellerProductMonthChart.cshtml", Model.DashboardBestSellerProductLastNMonth)
+            </div>
+        }
+    </div>
+}
+
+@if (Model.ManageCategories || Model.ManageManufacturers || Model.ManageVendors)
+{
+    <div class="row">
+        @if (Model.DashboardBestSellerCategoryYearChart && Model.ManageCategories)
+        {
+            <div class="col-md-4">
+                @await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Dashboard/_DashboardBestSellerCategoryYearChart.cshtml")
+            </div>
+        }
+        @if (Model.DashboardBestSellerManufacturerYearChart && Model.ManageManufacturers)
+        {
+            <div class="col-md-4">
+                @await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Dashboard/_DashboardBestSellerManufacturerYearChart.cshtml")
+            </div>
+        }
+        @if (Model.DashboardBestSellerVendorYearChart && Model.ManageVendors)
+        {
+            <div class="col-md-4">
+                @await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Dashboard/_DashboardBestSellerVendorYearChart.cshtml")
+            </div>
+        }
+    </div>
+}

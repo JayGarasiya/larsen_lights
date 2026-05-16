@@ -1,0 +1,258 @@
+﻿@model TaxExemptModel
+
+@{
+    var button = "#checkout-step-payment-method";
+
+    //register URL with return URL (if specified)
+    var returnUrl = Context.Request.Query.TryGetValue("returnUrl", out var url) && !StringValues.IsNullOrEmpty(url)
+                ? url.ToString()
+                : (Model.OnePageCheckoutEnabled ? Url.RouteUrl(NopRouteNames.Standard.CHECKOUT_ONE_PAGE) : Url.RouteUrl(NopRouteNames.Standard.CHECKOUT));
+    var registerUrl = Url.RouteUrl(NopRouteNames.Standard.REGISTER, new { returnUrl = returnUrl });
+}
+
+@if (!Model.IsTaxExempt)
+{
+
+    <div id="taxexempt-popup" class="taxexempt-popup mfp-with-anim mfp-hide">
+        <form id="taxexempt-form" class="customer-info-page">
+            <div class="taxexempt-title">
+                <h1>@T("Plugins.Tax.TaxJar.TaxExempt.Info.Title")</h1>
+            </div>
+            <div class="taxexempt-body">
+                <div class="taxexempt-options">
+                    <div class="form-fields">
+                        <div class="inputs">
+                            <label style="color:red">
+                                @T("Plugins.Tax.TaxJar.TaxExempt.Warings")
+                            </label>
+                        </div>
+                        @foreach (var attribute in Model.CustomerAttributeModels)
+                        {
+                            var controlId = $"{NopCustomerServicesDefaults.CustomerAttributePrefix}{attribute.Id}";
+                            var textPrompt = attribute.Name;
+
+                            <div class="inputs custom-attributes">
+                                <label>@textPrompt:</label>
+                                @switch (attribute.AttributeControlType)
+                                {
+                                    case AttributeControlType.DropdownList:
+                                        {
+                                            <select name="@(controlId)" id="@(controlId)">
+                                                @if (!attribute.IsRequired)
+                                                {
+                                                    <option value="0">---</option>
+                                                }
+                                                @foreach (var attributeValue in attribute.Values)
+                                                {
+                                                    <option selected="@attributeValue.IsPreSelected" value="@attributeValue.Id">@attributeValue.Name</option>
+                                                }
+                                            </select>
+                                        }
+                                        break;
+                                    case AttributeControlType.RadioList:
+                                        {
+                                            <ul class="option-list">
+                                                @foreach (var attributeValue in attribute.Values)
+                                                {
+                                                    <li>
+                                                        <input id="@(controlId)_@(attributeValue.Id)" type="radio" name="@(controlId)" value="@attributeValue.Id" checked="@attributeValue.IsPreSelected" />
+                                                        <label for="@(controlId)_@(attributeValue.Id)">@attributeValue.Name</label>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                        break;
+                                    case AttributeControlType.Checkboxes:
+                                    case AttributeControlType.ReadonlyCheckboxes:
+                                        {
+                                            <ul class="option-list">
+                                                @foreach (var attributeValue in attribute.Values)
+                                                {
+                                                    <li>
+                                                        <input id="@(controlId)_@(attributeValue.Id)" type="checkbox" name="@(controlId)" value="@attributeValue.Id" checked="@attributeValue.IsPreSelected" @(attribute.AttributeControlType == AttributeControlType.ReadonlyCheckboxes ? Html.Raw(" disabled=\"disabled\"") : null) />
+                                                        <label for="@(controlId)_@(attributeValue.Id)">@attributeValue.Name</label>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                        break;
+                                    case AttributeControlType.TextBox:
+                                        {
+                                            <input name="@(controlId)" type="text" class="textbox" id="@(controlId)" value="@(attribute.DefaultValue)" />
+                                        }
+                                        break;
+                                    case AttributeControlType.MultilineTextbox:
+                                        {
+                                            <textarea id="@(controlId)" name="@(controlId)">@(attribute.DefaultValue)</textarea>
+                                        }
+                                        break;
+                                    case AttributeControlType.Datepicker:
+                                    case AttributeControlType.FileUpload:
+                                    case AttributeControlType.ColorSquares:
+                                    case AttributeControlType.ImageSquares:
+                                        {
+                                            //not support attribute type
+                                        }
+                                        break;
+                                }
+                                @if (attribute.IsRequired)
+                                {
+                                    <nop-required />
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="apply-taxexempt-button-container">
+                <button type="submit" class="button-2 apply-taxexempt-button apply-shipping-button">@T("Plugins.Tax.TaxJar.TaxExempt.Save")</button>
+                <button type="button" class="button-2 btn-cancel apply-not-taxexempt-button apply-shipping-button">@T("Plugins.Tax.TaxJar.TaxExempt.No")</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="taxexempt-popup mfp-with-anim mfp-hide" id="taxexempt-confirm">
+        <div class="taxexempt-title">
+            <h1>@T("Plugins.Tax.TaxJar.TaxExempt.Confirm.Title")</h1>
+        </div>
+        <div class="taxexempt-body">
+            <div class="taxexempt-options">
+                <span>@Html.Raw(T("Plugins.Tax.TaxJar.TaxExempt.Confirm.Body"))</span>
+            </div>
+        </div>
+        <div class="apply-taxexempt-button-container">
+            <button type="button" class="button-2 btn-submit apply-taxexempt-button apply-shipping-button">@(Model.IsGuest ? T("Account.Register") : T("Plugins.Tax.TaxJar.TaxExempt.Yes"))</button>
+            <button type="button" class="button-2 btn-cancel apply-not-taxexempt-button apply-shipping-button">@T("Plugins.Tax.TaxJar.TaxExempt.No")</button>
+        </div>
+    </div>
+
+    <script asp-location="Footer">
+        $(document).ready(function () {
+            var form = '@Model.FormId';
+            var onePageCheckoutEnabled = @Model.OnePageCheckoutEnabled.ToString().ToLower();
+            var guestCheckout = @Model.IsGuest.ToString().ToLower();
+            function SubmitDetail() {
+                if (onePageCheckoutEnabled) {
+                    PaymentMethod.save();
+                }
+                else {
+                    $(form).submit();
+                }
+            }
+
+            var taxForm = function () {
+                $.magnificPopup.open({
+                    modal: true,
+                    items: {
+                        src: "#taxexempt-popup",
+                        type: 'inline'
+                    },
+                    callbacks: {
+                        open: function () {
+                            var $content = $(this.content);
+                            $content.on('click', '.apply-taxexempt-button', function () {
+                                var postData = {
+                                    form: $(this.form).serialize()
+                                };
+                                addAntiForgeryToken(postData);
+                                $("#taxexempt-form").on("submit", function (event) {
+                                    event.preventDefault();
+                                    var formdata = $(this).serialize();
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("TaxExemptDetalis", "TaxExempt")",
+                                        data: formdata,
+                                        success: function (data) {
+                                            if (data.isTaxexempt) {
+                                                $(".total-info").replaceWith(data.ordertotalsectionhtml);
+                                                SubmitDetail();
+                                            }
+                                            else {
+                                                var span = document.createElement('span');
+                                                if (data.taxExamptValid) {
+                                                    span.textContent = data.taxExamptValid;
+                                                }
+                                                else {
+                                                    span.textContent = '@T("Plugins.Tax.TaxJar.TaxExempt.Error")';
+                                                }
+                                                span.style.color = "red";
+                                                $("#taxexempt-confirm .taxexempt-options span").replaceWith(span);
+                                                confirmDialog();
+                                            }
+                                        },
+                                        error: function () {
+                                            alert("failure");
+                                        }
+                                    });
+                                });
+                                $.magnificPopup.close();
+                            });
+
+                            $content.on('click', '.apply-not-taxexempt-button', function () {
+                                SubmitDetail();
+                                $.magnificPopup.close();
+                            });
+                        }
+                    }
+                });
+            }
+
+            var confirmDialog = function (cb) {
+                $.magnificPopup.open({
+                    modal: true,
+                    items: {
+                        src: "#taxexempt-confirm",
+                        type: 'inline'
+                    },
+                    callbacks: {
+                        open: function () {
+                            var $content = $(this.content);
+                            $content.on('click', '.btn-submit', function () {
+                                $.magnificPopup.close();
+                                if (typeof cb == 'function') {
+                                    cb('@registerUrl');
+                                }
+                                else {
+                                    taxForm();
+                                }
+                                $(document).off('keydown', keydownHandler);
+                            });
+
+                            $content.on('click', '.btn-cancel', function () {
+                                $.magnificPopup.close();
+                                SubmitDetail();
+
+                                $(document).off('keydown', keydownHandler);
+                            });
+
+                            var keydownHandler = function (e) {
+                                if (e.keyCode == 13) {
+                                    $content.find('.btn-submit').click();
+                                    return false;
+                                } else if (e.keyCode == 27) {
+                                    $content.find('.btn-cancel').click();
+                                    return false;
+                                }
+                            };
+                            $(document).on('keydown', keydownHandler);
+                        }
+                    }
+                });
+            }
+
+            var element = $("@(Model.OnePageCheckoutEnabled ? string.Format("{0} {1}", button, Model.ButtonClass)  : Model.ButtonClass)").eq(0);
+            element.removeAttr("onClick");
+            element.unbind().click(function (event) {
+                if (!onePageCheckoutEnabled) {
+                    event.preventDefault();
+                }
+                if (guestCheckout) {
+                    confirmDialog(setLocation);
+                }
+                else {
+                    confirmDialog();
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,52 @@
+﻿
+input.instant-search-busy {
+    background-position: left 5px center !important;
+}
+input.search-box-text.narrow {
+    border-left: 1px solid #c9c9c9;
+}
+span.search-box-text {
+    float: right;
+}
+.search-box select {
+    float: right;
+}
+.search-box .k-clear-value {
+    right: unset;
+    left: 1px;
+}
+.instant-search-item .img-block {
+	float: right;
+}
+.instant-search-item .detail {
+    margin-left: auto;
+    margin-right: 90px;
+}
+
+
+@media all and (max-width: 1024px) {
+    
+    .instantSearch {
+        width: 291px !important;
+        margin-left: -34px !important;
+    }
+    .instantSearch.resize {
+        width: 292px !important;
+        margin-left: -68px !important;
+    }
+}
+
+@media all and (min-width: 1025px) {
+
+    .instantSearch {
+        margin-left: -36px !important;
+    }
+    .instantSearch.resize {
+        margin-left: -141px !important;
+    }
+
+    .search-box select {
+        margin-left: auto;
+        margin-right: -1px;
+    }
+}

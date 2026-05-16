@@ -1,0 +1,201 @@
+@model ModelProductSearchModel
+
+@{
+    Layout = "_AdminLayout";
+
+    //page title
+    ViewBag.PageTitle = T("Plugins.Widgets.MakeTypeModel.ModelProducts").Text;
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName(MakeTypeModelDefaults.ModelProduct);
+}
+
+@{
+    const string hideSearchBlockAttributeName = "ModelProducts.HideSearchBlock";
+    var hideSearchBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSearchBlockAttributeName);
+}
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        @T("Plugins.Widgets.MakeTypeModel.ModelProducts")
+    </h1>
+    <div class="float-right">
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-plus-square"></i>
+            @T("Admin.Common.AddNew")
+        </a>
+        <button type="button" name="importexcel" class="btn bg-olive" data-toggle="modal" data-target="#importexcel-window">
+            <i class="fas fa-upload"></i>
+            @T("Admin.Common.Import")
+        </button>
+    </div>
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="cards-group">
+                <div class="card card-default card-search">
+                    <div class="card-body">
+                        <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                            <div class="search-text">@T("Admin.Common.Search")</div>
+                            <div class="icon-search"><i class="fas fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="far fa-angle-@(!hideSearchBlock ? "up" : "down")" aria-hidden="true"></i></div>
+                        </div>
+
+                        <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchName" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchName" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchInDescription" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchInDescription" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchMakeName" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-select asp-for="SearchMakeName" asp-items="Model.AvailableMakes" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchTypeName" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-select asp-for="SearchTypeName" asp-items="Model.AvailableTypes" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="text-center col-12">
+                                    <button type="button" id="search-model-products" class="btn btn-primary btn-search"><i class="fas fa-search"></i>@T("Admin.Common.Search")</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-default">
+                    <div class="card-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                        {
+                            Name = "model-products",
+                            UrlRead = new DataUrl("ModelList", "MakeTypeModel", null),
+                            SearchButtonId = "search-model-products",
+                            Length = Model.PageSize,
+                            LengthMenu = Model.AvailablePageSizes,
+                            Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.SearchName)),
+                                new FilterParameter(nameof(Model.SearchInDescription), typeof(bool)),
+                                new FilterParameter(nameof(Model.SearchMakeName)),
+                                new FilterParameter(nameof(Model.SearchTypeName))
+                            },
+                            ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(ModelProductModel.Name))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.Name").Text,
+                                    Width = "300"
+                                },
+                                new ColumnProperty(nameof(ModelProductModel.Description))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.Description").Text,
+                                    Width = "300"
+                                },
+                                new ColumnProperty(nameof(ModelProductModel.MakeName))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.MakeName").Text,
+                                    Width = "300"
+                                },
+                                new ColumnProperty(nameof(ModelProductModel.TypeName))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.TypeName").Text,
+                                    Width = "300"
+                                },
+                                new ColumnProperty(nameof(ModelProductModel.Published))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.Published").Text,
+                                    Width = "100",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Render = new RenderBoolean()
+                                },
+                                new ColumnProperty(nameof(ModelProductModel.DisplayOrder))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.DisplayOrder").Text,
+                                    Width = "100",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                },
+                                new ColumnProperty(nameof(ModelProductModel.Id))
+                                {
+                                    Title = T("Admin.Common.Edit").Text,
+                                    Width = "50",
+                                    ClassName =  NopColumnClassDefaults.Button,
+                                    Render = new RenderButtonEdit(new DataUrl("Edit"))
+                                }
+                            }
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*import model product form*@
+<div id="importexcel-window" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importexcel-window-title">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="importexcel-window-title">@T("Admin.Common.ImportFromExcel")</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form asp-controller="MakeTypeModel" asp-action="ImportExcel" method="post" enctype="multipart/form-data">
+                <div class="form-horizontal">
+                    <div class="modal-body">
+                        <ul class="common-list">
+                            <li>
+                                <em>@T("Plugins.Widgets.MakeTypeModel.ModelProduct.ImportFromExcelTip")</em>
+                            </li>
+                            <li>
+                                <em>@T("Admin.Common.ImportFromExcel.ManyRecordsWarning")</em>
+                            </li>
+                            <li>
+                                <a class="button-2 download-sample-button" href="~/Plugins/Widgets.MakeTypeModel/Content/Accordion.xlsx">@T("Products.DownloadSample")</a>
+                            </li>
+                        </ul>
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label class="col-form-label">
+                                        @T("Admin.Common.ExcelFile")
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <input type="file" id="importexcelfile" name="importexcelfile" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            @T("Admin.Common.ImportFromExcel")
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

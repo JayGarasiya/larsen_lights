@@ -1,0 +1,111 @@
+﻿/*
+* Copyright 2017 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+
+.previous-product,
+.next-product {
+    margin: 0 0 30px;
+    width: 50%;
+}
+.previous-product a,
+.next-product a {
+    display: block;
+    background: #f5f5f5;
+    color: #909090;
+    position: relative;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out
+}
+.previous-product a:before,
+.next-product a:before {
+    font-family: "venture-font";
+    text-transform: none;
+    font-size: 8px;
+    width: 8px;
+    height: 8px;
+    line-height: 8px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.previous-product {
+    float: left;
+    text-align: left;
+}
+.previous-product a {
+    padding: 10.5px 10.5px 10.5px 35px;
+}
+.previous-product a:before {
+    content: 'r';
+    left: 15px;
+}
+.next-product {
+    float: right;
+    text-align: right;
+}
+.next-product a {
+    padding: 10.5px 35px 10.5px 10.5px;
+}
+.next-product a:before {
+    content: 'q';
+    right: 15px;
+}
+.next-product + div {
+    clear: both;
+}
+
+.previous-product-label,
+.next-product-label {
+    display: none;
+}
+
+@media all and (max-width: 1200px) {
+
+    .overview .product-name {
+        margin: 0 45px;
+    }
+
+    .previous-product,
+    .next-product {
+        position: absolute;
+        top: 0;
+        width: 40px;
+        height: 40px;
+    }
+    .previous-product a,
+    .next-product a {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        background: #ededed;
+        font-size: 0;
+    } 
+    .previous-product {
+        left: 0;
+    }
+    .next-product {
+        right: 0;
+    }
+    .previous-product a:before, 
+    .next-product a:before {
+        left: 0;
+        right: 0;
+    }
+
+}
+
+@media all and (min-width: 1201px) {
+
+    .product-reviews-overview {
+        top: 70px;
+    }
+
+    .previous-product a:hover,
+    .next-product a:hover {
+        color: #2c2c2c;
+    }
+
+}

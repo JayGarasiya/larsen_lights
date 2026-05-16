@@ -1,0 +1,25 @@
+﻿
+.store-search-box .search-box-select {
+    left: 60px; right: auto;
+    background-position: left center;
+    padding: 0 0 0 10px;
+}
+.search-box-text .k-clear-value {
+    right: auto;
+    left: 0px;
+}
+.instant-search-item {
+    text-align: right;
+}
+.instant-search-item .img-block {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+@media all and (min-width: 1261px) {
+
+    .instantSearch {
+        right: -10px !important;
+        left: auto !important;
+    }
+}

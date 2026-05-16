@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Auto Registration of Guests",
+  "SystemName": "FoxNetSoft.Plugin.Misc.AutoRegisterGuest",
+  "Version": "1.08",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "FoxNetSoft",
+  "DisplayOrder": 1,
+  "FileName": "FoxNetSoft.Plugin.Misc.AutoRegisterGuest.dll",
+  "Description": "This plugin will register Guests."
+}

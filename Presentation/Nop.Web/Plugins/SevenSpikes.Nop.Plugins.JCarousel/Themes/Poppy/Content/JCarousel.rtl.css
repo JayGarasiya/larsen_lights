@@ -1,0 +1,35 @@
+
+.nop-jcarousel .slick-carousel:before {
+	right: 50%;
+	left: auto;
+	margin-right: -48px;
+	margin-left: 0;
+}
+.jCarouselMainWrapper .slick-prev {
+	right: 50%;
+	left: auto;
+	margin-right: -48px;
+	margin-left: 0;
+}
+.jCarouselMainWrapper .slick-next {
+	left: 50%;
+	right: auto;
+	margin-left: -48px;
+	margin-right: 0;
+}
+
+@media all and (min-width: 1025px) {
+
+	.nop-jcarousel .slick-carousel:before {
+		margin-right: -38px;
+		margin-left: 0;
+	}
+	.jCarouselMainWrapper .slick-prev {
+		margin-right: -38px;
+		margin-left: 0;
+	}
+	.jCarouselMainWrapper .slick-next {
+		margin-left: -38px;
+		margin-right: 0;
+	}
+}

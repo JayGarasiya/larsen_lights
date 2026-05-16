@@ -1,0 +1,77 @@
+﻿@model ConfigurationModel
+
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.Enabled)").click(toggleEnabled);
+        toggleEnabled();
+    });
+
+    function toggleEnabled() {
+        if ($('#@Html.IdFor(model => model.Enabled)').is(':checked')) {
+            $('#script-field').showElement();
+            $('#meta-field').showElement();
+        } else {
+            $('#script-field').hideElement();
+            $('#meta-field').hideElement();
+        }
+    }
+</script>
+
+<form asp-controller="ChatScript" asp-action="Configure" method="post">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <p>
+                    Follow these steps to configure the chat script plugin:<br />
+                    1. Go to <a href="https://www.tawk.to/" target="_blank">Tawk.to</a>, login or create a new account.<br />
+                    2. Click on the tab called <b>Messaging</b>. At this point, all you have to <em>Add Property</em>. After adding property.<br />
+                    3. Click on the <b>Administration</b> tab. Find <b>Chat Widget</b> then find <b>Widget Code</b> your unique widget script and copy it into the field below on this configuration page.<br />
+                    4. Save the configuration.<br />
+                    <br />
+                </p>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Enabled_OverrideForStore" asp-input="Enabled" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                <nop-nested-setting asp-for="Enabled">
+                    <div class="form-group row" id="script-field">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="Script_OverrideForStore" asp-input="Script" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="Script" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-textarea asp-for="Script" asp-required="true" />
+                            <span asp-validation-for="Script"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="meta-field">
+                        <div class="col-md-3">
+                            <nop-label asp-for="HeadMetaTag">
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="HeadMetaTag" asp-disabled="true" />
+                            <span asp-validation-for="HeadMetaTag"></span>
+                        </div>
+                    </div>
+                </nop-nested-setting>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <input type="submit" name="save" class="btn btn-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

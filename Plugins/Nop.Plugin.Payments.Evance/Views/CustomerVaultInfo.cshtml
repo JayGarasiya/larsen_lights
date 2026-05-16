@@ -1,0 +1,100 @@
+﻿@model PaymentInfoModel
+@{
+    Layout = "_ColumnsTwo";
+
+    //title
+    NopHtml.AddTitleParts(T("PageTitle.Account").Text);
+    //page class
+    NopHtml.AppendPageCssClassParts("html-account-page");
+    NopHtml.AppendPageCssClassParts("html-order-list-page");
+    NopHtml.AppendPageCssClassParts("html-customer-info-page");
+    NopHtml.AppendCssFileParts("~/Plugins/Payments.Evance/Content/css/styles.css");
+}
+@section left
+{
+    @await Component.InvokeAsync(typeof(CustomerNavigationViewComponent), new { selectedTabId = 160 })
+}
+<div class="page-title">
+    <h1>@T("Plugins.Payments.Evance.CustomerVault.Title")</h1>
+</div>
+@if (Model.CardInformation.Count() > 0)
+{
+    <div class="card-container">
+        <div class="card-title">
+            <label>@T("Plugins.Payments.Evance.SavedCard.Title")</label>
+        </div>
+        <div class="card-details">
+            @for (int i = 0; i < Model.CardInformation.Count; i++)
+            {
+                <div class="card-information">
+                    <div class="card-logo">
+                        <img src="@Url.Content($"~/Plugins/Payments.Evance/Content/Images/{Model.CardInformation[i].CardType}.png")" />
+                    </div>
+                    <div class="card-number">
+                        @Model.CardInformation[i].CustomerCardNumber
+                    </div>
+                    <div class="card-exp-date">
+                        @Model.CardInformation[i].CustomerExpirationDate
+                    </div>
+                    <div class="deleteVault">
+                        <button type="button" class="button-2 delete-address-button" data-vault-id="@Model.CardInformation[i].CustomerVaultId">
+                            @T("Common.Delete")
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@if (Model.ACHInformation.Count > 0)
+{
+    <div class="account-container">
+        <div class="account-title">
+            <label>@T("Plugins.Payments.Evance.SavedACH.Title")</label>
+        </div>
+        <div class="save-account-information">
+            @for (int i = 0; i < Model.ACHInformation.Count; i++)
+            {
+                <div class="card-information">
+                    <div class="account-number">
+                        <div>
+                            @Model.ACHInformation[i].CustomerAccountNumber
+                        </div>
+                    </div>
+                    <div class="deleteVault">
+                        <button type="button" class="button-2 delete-address-button" data-vault-id="@Model.ACHInformation[i].CustomerVaultId">
+                            @T("Common.Delete")
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+@if (Model.CardInformation.Count() == 0 && Model.ACHInformation.Count == 0)
+{
+    <div class="no-data">
+        @T("Plugins.Payments.Evance.NoSavedCardACH.Title")
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $('.delete-address-button').on('click', function () {
+            var vaultId = $(this).data('vault-id');
+
+            $.ajax({
+                url: '@Url.Action("DeleteCustomerVault", "Evance")',
+                type: 'POST',
+                data: { vaultId: vaultId },
+                success: function (response) {
+                    window.location = window.location.href;
+                },
+                error: function (xhr, status, error) {
+                    // Handle error
+                    alert("Error deleting vault: " + error);
+                }
+            });
+        });
+    });
+</script>

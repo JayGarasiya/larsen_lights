@@ -1,0 +1,23 @@
+
+/* navigation*/
+
+.carousel-title:has(.slick-arrow) {
+    padding: 12px 20px 12px 12px !important;
+    text-align: right !important;
+}
+.nop-jcarousel .slick-prev:before {
+    content: "\e90c";
+    padding-right: unset;
+    padding-left: 2px;
+}
+.nop-jcarousel .slick-next:before {
+    content: "\e90b";
+    padding-right: 2px;
+    padding-left: unset;
+}
+@media all and (min-width: 1345px) {
+
+    .carousel-title:has(.slick-arrow) {
+        padding: 13px 20px 13px 15px !important;
+    }
+}

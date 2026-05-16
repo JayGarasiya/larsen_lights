@@ -1,0 +1,115 @@
+@model ModelProductModel
+
+@{
+    Layout = "_AdminPopupLayout";
+
+    //page title
+    ViewBag.PageTitle = T("Plugins.Widgets.MakeTypeModel.ModelProduct.EditModelProductDetails").Text;
+}
+<form asp-controller="MakeTypeModel" asp-action="ProductModelEditPopup"
+asp-route-btnId="@Context.Request.Query["btnId"]"
+asp-route-formId="@Context.Request.Query["formId"]">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T("Plugins.Widgets.MakeTypeModel.ModelProduct.EditModelProductDetails")
+        </h1>
+        <div class="float-right">
+            <button type="submit" name="save" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+            @if(Model.HasMoreProducts)
+            {
+                <button type="submit" name="save-add-new" class="btn btn-primary">
+                    <i class="fas fa-plus-square"></i>
+                    @T("Admin.Common.AddNew")
+                </button>
+            }
+        </div>
+    </div>
+    <div asp-validation-summary="All"></div>
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="ProductModelId" type="hidden" />
+    @if (ViewBag.RefreshPage == true)
+    {
+        <script>
+            try {window.opener.document.forms['@(Context.Request.Query["formId"])'].@(Context.Request.Query["btnId"]).click();}
+            catch (e){}
+            window.close();
+        </script>
+    }
+    <section class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div class="form-horizontal">
+                    <div class="cards-group">
+                        <div class="card card-default card-popup card-popup">
+                            <div class="card-body">
+                                @if (Model.HasMoreProducts)
+                                {
+                                    <p class="field-validation-error">
+                                        @T("Plugins.Widgets.MakeTypeModel.ModelProduct.HasMoreProducts")
+                                    </p>
+                                }
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="Name" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="Name" asp-required="true" />
+                                        <span asp-validation-for="Name"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="Description" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-textarea asp-for="Description" />
+                                        <span asp-validation-for="Description"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="MakeName" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-select asp-for="MakeName" asp-items="Model.AvailableMakes" />
+                                        <span asp-validation-for="MakeName"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="TypeName" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-select asp-for="TypeName" asp-items="Model.AvailableTypes" />
+                                        <span asp-validation-for="TypeName"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="Published" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="Published" />
+                                        <span asp-validation-for="Published"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="DisplayOrder" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="DisplayOrder" />
+                                        <span asp-validation-for="DisplayOrder"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

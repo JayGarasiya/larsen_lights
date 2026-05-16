@@ -1,0 +1,104 @@
+﻿@model Nop.Plugin.Widgets.MakeTypeModel.Models.SearchModel
+@{
+    NopHtml.AppendCssFileParts("~/Plugins/Widgets.MakeTypeModel/Content/styles.css");
+    //find parts class
+    NopHtml.AppendPageCssClassParts("html-search-page");
+}
+
+<div class="search-page search-input">
+    <form asp-route="ProductSearch" method="get">
+        <div class="fieldset">
+            <div class="form-fields">
+                <div class="basic-search">
+                    @if (!string.IsNullOrEmpty(Model.q))
+                    {
+                        <input asp-for="q" type="hidden" />
+                    }
+                    <select asp-for="make_" asp-items="Model.AvailableMake" type="required"></select>
+                    <select asp-for="type_" asp-items="Model.AvailableType"></select>
+                    <select asp-for="model_" asp-items="Model.AvailableModel"></select>
+                    <select asp-for="cid" asp-items="Model.AvailableCategories"></select>
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button type="submit" class="button-1 search-button">@T("Search.Button")</button>
+            <span id="data-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait")</span>
+        </div>
+        <script asp-location="Footer">
+            $(document).ready(function () {
+            @if (Model.AvailableType.Count < 2)
+            {
+                <text>$("#@Html.IdFor(model => model.type_)").prop('disabled', true);</text>
+            }
+
+            @if (Model.AvailableModel.Count < 2)
+            {
+                <text>$("#@Html.IdFor(model => model.model_)").prop('disabled', true);</text>
+            }
+
+                $("#@Html.IdFor(model => model.make_)").change(function () {
+                    $('.search-page #data-loading-progress').show();
+                    var selectedItem = $(this).val();
+                    var ddlTypes = $("#@Html.IdFor(model => model.type_)");
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: "@(Url.Action("GetTypesByMake", "FindParts"))",
+                        data: {
+                            "make": selectedItem
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            ddlTypes.html('');
+                            $.each(data,
+                                function (id, option) {
+                                    ddlTypes.append($('<option></option>').val(option.Value).html(option.Text));
+                                });
+                            $('#@Html.IdFor(model => model.type_) option:nth-child(1)').prop('selected', true);
+                            $('#@Html.IdFor(model => model.type_) option:nth-child(1)').prop('disabled', true);
+                            ddlTypes.prop('disabled', false);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert('Failed to retrieve equipment types.');
+                        },
+                        complete: function (jqXHR, textStatus) {
+                            $('.search-page #data-loading-progress').hide();
+                        }
+                    });
+                });
+
+                $("#@Html.IdFor(model => model.type_)").change(function () {
+                    $('.search-page #data-loading-progress').show();
+                    var selectedMake = $("#@Html.IdFor(model => model.make_)").val();
+                    var selectedItem = $(this).val();
+                    var ddlModels = $("#@Html.IdFor(model => model.model_)");
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: "@(Url.Action("GetModelsByMakeType", "FindParts"))",
+                        data: {
+                            "make": selectedMake,
+                            "type": selectedItem
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            ddlModels.html('');
+                            $.each(data,
+                                function (id, option) {
+                                    ddlModels.append($('<option></option>').val(option.Value).html(option.Text));
+                                });
+                            $('#@Html.IdFor(model => model.model_) option:nth-child(1)').prop('selected', true);
+                            $('#@Html.IdFor(model => model.model_) option:nth-child(1)').prop('disabled', true);
+                            ddlModels.prop('disabled', false);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert('Failed to retrieve equipment types.');
+                        },
+                        complete: function (jqXHR, textStatus) {
+                            $('.search-page #data-loading-progress').hide();
+                        }
+                    });
+                });
+            });
+        </script>
+    </form>
+</div>

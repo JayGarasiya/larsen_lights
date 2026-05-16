@@ -1,0 +1,136 @@
+﻿/*
+* Copyright 2016 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.footer-1 .newsletter-subscribe {
+    display: none !important;
+}
+
+.newsletter-subscribe-popup-overlay {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.7);
+    z-index: 1070;
+}
+
+.newsletter-subscribe-popup {
+    width: 700px;
+    max-width: 80%;
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    background: #fbfaf5 100% center no-repeat;
+    background-size: cover;
+    padding: 35px;
+}
+
+.newsletter-subscribe-popup-title {
+    text-align: center;
+    color: #454545;
+    padding: 0 0 15px;
+    border-bottom: 4px double #f1f1f1;
+    margin: 0 0 40px;
+}
+
+.newsletter-subscribe-popup-title span {
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.newsletter-subscribe-popup .close-popup {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #a39f9f;
+    position: absolute;
+    top: 0;
+    right: -43px;
+    background: url('img/popup-close.png') center no-repeat;
+    font-size: 0;
+}
+
+.newsletter-subscribe-popup-description {
+    font-family: 'Droid Serif', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: #909090;
+    line-height: 2em;
+    margin: 0 0 15px;
+    text-align: center;
+}
+
+.newsletter-subscribe-popup .options {
+    margin: 10px 0 0;
+}
+
+.newsletter-subscribe-popup .options label {
+    font-family: 'Droid Serif', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: #909090;
+}
+
+.newsletter-subscribe-popup .captcha-box {
+    margin: 15px 0 0;
+}
+
+.newsletter-subscribe-popup .consent-error {
+	display: none;
+    margin: 15px 0 0;
+    font-family: 'Droid Serif', serif;
+    font-size: 15px;
+    font-style: italic;
+    color: #3a3a3a;
+}
+.newsletter-subscribe-popup .consent-error[style*="block"] ~ div {
+    display: none;
+}
+.newsletter-subscribe-popup .newsletter-validation,
+.newsletter-subscribe-popup .newsletter-result {
+    padding: 0;
+    text-align: unset;
+    line-height: normal;
+}
+.newsletter-subscribe-popup .newsletter-validation {
+    margin: 10px 0 0;
+}
+.newsletter-subscribe-popup .newsletter-result:empty {
+    display: none;
+}
+
+.newsletter-subscribe-options {
+    display: flex;
+    flex-flow: column;
+    row-gap: 10px;
+    margin: 15px 0 0;
+}
+
+.newsletter-subscribe-options label {
+    font-family: 'Droid Serif', serif;
+    font-size: 14px;
+    font-style: italic;
+    color: #909090;
+}
+
+
+@media all and (min-width: 769px) {
+
+    .newsletter-subscribe-popup {
+        left: 50%;
+        margin-left: -350px;
+        padding: 65px 50px 70px;
+    }
+
+    .newsletter-subscribe-popup .captcha-box > div {
+        display: block;
+    }
+
+    .newsletter-subscribe-popup > * {
+        max-width: 65%;
+    }
+}

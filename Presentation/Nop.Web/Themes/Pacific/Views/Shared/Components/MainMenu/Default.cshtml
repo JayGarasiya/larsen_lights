@@ -1,0 +1,80 @@
+﻿@model MenuModel
+
+<script src="~/js/public.menu.js" asp-location="Footer"></script>
+<script asp-location="Footer">
+    mainMenu.init('.menu-container .menu__toggle, .menu-container .menu__item-toggle', 'menu-dropdown--active');
+</script>
+
+
+<nav class="menu-container menu-dropdown">
+    <div id="menu-@Model.Id" class="menu__toggle" role="button">@Model.Name</div>
+    <div role="menu" class="menu @Model.CssClass" aria-labelledby="menu-@Model.Id">
+        @foreach (var menuItem in Model.Items)
+        {
+            @if (menuItem.ChildrenItems.Any())
+            {
+                @switch (menuItem.Template)
+                {
+                    case MenuItemTemplate.Grid:
+                        @await Html.PartialAsync("_MenuItem.Grid.cshtml", menuItem)
+                        break;
+                    default:
+                        @await Html.PartialAsync("_MenuItem.List.cshtml", menuItem)
+                        break;
+                }
+            }
+            else
+            {
+                <div class="menu__item" role="menuitem">
+                    @await Html.PartialAsync("_MenuItem.cshtml", menuItem)
+                </div>
+            }
+        }
+    </div>
+</nav>
+
+<script asp-location="Footer">
+    function resetAllMenus() {
+        document.querySelectorAll('.menu__list-view').forEach(el => {
+            el.classList.remove('active');
+        });
+    }
+
+    function initMobileMenu() {
+
+        // First remove all actives always
+        resetAllMenus();
+
+        // Screen width check (<=1200px only)
+        if (window.innerWidth > 1200) return;
+
+        document.querySelectorAll('.menu-dropdown').forEach(dropdown => {
+
+            const plusBtn = dropdown.querySelector('.menu-plus-button');
+            const listView = dropdown.querySelector('.menu__list-view,.menu__grid-view');
+            const backBtn = dropdown.querySelector('.menu-back-button');
+            const closeMenuBtn = dropdown.querySelector('.close-menu');
+
+            // Prevent duplicate events
+            plusBtn.onclick = () => listView.classList.add('active');
+            backBtn.onclick = () => listView.classList.remove('active');
+
+            if (closeMenuBtn) {
+                closeMenuBtn.onclick = () => listView.classList.remove('active');
+            }
+        });
+    }
+
+    // Run once on page load
+    resetAllMenus();
+    initMobileMenu();
+
+    // On resize → reset + re-init
+    window.addEventListener('resize', () => {
+        resetAllMenus();
+        initMobileMenu();
+    });
+
+
+
+</script>

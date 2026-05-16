@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Shipping rate computation",
+  "FriendlyName": "UPS Connector (United Parcel Service)",
+  "SystemName": "FoxNetSoft.UPSConnector",
+  "Version": "2.04",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "FoxNetSoft",
+  "DisplayOrder": 1,
+  "FileName": "FoxNetSoft.Plugin.Shipping.UPSConnector.dll",
+  "Description": "This plugin offers shipping rates by UPS and print labels"
+}

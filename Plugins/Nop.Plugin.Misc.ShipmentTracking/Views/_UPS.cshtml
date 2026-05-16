@@ -1,0 +1,72 @@
+﻿@model ConfigurationModel
+
+<div class="card-body">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="EnableUPSMethod" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="EnableUPSMethod" />
+            <span asp-validation-for="EnableUPSMethod"></span>
+        </div>
+    </div>
+    <nop-nested-setting asp-for="EnableUPSMethod">
+        <div class="form-group row" id="pnlUPSTrackingApiUrl">
+            <div class="col-md-3">
+                <nop-label asp-for="UPSTrackingApiUrl" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="UPSTrackingApiUrl" />
+                <span asp-validation-for="UPSTrackingApiUrl"></span>
+            </div>
+        </div>
+        <div class="form-group row" id="pnlUPSAuthApiUrl">
+            <div class="col-md-3">
+                <nop-label asp-for="UPSAuthApiUrl" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="UPSAuthApiUrl" />
+                <span asp-validation-for="UPSAuthApiUrl"></span>
+            </div>
+        </div>
+        <div class="form-group row" id="pnlUPSClientId">
+            <div class="col-md-3">
+                <nop-label asp-for="UPSClientId" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="UPSClientId" />
+                <span asp-validation-for="UPSClientId"></span>
+            </div>
+        </div>
+        <div class="form-group row" id="pnlUPSClientSecret">
+            <div class="col-md-3">
+                <nop-label asp-for="UPSClientSecret" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="UPSClientSecret" />
+                <span asp-validation-for="UPSClientSecret"></span>
+            </div>
+        </div>
+    </nop-nested-setting>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.EnableUPSMethod)").click(toggleUPSMethods);
+
+        toggleUPSMethods();
+    });
+
+    function toggleUPSMethods() {
+        if ($('#@Html.IdFor(model => model.EnableUPSMethod)').is(':checked')) {
+            $('#pnlUPSTrackingApiUrl').showElement();
+            $('#pnlUPSAuthApiUrl').showElement();
+            $('#pnlUPSClientId').showElement();
+            $('#pnlUPSClientSecret').showElement();
+        } else {
+            $('#pnlUPSTrackingApiUrl').hideElement();
+            $('#pnlUPSAuthApiUrl').hideElement();
+            $('#pnlUPSClientId').hideElement();
+            $('#pnlUPSClientSecret').hideElement();
+        }
+    }
+</script>

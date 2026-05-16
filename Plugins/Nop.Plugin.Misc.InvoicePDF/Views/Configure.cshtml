@@ -1,0 +1,208 @@
+﻿@model ConfigurationModel
+@{
+    Layout = "_ConfigurePlugin";
+
+    var customer = await workContext.GetCurrentCustomerAsync();
+    const string hideGeneralBlockAttributeName = "InvoicePDF.HideGeneralBlock";
+    var hideGeneralBlock = await genericAttributeService.GetAttributeAsync<bool>(customer, hideGeneralBlockAttributeName);
+
+    const string hideExcludedCustomersBlockAttributeName = "InvoicePDF.HideExcludedCustomersBlock";
+    var hideExcludedCustomersBlock = await genericAttributeService.GetAttributeAsync<bool>(customer, hideExcludedCustomersBlockAttributeName);
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+<form asp-controller="InvoicePDF" asp-action="Configure" method="post">
+    <nop-cards id="invoice-cards">
+        <nop-card asp-name="invoice-general" asp-icon="fas fa-info" asp-title="@T("Plugins.Misc.InvoicePDF.General")" asp-hide-block-attribute-name="@hideGeneralBlockAttributeName" asp-hide="@hideGeneralBlock" asp-advanced="false">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="AttachOrderId_OverrideForStore" asp-input="AttachOrderId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="AttachOrderId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AttachOrderId" />
+                        <span asp-validation-for="AttachOrderId"></span>
+                    </div>
+                </div>
+                <nop-nested-setting asp-for="AttachOrderId">
+                    <div class="form-group row" id="pnlAttachOrder">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="UseOrderMask_OverrideForStore" asp-input="UseOrderMask" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="UseOrderMask" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="UseOrderMask" />
+                            <span asp-validation-for="UseOrderMask"></span>
+                        </div>
+                    </div>
+                </nop-nested-setting>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="VendorCost_OverrideForStore" asp-input="VendorCost" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="VendorCost" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="VendorCost" />
+                        <span asp-validation-for="VendorCost"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="RenderAttributeValuePrices_OverrideForStore" asp-input="RenderAttributeValuePrices" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="RenderAttributeValuePrices" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="RenderAttributeValuePrices" />
+                        <span asp-validation-for="RenderAttributeValuePrices"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="RenderAssociatedAttributeValueQuantity" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="RenderAssociatedAttributeValueQuantity" />
+                        <span asp-validation-for="RenderAssociatedAttributeValueQuantity"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ReturnAddress_OverrideForStore" asp-input="ReturnAddress" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ReturnAddress" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ReturnAddress" />
+                        <span asp-validation-for="ReturnAddress"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $("#@Html.IdFor(model => model.AttachOrderId)").click(toggleAttachOrder);
+                    toggleAttachOrder();
+                });
+
+                function toggleAttachOrder() {
+                    if ($('#@Html.IdFor(model => model.AttachOrderId)').is(':checked')) {
+                        $('#pnlAttachOrder').showElement();
+                    } else {
+                        $('#pnlAttachOrder').hideElement();
+                    }
+                }
+            </script>
+        </nop-card>
+        <nop-card asp-name="invoice-customers" asp-icon="fas fa-user" asp-title="@T("Plugins.Misc.InvoicePDF.ExcludedCustomers")" asp-hide-block-attribute-name="@hideExcludedCustomersBlockAttributeName" asp-hide="@hideExcludedCustomersBlock" asp-advanced="false">
+            <div class="card-body">
+                @await Html.PartialAsync("Table", new DataTablesModel
+                {
+                    Name = "customer-grid",
+                    UrlRead = new DataUrl("ExcludedCustomerList", "InvoicePDF", null),
+                    UrlDelete = new DataUrl("ExcludedCustomerDelete", "InvoicePDF", null),
+                    Length = Model.CustomerSearchModel.PageSize,
+                    LengthMenu = Model.CustomerSearchModel.AvailablePageSizes,
+                    ColumnCollection = new List<ColumnProperty>
+                    {
+                        new ColumnProperty(nameof(CustomerModel.Email))
+                        {
+                            Title = T("Admin.Customers.Customers.Fields.Email").Text,
+                        },
+                        new ColumnProperty(nameof(CustomerModel.Id))
+                        {
+                            Title = T("Admin.Common.Delete").Text,
+                            Width = "100",
+                            ClassName =  NopColumnClassDefaults.Button,
+                            Render = new RenderButtonRemove(T("Admin.Common.Delete").Text)
+                        }
+                    }
+                })
+                <div class="card card-default no-margin">
+                    <div class="card-header">
+                        @T("Admin.Common.AddNewRecord")
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-label asp-for="CustomerId" />
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" id="search-customer-email" autocomplete="off" class="form-control" />
+                                <span id="search-customer-friendly-email"></span>
+                                <button type="button" id="search-customer-clear" class="btn bg-gray" style="display: none; margin-top: 5px;">@T("Admin.Common.Clear")</button>
+                                <input asp-for="CustomerId" autocomplete="off" style="display: none;" />
+                                <script>
+                                    $(document).ready(function () {
+                                        $('#search-customer-email').autocomplete({
+                                            delay: 500,
+                                            minLength: 3,
+                                            source: '@Url.Action("SearchCustomerAutoComplete", "InvoicePDF")',
+                                            select: function (event, ui) {
+                                                $('#@Html.IdFor(model => model.CustomerId)').val(ui.item.customerid);
+                                                $('#search-customer-friendly-email').text(ui.item.label);
+
+                                                $('#search-customer-clear').show();
+                                                return false;
+                                            }
+                                        });
+
+                                        //remove button
+                                        $('#search-customer-clear').click(function () {
+                                            $('#@Html.IdFor(model => model.CustomerId)').val('0');
+                                            $('#search-customer-friendly-email').text('');
+                                            $('#search-customer-clear').hide();
+                                            return false;
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-9 offset-md-3">
+                                <button type="button" id="addCustomer" class="btn btn-primary">@T("Admin.Common.AddNewRecord")</button>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#addCustomer').click(function () {
+                                $('#addCustomer').attr('disabled', true);
+                                var postData = {
+                                    CustomerId: $("#@Html.IdFor(model => model.CustomerId)").val(),
+                                };
+                                addAntiForgeryToken(postData);
+
+                                $.ajax({
+                                    cache: false,
+                                    type: "POST",
+                                    url: "@Html.Raw(Url.Action("ExcludedCustomerAdd", "InvoicePDF", null))",
+                                    data: postData,
+                                    success: function (data, textStatus, jqXHR) {
+                                        if (data.Result) {
+                                            //reload grid
+                                            updateTable('#customer-grid');
+
+                                            //clear input value
+                                            $('#search-customer-clear').click();
+                                        } else {
+                                            //display errors if returned
+                                            display_nop_error(data);
+                                        }
+                                    },
+                                    complete: function (jqXHR, textStatus) {
+                                        $('#addCustomer').attr('disabled', false);
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        
+        </nop-card>
+    </nop-cards>
+</form>

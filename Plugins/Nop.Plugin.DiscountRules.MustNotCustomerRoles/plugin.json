@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Discount requirements",
+  "FriendlyName": "Must not be assigned to customer role",
+  "SystemName": "DiscountRequirement.MustNotBeAssignedToCustomerRole",
+  "Version": "2.00",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.DiscountRules.MustNotCustomerRoles.dll",
+  "Description": "This plugin allows you to configure discounts for certain customer groups (roles) to exclude from discount."
+}

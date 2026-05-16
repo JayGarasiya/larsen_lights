@@ -1,0 +1,10 @@
+﻿
+@media all and (min-width: 769px) {
+
+    .productTabs-header {
+        float: right;
+    }
+    .productTabs-body {
+        float: right;
+    }
+}

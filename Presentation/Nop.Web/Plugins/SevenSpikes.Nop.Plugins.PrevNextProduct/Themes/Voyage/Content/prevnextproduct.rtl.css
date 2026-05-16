@@ -1,0 +1,25 @@
+﻿
+.previous-product {
+	float: right;
+    text-align: left;
+}
+.next-product {
+	float: left;
+    text-align: right;
+}
+.previous-product-label:before {
+    content: "\e915";
+}
+.next-product-label:after {
+    content: "\e914";
+}
+
+@media all and (min-width: 768px) {
+
+    .previous-product {
+        text-align: right;
+    }
+    .next-product {
+        text-align: left;
+    }
+}

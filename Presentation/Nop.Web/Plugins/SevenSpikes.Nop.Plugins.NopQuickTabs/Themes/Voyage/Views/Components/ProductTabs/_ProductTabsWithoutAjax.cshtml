@@ -1,0 +1,54 @@
+﻿@model TabUIModel
+
+@using Nop.Core
+@using Nop.Services.Configuration
+@inject ISettingService settingService
+@inject IStoreContext storeContext
+
+@{
+    var storeId = (await storeContext.GetCurrentStoreAsync()).Id;
+    var productPageLayout = await settingService.GetSettingByKeyAsync("VoyageThemeSettings.ProductPageLayout", "standard-gallery", storeId, true);
+    var isExtendedGallery = productPageLayout.Equals("extended-gallery");
+
+    var isGroupedProduct = false;
+    if (ViewData.ContainsKey("IsGroupedProduct"))
+    {
+        isGroupedProduct = (bool)ViewData["IsGroupedProduct"];
+    }
+}
+
+@if (isExtendedGallery || isGroupedProduct) @* Variant2, each tab contains its own content *@
+{
+    @foreach (var tabInfo in Model.Tabs)
+    {
+        <div class="productTabs-tab">
+            <div class="ui-tab-title" id="@tabInfo.TabKey-tab">
+                <span href="#quickTab-@tabInfo.TabKey">@tabInfo.Title</span>
+            </div>
+            <div class="ui-tab-body" id="quickTab-@tabInfo.TabKey">
+                @Html.Raw(tabInfo.Content)
+            </div>
+        </div>
+    }
+}
+else @* Variant1 (default), there is a "header" with all tabs, and "body" with all content *@
+{
+    <div class="productTabs-header">
+        <ul>
+            @foreach (var tabInfo in Model.Tabs)
+            {
+                <li id="@tabInfo.TabKey-tab">
+                    <a href="#quickTab-@tabInfo.TabKey">@tabInfo.Title</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="productTabs-body">
+        @foreach (var tabInfo in Model.Tabs)
+        {
+            <div id="quickTab-@tabInfo.TabKey">
+                @Html.Raw(tabInfo.Content)
+            </div>
+        }
+    </div>
+}

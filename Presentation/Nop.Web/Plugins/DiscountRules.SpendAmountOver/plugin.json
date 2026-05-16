@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Discount requirements",
+  "FriendlyName": "Customer spending over x.xx amount",
+  "SystemName": "DiscountRequirement.SpendAmountOver",
+  "Version": "2.10",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.DiscountRules.SpendAmountOver.dll",
+  "Description": "This plugin allows you to configure discounts for customers who spend more than the certain amount"
+}

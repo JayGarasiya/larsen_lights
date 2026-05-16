@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "";
+}
+<a id="pnregisterguestslabelselected" class="btn btn-primary" href="#" onclick="fnsregisterguestselected();return false;">
+@T("Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.ButtonInOrderList")
+</a>
+<script>
+    function fnsregisterguestselected()
+    {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.QuestionInOrderList")'))
+            return false;
+        var ids = selectedIds.join(",");
+        var postData = {
+            selectedIds: ids
+        };
+        addAntiForgeryToken(postData);
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: '@Url.Action("RegisterGuestSelected", "AutoRegisterGuestSettings")',
+            data: postData,
+            dataType: 'json',
+            success: function (data) {
+                if (data.message.length>0){
+                    alert(data.message);
+                }
+                $("#search-orders").click();
+                //var grid = $('#orders-grid').data('kendoGrid');
+                //grid.dataSource.read();
+                return false;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to register the customer.');
+            }
+        });
+    }
+</script>  

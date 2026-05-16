@@ -1,0 +1,63 @@
+﻿@model ConfigurationModel
+
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+
+<form asp-controller="ProductExtension" asp-action="Configure" method="post">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Enabled_OverrideForStore" asp-input="Enabled" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                <nop-nested-setting asp-for="Enabled">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="DealerRoleIds_OverrideForStore" asp-input="DealerRoleIds" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="DealerRoleIds" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="DealerRoleIds" asp-items="Model.AvailableCustomerRoles" asp-multiple="true" />
+                            <script>
+                                $(document).ready(function () {
+                                    var rolesIdsInput = $('#@Html.IdFor(model => model.DealerRoleIds)').data("kendoMultiSelect");
+                                    rolesIdsInput.setOptions({
+                                        autoClose: false,
+                                        filter: "contains"
+                                    });
+
+                                    @if (Model.AvailableCustomerRoles.Count == 0)
+                                    {
+                                        <text>
+                                                rolesIdsInput.setOptions({
+                                                    enable: false,
+                                                    placeholder: '@T("Admin.Customers.Customers.Fields.CustomerRoles.NoRoles")'
+                                                });
+                                            rolesIdsInput._placeholder();
+                                            rolesIdsInput._enable();
+                                        </text>
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </nop-nested-setting>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <input type="submit" name="save" class="btn btn-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

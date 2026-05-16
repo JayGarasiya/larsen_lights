@@ -1,0 +1,7 @@
+﻿@model ProductDetailsModel
+@if (Model.HasSampleDownload)
+{
+    <div class="download-sample">
+        <a class="button-2 download-sample-button" title="@T("Products.DownloadSample")" href="@Url.RouteUrl(NopRouteNames.Standard.GET_SAMPLE_DOWNLOAD, new { productid = Model.Id })">@T("Products.DownloadSample")</a>
+    </div>
+}

@@ -1,0 +1,109 @@
+﻿@model FoxNetSoft.Plugin.Misc.AssignGuestOrders.Models.ConfigureModel
+@using FoxNetSoft.Plugin.Misc.AssignGuestOrders
+@{
+    Layout = "_ConfigurePlugin";
+}
+<form asp-controller="AssignGuestOrdersSettings" asp-action="Configure" method="post">
+    <script>
+        $(document).ready(function () {
+            $("#showDebugInfo").click(toggleshowDebugInfo);
+            toggleshowDebugInfo();
+        });
+
+        function toggleshowDebugInfo() {
+            if ($('#showDebugInfo').is(':checked')) {
+                $('#pnlclearlogfile, #pnlgetlogfile').showElement();
+            }
+            else {
+                $('#pnlclearlogfile, #pnlgetlogfile').hideElement();
+            }
+        }
+    </script>
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                @if (Model.LicenseStatus == LicenseStatus.Registered)
+                {
+                    <p>
+                        @T("Admin.FoxNetSoft.Plugin.Misc.AssignGuestOrders.IsRegisted")
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        @T("Admin.FoxNetSoft.Plugin.Misc.AssignGuestOrders.IsNoRegisted")
+                        <br />
+                        <a href="https://www.foxnetsoft.com/nopassignguestorders" target="blank">Buy It Now</a>
+                    </p>
+                }
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="EnableLogging" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="EnableLogging" />
+                        <span asp-validation-for="EnableLogging"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="showDebugInfo" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="showDebugInfo" />
+                        <span asp-validation-for="showDebugInfo"></span>
+                        <div id="pnlclearlogfile">
+                            <a href="@Url.Action("ClearLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.AssignGuestOrders.ClearLogFile")</a>
+                        </div>
+                        <div id="pnlgetlogfile">
+                            <a href="@Url.Action("GetLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.AssignGuestOrders.GetLogFile")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StoreUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" id="StoreUrl" name="StoreUrl" value="@Model.StoreUrl" type="text" readonly="readonly">
+                        <span asp-validation-for="StoreUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SerialNumber" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SerialNumber" />
+                        <span asp-validation-for="SerialNumber"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+                <p>
+                    Installation and configuring plug-in at Youtube <a href="http://www.youtube.com/foxnetsoft" target="blank">www.youtube.com/foxnetsoft</a>
+                    <br />
+                    Installation and configuring plug-in at our site <a href="https://www.foxnetsoft.com/documentation-nopassignguestorders" target="blank">https://www.foxnetsoft.com/documentation-nopassignguestorders</a>
+                    <br />
+                    <a href="https://www.foxnetsoft.com" target="blank">www.foxnetsoft.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,23 @@
+﻿@model ModelProductModel
+
+@{
+    const string hideInfoBlockAttributeName = "ModelProduct.HideInfoBlock";
+    var hideInfoBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideInfoBlockAttributeName);
+
+    const string hideProductsBlockAttributeName = "ModelProduct.HideProductsBlock";
+    var hideProductsBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideProductsBlockAttributeName, defaultValue: true);
+}
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <nop-cards id="model-cards">
+                <nop-card asp-name="model-info" asp-icon="fas fa-info" asp-title="@T("Plugins.Widgets.MakeTypeModel.ModelProduct.Info")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("~/Plugins/Widgets.MakeTypeModel/Areas/Admin/Views/MakeTypeModel/_CreateOrUpdate.Info.cshtml", Model)</nop-card>
+                <nop-card asp-name="model-products" asp-icon="fas fa-th-list" asp-title="@T("Plugins.Widgets.MakeTypeModel.ModelProductMappings")" asp-hide-block-attribute-name="@hideProductsBlockAttributeName" asp-hide="@hideProductsBlock" asp-advanced="true">@await Html.PartialAsync("~/Plugins/Widgets.MakeTypeModel/Areas/Admin/Views/MakeTypeModel/_CreateOrUpdate.Products.cshtml", Model)</nop-card>
+            </nop-cards>
+        </div>
+    </div>
+</section>

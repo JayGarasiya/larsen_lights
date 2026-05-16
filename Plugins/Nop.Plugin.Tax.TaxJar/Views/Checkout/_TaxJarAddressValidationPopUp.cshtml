@@ -1,0 +1,54 @@
+﻿@model AddressValidationResultModel
+
+<div class="taxjar-address-validation-popup mfp-with-anim">
+    <div class="address-title">
+        @if (!Model.IsError)
+        {
+            <h1>@T("Plugins.Tax.TaxJar.AddressValidation.Title")</h1>
+        }
+        else
+        {
+            <h1>@T("Plugins.Tax.TaxJar.AddressValidation.Error")</h1>
+        }
+    </div>
+    <div class="address-body">
+        <div class="address-options">
+            @if (!Model.IsError)
+            {
+                <span>@T("Plugins.Tax.TaxJar.AddressValidation.CurrentAddress")</span>
+                <span class="address-item">@Model.CurrentAddress</span>
+                <span>@T("Plugins.Tax.TaxJar.AddressValidation.ValidAddress")</span>
+                <span class="address-item">@Model.ValidAddress</span>
+            }
+            else
+            {
+                <span class="address-item">@T("Plugins.Tax.TaxJar.AddressValidation.Error.Title")</span>
+                <div class="attributes">
+                    <ul class="option-list checkbox-list">
+                        @foreach (var warning in Model.Warnings)
+                        {
+                            <li>
+                                <input type="checkbox" hidden="hidden" checked="checked" />
+                                <label>@warning</label>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="apply-address-button-container">
+        @if (!Model.IsError)
+        {
+            <button type="button" class="button-2 apply-address-button apply-shipping-button">@T("Plugins.Tax.TaxJar.AddressValidation.Common.Yes")</button>
+            <button type="button" class="button-2 apply-not-address-button apply-shipping-button">@T("Plugins.Tax.TaxJar.AddressValidation.Common.No")</button>
+        }
+        else
+        {
+            <button type="button" class="button-2 continue-address-button apply-shipping-button">@T("Plugins.Tax.TaxJar.AddressValidation.Common.Continue")</button>
+            <button type="button" class="button-2 error-address-button apply-shipping-button">@T("Plugins.Tax.TaxJar.AddressValidation.Common.Back")</button>
+        }
+
+        <div class="message-failure"></div>
+    </div>
+</div>

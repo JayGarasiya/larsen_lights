@@ -1,0 +1,61 @@
+﻿@model global::Nop.Web.Models.Catalog.ProductDetailsModel
+
+<div class="product-overview-line">
+    <div class="product-essential">
+        <!--product pictures-->
+        <div class="gallery">
+            <div class="picture">
+                <img alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" />
+            </div>
+        </div>
+        <div class="overview">
+            @if (!String.IsNullOrEmpty(Model.Name))
+            {
+                <h1 class="product-variant-name">
+                    @Model.Name
+                </h1>
+            }
+            @if (!String.IsNullOrEmpty(Model.ShortDescription))
+            {
+                <div class="description">
+                    @Html.Raw(Model.ShortDescription)
+                </div>
+            }
+            @{
+                var dataDictAttributes = new ViewDataDictionary(ViewData);
+                dataDictAttributes.TemplateInfo.HtmlFieldPrefix = string.Format("attributes_{0}", Model.Id);
+                @await Html.PartialAsync("_AjaxCartProductAttributes", Model, dataDictAttributes)
+
+                var dataDictGiftCard = new ViewDataDictionary(ViewData);
+                dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = $"giftcard_{Model.Id}";
+                @await Html.PartialAsync("_GiftCardInfo", Model.GiftCard, dataDictGiftCard)
+
+                if (Model.IsRental)
+                {
+                    @await Html.PartialAsync("_AjaxCartRentalInfo", Model)
+                }
+
+                var dataDictPrice = new ViewDataDictionary(ViewData);
+                dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", Model.Id);
+                @await Html.PartialAsync("_ProductPrice", Model.ProductPrice, dataDictPrice)
+                
+                @await Html.PartialAsync("_ProductTierPrices", Model.TierPrices)
+
+                var dataDictAddToCart = new ViewDataDictionary(ViewData);
+                dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", Model.Id);
+
+                bool isAddToCartButton = (bool)ViewData["IsAddToCartButton"];
+
+                if (isAddToCartButton)
+                {
+                    @await Html.PartialAsync("MiniProductDetailsViewProductAddToCart", Model.AddToCart, dataDictAddToCart)
+                }
+                else
+                {
+                    @await Html.PartialAsync("MiniProductDetailsViewProductAddToWishlist", Model.AddToCart, dataDictAddToCart)
+                }
+            }
+            <div class="message-error"></div>
+        </div>
+    </div>
+</div>

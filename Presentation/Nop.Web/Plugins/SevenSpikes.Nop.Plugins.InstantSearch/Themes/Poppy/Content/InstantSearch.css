@@ -1,0 +1,180 @@
+﻿/*
+* Copyright 2016 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+/* SEARCH BOX */
+
+span.search-box-text {
+    position: relative;
+	float: left;
+}
+input.instant-search-busy {
+    background:  no-repeat center !important;
+}
+.search-box-content select {
+    height: 57px;
+    border: none;
+    background: rgba(0,0,0,.06);
+    font-size: 15px;
+    white-space: nowrap;
+    text-align: left;
+    color: #fff;
+}
+.search-box-content select option {
+    color: #6f6f6f;
+}
+
+/* RESET */
+
+.search-box-text .k-clear-value {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    right: 0;
+    z-index: 1;
+    background: #dab1b5;
+    padding: 0 20px;
+    cursor: pointer;
+}
+.search-box-text .k-clear-value:after {
+    content: 't';
+    font-family: icons;
+    font-size: 12px;
+    color: #fff;
+}
+.search-box-text .k-clear-value.k-hidden {
+    display: none !important;
+}
+.search-box-text .k-clear-value .k-icon {
+    display: none;
+}
+
+/* AUTOCOMPLETE */
+
+.instantSearch {
+	width: 100% !important;
+	height: auto !important;
+	margin-top: -1px !important;
+}
+.k-child-animation-container {
+    width: 100% !important;
+    height: auto !important;
+}
+.instantSearch .k-list-container {
+	position: static !important;
+	width: 100% !important;
+	box-shadow: 0 0 9px rgba(0,0,0,0.15);
+}
+.instantSearch .k-list-scroller {
+    height: 100% !important;
+    overflow-y: auto;
+}
+.instantSearch .k-no-data {
+    padding: 20px;
+}
+.instantSearch .k-list-item:first-child {
+	border-top: none !important;
+}
+.instant-search-item {
+	padding: 20px;
+    font-size: 0;
+    cursor: pointer;
+    -webkit-transition: background .15s ease-in-out;
+    transition: background .15s ease-in-out;
+}
+.instant-search-item .img-block {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+	width: 80px;
+	text-align: center;
+}
+.instant-search-item .img-block:before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    bottom: -3px;
+    left: -3px;
+    opacity: 0;
+    z-index: 3;
+    -webkit-transition: all .15s ease-in-out;
+    transition: all .15s ease-in-out;
+}
+.instant-search-item .img-block img {
+	max-width: 100%;
+}
+.instant-search-item .detail {
+    width: calc(100% - 95px);
+	margin-left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.instant-search-item .detail .title {
+	font-size: 16px;
+}
+.instant-search-item .detail .sku {
+    font-size: 14px;
+	margin-top: 8px;
+}
+.instant-search-item .detail .price {
+	font-size: 16px;
+    font-weight: 700;
+	margin-top: 8px;
+}
+.k-hover .img-block:before, 
+.k-focus .img-block:before {
+    opacity: 1;
+}
+
+
+
+@media all and (max-width: 1024px) {
+
+    .instantSearch {
+        display: none !important;
+    }
+    .search-box span.search-box-text {
+        width: calc(100% - 67px) !important;
+    }
+    .search-box span.search-box-text input.search-box-text {
+        width: 100% !important;
+    }
+    .search-box-content select {
+        position: absolute;
+        top: 0; bottom: 0;
+        right: 0; z-index: 3;
+        max-width: 33%;
+    }
+    
+}
+
+@media all and (min-width: 1025px) {
+
+    input.search-box-text {
+        -webkit-transition: none !important;
+        transition: none !important;
+    }
+    .search-box-content select {
+        float: right;
+        width: 150px;
+    }
+    .search-box-text .k-clear-value {
+        display: none;
+    }
+    .header-links-wrapper .search-box.with-select.opened form {
+        width: 450px;
+    }
+    .header-links-wrapper .search-box form.overflow-initial {
+        overflow: visible;
+    }
+    .header-links-wrapper .search-box.with-select .search-box-content {
+        width: 450px;
+    }
+    .header-links-wrapper .search-box.with-select input.search-box-text {
+        width: 300px;
+    }
+}

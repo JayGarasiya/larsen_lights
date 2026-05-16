@@ -1,0 +1,13 @@
+﻿@model string
+
+<aside class="header-links" id="topcartlink" role="complementary">
+    <a class="ico-cart order-summary-toggle order-summary-toggle-show" aria-expanded="false" aria-controls="order-summary" data-drawer-toggle="[data-order-summary]" role="button">
+        <span class="toggle-wrap">
+            <span class="order-summary-toggle-inner">
+                <span class="cart-label order-summary-toggle-show-text">@T("Plugins.OnePage.Checkout.OrderSummary.Show")</span>
+                <span class="cart-label order-summary-toggle-hide-text">@T("Plugins.OnePage.Checkout.OrderSummary.Hide")</span>
+                <span class="cart-qty"><span class="sub-total">@Model</span></span>
+            </span>
+        </span>
+    </a>
+</aside>

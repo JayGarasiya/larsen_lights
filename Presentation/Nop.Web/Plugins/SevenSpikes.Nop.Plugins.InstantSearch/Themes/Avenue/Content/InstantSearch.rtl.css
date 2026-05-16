@@ -1,0 +1,28 @@
+﻿
+.store-search-box .search-box-select {
+	float: right;
+	border-right: 1px solid #ebebeb;
+	border-left: none;
+}
+.store-search-box span.narrow {
+	float: left;
+}
+.store-search-box span.narrow:before {
+	right: 0;
+	left: auto;
+}
+.store-search-box input.narrow {
+	border-right: none;
+	border-left: 1px solid #ebebeb;
+}
+.search-box-text .k-clear-value {
+    right: auto;
+	left: 45px;
+}
+.instant-search-item .details {
+	float: left;
+}
+/*.instant-search-item .remove {
+	right: unset;
+	left: -1px;
+}*/

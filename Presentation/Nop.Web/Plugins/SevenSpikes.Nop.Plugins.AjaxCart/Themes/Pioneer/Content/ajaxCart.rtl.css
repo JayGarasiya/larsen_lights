@@ -1,0 +1,31 @@
+/*
+* Copyright 2019 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.ajaxCart .k-window-titlebar .k-button {
+	right: unset;
+	left: 10px;
+}
+.productAddedToCartWindowImage {
+    float: right;
+}
+.productAddedToCartWindowDescription {
+    float: left;
+}
+.productAddedToCartWindowSummary {
+	float: left;
+	clear: left;
+}
+.miniProductDetailsView .gallery {
+	float: right;
+}
+.miniProductDetailsView .overview {
+    float: left;
+}
+.miniProductDetailsView .prices {
+	text-align: right;
+}
+.miniProductDetailsView .min-qty-notification {
+	text-align: right;
+}

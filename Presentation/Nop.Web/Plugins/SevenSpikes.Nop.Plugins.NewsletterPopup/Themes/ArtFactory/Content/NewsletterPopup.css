@@ -1,0 +1,172 @@
+﻿/*
+* Copyright 2018 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.newsletter-subscribe-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1070;
+    background: rgba(0,0,0,0.5);
+}
+
+.newsletter-subscribe-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1110;
+    width: 90%;
+    max-width: 530px;
+    min-height: 300px;
+    margin: auto;
+    padding: 30px;
+    background-color: #fff;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+/*Remove Comment if you want to hide result message*/
+/*.newsletter-subscribe-popup .newsletter-subscribe.hidden { 
+    display: none;
+}*/
+
+.newsletter-subscribe-popup .newsletter-subscribe-popup-title {
+    margin-bottom: 20px;
+    font-weight: normal;
+    font-size: 28px;
+}
+
+.newsletter-subscribe-popup .newsletter-subscribe-description-wrapper {
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #888;
+}
+
+.newsletter-subscribe-popup .newsletter-subscribe {
+    width: auto;
+    max-width: none;
+    padding: 0;
+}
+
+.newsletter-subscribe-popup .newsletter-subscribe:before {
+    display: none;
+}
+
+.newsletter-subscribe-popup .newsletter-email {
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.newsletter-subscribe-popup .newsletter-validation,
+.newsletter-subscribe-popup .newsletter-result {
+    margin: 5px 0;
+    color: #888;
+}
+
+.newsletter-subscribe-popup .close-popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RENFNEE3QkMwRDFBMTFFNkJGMjFEQjJFQ0YyODMxMzIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RENFNEE3QkQwRDFBMTFFNkJGMjFEQjJFQ0YyODMxMzIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEQ0U0QTdCQTBEMUExMUU2QkYyMURCMkVDRjI4MzEzMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEQ0U0QTdCQjBEMUExMUU2QkYyMURCMkVDRjI4MzEzMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Phtf69EAAADCSURBVHjalFLdCoYgDJ3kCxdRFF33rF55U5CmtY8zmFjfVYNx5n6O25SWZWHvPTEzHcchuG2bYEqJcs7FnueZ6TxPQtF93xLY910whCCo/nEcGVgYUA2EggSMsK/romEYSuzB0rZtCUBjjDRNE2tLpQDqnBPs+55rAtyAG3FGNwZBqErTNMJqjKF1XY36kWytJatJtYD17SuiLekqu65j3RA2826J6iHRf31G8t/QMDADVocETaztx1o/P9zXr/ETYAD5WmfdtvPxhQAAAABJRU5ErkJggg==) no-repeat center;
+    font-size: 0;
+    opacity: .8;
+}
+
+.newsletter-subscribe-popup .close-popup:hover {
+    opacity: 1;
+}
+
+.newsletter-subscribe-popup .newsletter-subscribe-options {
+    margin-top: 20px;
+    display: flex;
+    flex-flow: column;
+    row-gap: 10px;
+    color: #888;
+}
+
+.newsletter-subscribe-popup .newsletter-email button {
+    display: block;
+    border: none;
+    overflow: hidden;
+    color: #fff;
+    text-transform: uppercase;
+    font: normal 20px "Open Sans Condensed", Arial, sans-serif;
+    padding: 4px 20px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAAAlCAYAAACjxNxUAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDhCMkFDRTFCOEQ5MTFFM0E4RTdENzY1NjE0QkUxQ0EiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDhCMkFDRTJCOEQ5MTFFM0E4RTdENzY1NjE0QkUxQ0EiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0OEIyQUNERkI4RDkxMUUzQThFN0Q3NjU2MTRCRTFDQSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0OEIyQUNFMEI4RDkxMUUzQThFN0Q3NjU2MTRCRTFDQSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PvRngSwAAAK4SURBVHja7JvbTlNREIZXFQ3F0u4mYLUcLo0VLwxe8RS8hs/ES/Aa3HLhAU08kQpEEtqCu8ipzNh/cFzpwSYt7ej8yZ+1urtXKfOtNXt170ym1WoFA5oiz5Lz5Bm4iDZLLpBzeJ3Da3mvqMbk8Tncv0euwrvkb2ir6H8l75MvJjEgmRGA6xSkByqY7ATHZnCOPi9R5xVwLEM+IdfJTXJKPkLLbpCP8Z6cJ+/VyD/QP4ZTAFmAl8hl8iIsx+bJhz3ACvjTcYArY2bGwYxnd1YFM57dWXVeHMwUgaupoMfBbESBln4dIM7HNLHvkh8psEsAK30B3+gDdhf/51DBcYD2MINPENw4mDK7myqYaZfZ/T/qIQAudgG7TL7qA5aPfR8EHEN7QT4IrlGqEIFdBlTpl5HxBOwXtBrstqRlBveO2nXyjsd27MpG11gNdo38irwpu7U6ZoNr/OJL0Qc41gaut790x8GZEafKkoOzpz2kTQdnTPueKu2myscOzlOl65bEv7PnwczBGRLf9jsCPAdnNV06OKM7SwdndGfp4OytOE+VRneWJQdnT1WdKs/Il6H9SME1+anyBlzwVWdzV+ngbKXKsoOzJ37Q+pNcdHBG06WDM5ouHZzRnaWD81Tp8lTp6qUDX3F2U2XJwdkTP9pZmFLgEo/JROo++Qm5Ql4hr3KqlPq4l+StMORSoNAupeJf+53q13SdWxOu9Rlz9Q8D4pv8T+HnChTXDXwivyFzncdrbgUc14HlR/BlcvhCcfFip4pRXVkqY/Loy5jzCLbU0MWFi70mSKcxt6lZwHkGrwAS34PcARyG9BZ+H9pPcP5QxkgpsWh6QNhJ+F10mfQYowswpd6v+RcTpNuYFH+rAjgVrCIGNqeg6FX0MQxQtmwN3KjUD7aURg8yQU51alOr6PMwUv61AAMACFEqj/KTMKIAAAAASUVORK5CYII=) no-repeat center;
+    background-size: 100% 100%;
+}
+
+.newsletter-subscribe-popup .captcha-box {
+    margin: 20px 0 0;
+}
+
+.newsletter-subscribe-popup .consent-error {
+    display: none;
+    margin-top: 20px;
+    color: red;
+}
+
+
+.newsletter {
+    padding: 130px 0 20px;
+}
+.newsletter .title {
+    text-align: center;
+}
+.newsletter input[type="email"],
+.newsletter .captcha-box {
+    display: none;
+}
+.newsletter .options {
+    display: none;
+}
+.newsletter .newsletter-subscribe {
+    padding: 0;
+}
+.newsletter .newsletter-subscribe:before {    
+    top: -150px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.newsletter .newsletter-email {
+    box-shadow: none;
+}
+.newsletter .newsletter-subscribe-button {
+    float: none;
+    padding: 5px 28%;
+    font-size: 16px;
+    width: auto;
+    min-width: 160px;
+    text-transform: uppercase;
+    color: #fff;
+}
+ 
+
+@media (min-width: 768px) {
+
+    .newsletter-subscribe-popup {
+        padding: 50px;
+        text-align: left;
+    }
+
+    .newsletter-subscribe-popup .captcha-box > div {
+        display: block;
+    }
+
+    .newsletter-subscribe-popup .newsletter-validation,
+    .newsletter-subscribe-popup .newsletter-result {
+        text-align: left;
+    }
+}

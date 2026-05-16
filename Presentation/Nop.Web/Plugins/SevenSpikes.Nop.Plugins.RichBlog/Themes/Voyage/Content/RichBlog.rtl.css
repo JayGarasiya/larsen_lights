@@ -1,0 +1,127 @@
+
+.richblog-widget .view-all:after {
+    content: "\e914";
+    margin-right: 8px;
+    margin-left: 0;
+}
+.blog-search-box form {
+    text-align: right;
+}
+.blog-search-box .search-box-text {
+    padding: 1px 5px 0 0;
+}
+.blog-search-box .search-box-button {
+    left: 0;
+    right: auto;
+}
+.blog-instant-search {
+    right: -10px !important;
+    left: auto !important;
+}
+.blog-instant-search .k-list-item {
+    text-align: right;
+}
+.post-date + .read-comments {
+    margin-right: 20px;
+    margin-left: 0;
+    border-right: 1px solid #aaa;
+    border-left: none;
+    padding-right: 20px;
+    padding-left: 0;
+}
+.post-relations li.separator {
+    margin: 0 1px 0 5px;
+}
+.share-post {
+    margin: 40px -10px 0 0;
+}
+.post-navigation .prev {
+    right: 50%;
+    transform: translateX(100%);
+}
+.post-navigation .next {
+    left: 50%;
+    transform: translateX(-100%);
+}
+.post-navigation .prev:before {
+    content: "\e915";
+}
+.post-navigation .next:after {
+    content: "\e914";
+}
+.blogpost-page .page-title:before {
+	content: "\e915";
+    right: 50%; left: auto;
+	transform: translateX(100%);
+}
+.blogpost-page .page-title:after {
+	content: "\e914";
+    left: 50%; right: auto;
+	transform: translateX(-100%);
+}
+.blogpost-page .post-footer .tags,
+.blogpost-page .category-list,
+.blogpost-page .related-posts-list {
+    text-align: right;
+}
+
+@media all and (min-width: 768px) {
+
+    .blog-page .post {
+        padding: 15px 52% 20px 0;
+    }
+    .blog-page .rich-blog-image {
+        right: 0;
+        left: auto;
+    }
+    .post-navigation .prev {
+        right: 0;
+        left: auto;
+        transform: none;
+    }
+    .post-navigation .next {
+        left: 0;
+        right: auto;
+        transform: none;
+    }
+    .blogpost-page .page-title:before {
+        right: 0;
+        left: auto;
+        transform: none;
+    }
+    .blogpost-page .page-title:after {
+        left: 0;
+        right: auto;
+        transform: none;
+    }
+    .blogpost-page .post-footer {
+        padding-left: 130px;
+        padding-right: 0;
+    }
+    .blogpost-page .share-post {
+        left: 0;
+        right: auto;
+    }
+}
+
+@media all and (min-width: 1261px) {
+
+    .blog-pages-body .blog-search-box {
+        margin-left: auto;
+        margin-right: 0;
+    }
+    .blog-pages-body .block:not(.blog-search-box) .listbox {
+        right: 50%;
+        left: auto;
+        transform: translateX(50%);
+        text-align: right;
+    }
+    .first .rich-blog-image:after,
+    .first .post-picture:after {
+        left: -15px;
+        right: 15px;
+    }
+    .blog-page .first {
+        padding: 15px 535px 75px 0;
+    }
+}

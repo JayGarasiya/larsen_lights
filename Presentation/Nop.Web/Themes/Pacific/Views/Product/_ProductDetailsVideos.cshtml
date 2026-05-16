@@ -1,0 +1,34 @@
+﻿@model ProductDetailsModel
+
+@{
+    var storeId = (await storeContext.GetCurrentStoreAsync()).Id;
+
+    var productPageLayout = await settingService.GetSettingByKeyAsync("pacificthemesettings.productpagelayout", "one", storeId, true);
+    var isProductPageLayoutOne = string.Compare(productPageLayout, "one", StringComparison.InvariantCultureIgnoreCase) == 0;
+}
+
+@if (Model.VideoModels.Any())
+{
+    <div class="video-gallery">
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsBeforeVideos, additionalData = Model })
+        @if (isProductPageLayoutOne)
+        {
+            <div class="video-thumbs">
+                @foreach (var video in Model.VideoModels)
+                {
+                    <iframe title="@T("Media.Product.VideoTitleFormat", Model.Name)" class="thumb-item" src="@video.VideoUrl" width="@video.Width" height="@video.Height" frameborder="0" allow="@video.Allow"></iframe>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="picture all-pictures">
+                @foreach (var video in Model.VideoModels)
+                {
+                    <iframe title="@T("Media.Product.VideoTitleFormat", Model.Name)" class="product-image-holder" src="@video.VideoUrl" width="@video.Width" height="@video.Height" frameborder="0" allow="@video.Allow"></iframe>
+                }
+            </div>
+        }
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductDetailsAfterVideos, additionalData = Model })
+    </div>
+}

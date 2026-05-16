@@ -1,0 +1,31 @@
+﻿@model ProductDetailsModel
+@if (!string.IsNullOrWhiteSpace(Model.StockAvailability) || Model.DisplayBackInStockSubscription)
+{
+    var inStockClass = "in-stock";
+    if (Model.DisplayBackInStockSubscription || Model.StockAvailability.Contains("stock-error"))
+    {
+        inStockClass = "out-of-stock";
+    }
+    <div class="availability @inStockClass">
+        @if (!string.IsNullOrWhiteSpace(Model.StockAvailability))
+        {
+            <label class="label">@T("Products.Availability"):</label>
+            <div class="stock">
+                <div class="stock-block">
+                    <span class="value" id="stock-availability-value-@Model.Id">@Html.Raw(Model.StockAvailability)</span>
+                    @await Html.PartialAsync("_BackInStockSubscription", Model)
+                    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = "productdetails_availability", additionalData = Model })
+                </div>
+            </div>
+        }
+        else if (Model.DisplayBackInStockSubscription)
+        {
+            <div class="stock">
+                <div class="stock-block">
+                    @await Html.PartialAsync("_BackInStockSubscription", Model)
+                </div>
+            </div>
+
+        }
+    </div>
+}

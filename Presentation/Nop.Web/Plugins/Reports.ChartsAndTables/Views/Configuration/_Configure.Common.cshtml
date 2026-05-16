@@ -1,0 +1,134 @@
+@model ConfigurationModel
+
+<div class="card-body">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="Enabled_OverrideForStore" asp-input="Enabled" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="Enabled" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Enabled" />
+            <span asp-validation-for="Enabled"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="PriceWithTax_OverrideForStore" asp-input="PriceWithTax" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="PriceWithTax" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="PriceWithTax" />
+            <span asp-validation-for="PriceWithTax"></span>
+        </div>
+    </div>
+    <div id="pnlDashboardReport" class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardReport_OverrideForStore" asp-input="DashboardReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardReport" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardReport" />
+            <span asp-validation-for="DashboardReport"></span>
+        </div>
+    </div>
+    <div id="pnlProductReport" class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="ProductReport_OverrideForStore" asp-input="ProductReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="ProductReport" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ProductReport" />
+            <span asp-validation-for="ProductReport"></span>
+        </div>
+    </div>
+    <div id="pnlCategoryReport" class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="CategoryReport_OverrideForStore" asp-input="CategoryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="CategoryReport" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="CategoryReport" />
+            <span asp-validation-for="CategoryReport"></span>
+        </div>
+    </div>
+    <div id="pnlManufacturerReport" class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="ManufacturerReport_OverrideForStore" asp-input="ManufacturerReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="ManufacturerReport" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ManufacturerReport" />
+            <span asp-validation-for="ManufacturerReport"></span>
+        </div>
+    </div>
+    <div id="pnlCustomerReport" class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="CustomerReport_OverrideForStore" asp-input="CustomerReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="CustomerReport" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="CustomerReport" />
+            <span asp-validation-for="CustomerReport"></span>
+        </div>
+    </div>
+    <div id="pnlVendorReport" class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="VendorReport_OverrideForStore" asp-input="VendorReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="VendorReport" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="VendorReport" />
+            <span asp-validation-for="VendorReport"></span>
+        </div>
+    </div>
+    <div id="pnlOrderReport" class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="OrderReport_OverrideForStore" asp-input="OrderReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="OrderReport" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="OrderReport" />
+            <span asp-validation-for="OrderReport"></span>
+        </div>
+    </div>
+    <div id="pnlTableReport" class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="TableReport_OverrideForStore" asp-input="TableReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="TableReport" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="TableReport" />
+            <span asp-validation-for="TableReport"></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.Enabled)").click(toggleEnabled);
+
+        toggleEnabled();
+    });
+
+    function toggleEnabled() {
+        if ($('#@Html.IdFor(model => model.Enabled)').is(':checked')) {
+            $('#pnlDashboardReport').showElement();
+            $('#pnlProductReport').showElement();
+            $('#pnlCategoryReport').showElement();
+            $('#pnlManufacturerReport').showElement();
+            $('#pnlCustomerReport').showElement();
+            $('#pnlVendorReport').showElement();
+            $('#pnlOrderReport').showElement();
+            $('#pnlTableReport').showElement();
+        } else {
+            $('#pnlDashboardReport').hideElement();
+            $('#pnlProductReport').hideElement();
+            $('#pnlCategoryReport').hideElement();
+            $('#pnlManufacturerReport').hideElement();
+            $('#pnlCustomerReport').hideElement();
+            $('#pnlVendorReport').hideElement();
+            $('#pnlOrderReport').hideElement();
+            $('#pnlTableReport').hideElement();
+        }
+    }
+</script>

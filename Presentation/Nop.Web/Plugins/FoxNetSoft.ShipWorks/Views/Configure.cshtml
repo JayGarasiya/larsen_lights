@@ -1,0 +1,195 @@
+﻿@model FoxNetSoft.Plugin.Misc.ShipWorks.Models.ConfigureModel
+@using FoxNetSoft.Plugin.Misc.ShipWorks.Core
+@using FoxNetSoft.Plugin.Misc.ShipWorks
+@{
+    Layout = "_ConfigurePlugin";
+}
+@await Component.InvokeAsync("StoreScopeConfiguration")
+<form asp-controller="ShipWorksSettings" asp-action="Configure" method="post">
+    <script>
+        $(document).ready(function () {
+            $("#showDebugInfo").click(toggleshowDebugInfo);
+
+            toggleshowDebugInfo();
+
+            $("#@Html.IdFor(model => model.LoadingMode)").change(function () {
+                var selectedItem = $(this).val();
+                if (selectedItem == "@(LoadingMode.OnlyNewOrders)") {
+                    $('#pnlLastXXXDays').hideElement();
+                }
+                else {
+                    $('#pnlLastXXXDays').showElement();
+                }
+            }).change();
+        });
+        function toggleshowDebugInfo() {
+            if ($('#showDebugInfo').is(':checked')) {
+                $('#pnlclearlogfile, #pnlgetlogfile').showElement();
+            }
+            else {
+                $('#pnlclearlogfile, #pnlgetlogfile').hideElement();
+            }
+        }
+    </script>
+
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <p>
+                    @if (Model.LicenseStatus == LicenseStatus.Registered)
+                    {
+                        @T("Admin.FoxNetSoft.Plugin.Misc.ShipWorks.IsRegisted")
+                    }
+                    else
+                    {
+                        @T("Admin.FoxNetSoft.Plugin.Misc.ShipWorks.IsNoRegisted")
+                        <br />
+                        <a href="https://www.foxnetsoft.com/shipworksconnector" target="blank">Buy It Now</a>
+                    }
+                </p>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Enabled_OverrideForStore" asp-input="Enabled" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="UserName_OverrideForStore" asp-input="UserName" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="UserName" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UserName" />
+                        <span asp-validation-for="UserName"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Password_OverrideForStore" asp-input="Password" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Password" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Password" />
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="WebserviceUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" id="WebserviceUrl" name="WebserviceUrl" value="@Model.WebserviceUrl" type="text" readonly="readonly">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ChangeOrderStatusComplete_OverrideForStore" asp-input="ChangeOrderStatusComplete" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ChangeOrderStatusComplete" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ChangeOrderStatusComplete" />
+                        <span asp-validation-for="ChangeOrderStatusComplete"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="OverWriteCarrier_OverrideForStore" asp-input="OverWriteCarrier" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="OverWriteCarrier" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="OverWriteCarrier" />
+                        <span asp-validation-for="OverWriteCarrier"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="DaysPastCustomerNotification_OverrideForStore" asp-input="DaysPastCustomerNotification" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="DaysPastCustomerNotification" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="DaysPastCustomerNotification" />
+                        <span asp-validation-for="DaysPastCustomerNotification"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="LoadingMode_OverrideForStore" asp-input="LoadingMode" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="LoadingMode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="LoadingMode" asp-items="Model.AvailableLoadingModes" />
+                        <span asp-validation-for="LoadingMode"></span>
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlLastXXXDays">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="LastXXXDays_OverrideForStore" asp-input="LastXXXDays" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="LastXXXDays" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="LastXXXDays" />
+                        <span asp-validation-for="LastXXXDays"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="showDebugInfo" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="showDebugInfo" />
+                        <span asp-validation-for="showDebugInfo"></span>
+                        <div id="pnlclearlogfile">
+                            <a href="@Url.Action("ClearLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.ShipWorks.ClearLogFile")</a>
+                        </div>
+                        <div id="pnlgetlogfile">
+                            <a href="@Url.Action("GetLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.ShipWorks.GetLogFile")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StoreUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" id="StoreUrl" name="StoreUrl" value="@Model.StoreUrl" type="text" readonly="readonly">
+                        <span asp-validation-for="StoreUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SerialNumber" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SerialNumber" />
+                        <span asp-validation-for="SerialNumber"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+                <p>
+                    Installation and configuring plug-in at Youtube <a href="http://www.youtube.com/foxnetsoft" target="blank">www.youtube.com/foxnetsoft</a>
+                    <br />
+                    Installation and configuring plug-in at our site <a href="https://www.foxnetsoft.com/documentation-shipworksconnector" target="blank">https://www.foxnetsoft.com/documentation-shipworksconnector</a>
+                    <br />
+                    <a href="https://www.foxnetsoft.com" target="blank">www.foxnetsoft.com</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</form>

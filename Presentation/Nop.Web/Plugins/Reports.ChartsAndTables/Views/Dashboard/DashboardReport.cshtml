@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "_AdminLayout";
+
+    //page title
+    ViewBag.PageTitle = T("Plugins.Reports.ChartsAndTables.Dashboard").Text;
+
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName("Plugins.Reports.ChartsAndTables.Dashboard");
+}
+<div class="content-header">
+    <h1>
+        @T("Plugins.Reports.ChartsAndTables.Dashboard")
+    </h1>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    @await Component.InvokeAsync(typeof(AdminWidgetViewComponent), new { widgetZone = ChartsAndTablesDefaults.ReportsDashboard })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,72 @@
+﻿@model TabUIModel
+
+@using Nop.Core
+@using Nop.Services.Configuration
+@inject ISettingService settingService
+@inject IStoreContext storeContext
+
+@{
+    var storeId = (await storeContext.GetCurrentStoreAsync()).Id;
+    var productPageLayout = await settingService.GetSettingByKeyAsync("VoyageThemeSettings.ProductPageLayout", "standard-gallery", storeId, true);
+    var isExtendedGallery = productPageLayout.Equals("extended-gallery");
+
+    var isGroupedProduct = false;
+    if(ViewData.ContainsKey("IsGroupedProduct"))
+    {
+        isGroupedProduct = (bool)ViewData["IsGroupedProduct"];
+    }
+}
+
+@if (isExtendedGallery || isGroupedProduct) @* Variant2, each tab contains its own content *@
+{
+    <ul id="quickTabs" style="display:none!important;">
+        <li>
+            <a class="hidden-title" href="#quickTab-default">@Model.Tabs.First().Title</a>
+        </li>
+        @foreach(var tabInfo in Model.Tabs.Skip(1))
+        {       
+            <li>
+                <a class="hidden-title" href="@tabInfo.AjaxUrl">@tabInfo.Title</a>
+            </li>
+        }
+    </ul>
+
+    <div class="productTabs-tab">
+        <div class="ui-tab-title" id="@Model.Tabs.First().TabKey-tab">
+            <a class="visible-title ajax" href="#quickTab-default">@Model.Tabs.First().Title</a>
+        </div>
+        <div class="ui-tab-body" id="quickTab-default">
+            @Html.Raw(Model.Tabs.First().Content)
+        </div>
+    </div>
+    @foreach (var tabInfo in Model.Tabs.Skip(1))
+    {
+        <div class="productTabs-tab">
+            <div class="ui-tab-title" id="@tabInfo.TabKey-tab">
+                <a class="visible-title ajax" href="@tabInfo.AjaxUrl">@tabInfo.Title</a>
+            </div>
+            <div class="ui-tab-body"></div>
+        </div>
+    }
+}
+else @* Variant1 (default), there is a "header" with all tabs, and "body" with all content *@
+{
+    <div class="productTabs-header">
+        <ul>
+            <li id="@Model.Tabs.First().TabKey-tab">
+                <a href="#quickTab-default">@Model.Tabs.First().Title</a>
+            </li>
+            @foreach (var tabInfo in Model.Tabs.Skip(1))
+            {
+                <li id="@tabInfo.TabKey-tab">
+                    <a href="@tabInfo.AjaxUrl">@tabInfo.Title</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="productTabs-body">
+        <div id="quickTab-default">
+            @Html.Raw(Model.Tabs.First().Content)
+        </div>
+    </div>
+}

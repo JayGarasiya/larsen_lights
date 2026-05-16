@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "One Page Checkout",
+  "SystemName": "OnePage.Checkout",
+  "Version": "1.02",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.OnePage.Checkout.dll",
+  "Description": "This plugin increase your business’ revenue growth with a fast and customizable one-step checkout page. Provide shoppers with a smooth and clear checkout flow."
+}

@@ -1,0 +1,68 @@
+@model ConfigurationModel
+
+<div class="card-body">
+    <div class="card card-default">
+        <div class="card-header">
+            @T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Order.CommonInfo")
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="OrderTopNRecord_OverrideForStore" asp-input="OrderTopNRecord" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="OrderTopNRecord" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="OrderTopNRecord" />
+                    <span asp-validation-for="OrderTopNRecord"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card card-default">
+        <div class="card-header">
+            @T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Order.MenuReports")
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="OrderMenuOrderReport_OverrideForStore" asp-input="OrderMenuOrderReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="OrderMenuOrderReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="OrderMenuOrderReport" />
+                    <span asp-validation-for="OrderMenuOrderReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="OrderMenuOrderItemReport_OverrideForStore" asp-input="OrderMenuOrderItemReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="OrderMenuOrderItemReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="OrderMenuOrderItemReport" />
+                    <span asp-validation-for="OrderMenuOrderItemReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="OrderMenuShippingMethodReport_OverrideForStore" asp-input="OrderMenuShippingMethodReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="OrderMenuShippingMethodReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="OrderMenuShippingMethodReport" />
+                    <span asp-validation-for="OrderMenuShippingMethodReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="OrderMenuPaymentMethodReport_OverrideForStore" asp-input="OrderMenuPaymentMethodReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="OrderMenuPaymentMethodReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="OrderMenuPaymentMethodReport" />
+                    <span asp-validation-for="OrderMenuPaymentMethodReport"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

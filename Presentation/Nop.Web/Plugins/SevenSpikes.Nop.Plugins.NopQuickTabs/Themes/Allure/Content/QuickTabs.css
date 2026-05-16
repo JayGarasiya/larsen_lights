@@ -1,0 +1,25 @@
+
+.productTabs-body p {
+    margin: 8px 0;
+}
+
+.ui-tabs .product-review-item .avatar,
+.ui-tabs .review-type-rating-ext {
+    display: none;
+}
+
+@media all and (min-width: 1025px) {
+
+    .ui-tabs .product-review-item .avatar {
+        display: block;
+        width: 75px;
+    }
+    .ui-tabs .avatar + .text-body {
+        margin: 0 0 0 90px;
+    }
+}
+
+.product-page-alternative-layout #picture-tab,
+.product-page-alternative-layout #quickTab-picture {
+    display: none !important;
+}

@@ -1,0 +1,442 @@
+﻿@model ConfigurationModel
+
+<div class="card-body">
+    <p>
+        @T("Plugins.Tax.TaxJar.Configuration.Instructions")
+    </p>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="ApiToken" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ApiToken" asp-required="true" />
+            <span asp-validation-for="ApiToken"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="UseSandbox" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="UseSandbox" />
+            <span asp-validation-for="UseSandbox"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="IsTaxExempt" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="IsTaxExempt" asp-items="Model.AvailableCustomerAttribute" asp-multiple="true" />
+            <script>
+                $(document).ready(function () {
+                    var customerRoleIdsInput = $('#@Html.IdFor(model => model.IsTaxExempt)').select2({
+                        closeOnSelect: false,
+                @if (Model.AvailableCustomerAttribute.Count == 0)
+                        {
+                            <text>
+                                disabled: true,
+                                    placeholder: '@T("Plugins.Tax.TaxJar.Fields.IsTaxExemptNotAllow")',
+                            </text>
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="PaymentMethods" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="PaymentMethods" />
+            <span asp-validation-for="PaymentMethods"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="CommitTransactions" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="CommitTransactions" />
+            <span asp-validation-for="CommitTransactions"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="ValidateAddress" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="ValidateAddress" />
+            <span asp-validation-for="ValidateAddress"></span>
+        </div>
+    </div>
+    <nop-nested-setting asp-for="ValidateAddress">
+        <div class="form-group row">
+            <div class="col-md-3">
+                <nop-label asp-for="ValidateBilling" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="ValidateBilling" />
+                <span asp-validation-for="ValidateBilling"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-3">
+                <nop-label asp-for="ValidateShipping" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="ValidateShipping" />
+                <span asp-validation-for="ValidateShipping"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-3">
+                <nop-label asp-for="OnlyNewAddress" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="OnlyNewAddress" />
+                <span asp-validation-for="OnlyNewAddress"></span>
+            </div>
+        </div>
+    </nop-nested-setting>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="TaxOriginAddressTypeId" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="TaxOriginAddressTypeId" asp-items="@Model.TaxOriginAddressTypes" />
+            <span asp-validation-for="TaxOriginAddressTypeId"></span>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#@Html.IdFor(model => model.TaxOriginAddressTypeId)').change(changeOriginAddressType);
+                changeOriginAddressType();
+            });
+
+            function changeOriginAddressType() {
+                warningValidation(
+                    '@Url.Action("ChangeOriginAddressType", "TaxJar")',
+                    '@Html.NameFor(model => model.TaxOriginAddressTypeId)',
+                    { typeId: $('#@Html.IdFor(model => model.TaxOriginAddressTypeId)').val() });
+            }
+        </script>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="ExcludeTaxOnStateProvinceIds" />
+        </div>
+        <div class="col-md-9">
+            <div class="input-group-append input-group-required">
+                <div class="input-group">
+                    <nop-select asp-for="ExcludeTaxOnStateProvinceIds" asp-items="Model.AvailableStates" asp-multiple="true" />
+                </div>
+                <div class="input-group-btn">
+                    <nop-required />
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    var excludeTaxOnStateProvinceIdsInput = $('#@Html.IdFor(model => model.ExcludeTaxOnStateProvinceIds)').select2({
+                        closeOnSelect: false,
+                        @if (Model.AvailableStates.Count == 0)
+                        {
+                            <text>
+                                disabled: true,
+                                placeholder: '@T("Plugins.Tax.TaxJar.Fields.ExcludeTaxOnStateProvinces.NoStates")',
+                            </text>
+                        }
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="AttachPdfInvoiceToOrderRefundSelectedEmail" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="AttachPdfInvoiceToOrderRefundSelectedEmail" />
+            <span asp-validation-for="AttachPdfInvoiceToOrderRefundSelectedEmail"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="CCAttributeId" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="CCAttributeId" asp-items="@Model.AddressAttributes" />
+            <span asp-validation-for="CCAttributeId"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="HiddenCustomerRoleId" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="HiddenCustomerRoleId" asp-items="@Model.AvailableCustomerRoles" />
+            <span asp-validation-for="HiddenCustomerRoleId"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="TaxExclusionOnCall" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="TaxExclusionOnCall" />
+            <span asp-validation-for="TaxExclusionOnCall"></span>
+        </div>
+    </div>
+    <nop-nested-setting asp-for="TaxExclusionOnCall">
+        <div class="form-group row dataTables_wrapper dt-bootstrap4">
+            <div class="col-md-3">
+                &nbsp;
+            </div>
+            <div class="col-md-9">
+                <table id="tblTaxExclusionOn" class="table table-bordered table-hover table-striped dataTable" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>@T("Plugins.Tax.TaxJar.Fields.ControllerName")</th>
+                            <th>@T("Plugins.Tax.TaxJar.Fields.ActionName")</th>
+                            <th>@T("Plugins.Tax.TaxJar.Fields.Method")</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var taxExclusion in Model.TaxExclusionOn)
+                        {
+                            <tr>
+                                <td>@taxExclusion.ControllerName</td>
+                                <td>@taxExclusion.ActionName</td>
+                                <td>@taxExclusion.Method</td>
+                                <td>
+                                    <button type="button" id="delete-selected-exclusion" class="btn btn-danger" onclick="Remove(this)">
+                                        <i class="far fa-trash-alt"></i>
+                                        @T("Admin.Common.Delete")
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><nop-editor asp-for="TaxExclusionOnModel.ControllerName" /></td>
+                            <td><nop-editor asp-for="TaxExclusionOnModel.ActionName" /></td>
+                            <td><nop-select asp-for="TaxExclusionOnModel.Method" asp-items="@Model.TaxExclusionOnModel.AvailableMethod" /></td>
+                            <td>
+                                <button type="button" class="btn btn-primary" id="btnAdd">
+                                    <i class="fas fa-plus-square"></i>
+                                    @T("Admin.Common.AddNew")
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </nop-nested-setting>
+    <div class="form-group row">
+        <div class="col-md-9 offset-md-3">
+            <div class="input-group input-group-short">
+                <div class="input-group-text">
+                    <button type="submit" name="save" class="btn btn-primary">
+                        @T("Admin.Common.Save")
+                    </button>
+                </div>
+                @if (Model.IsConfigured)
+                {
+                    <div class="input-group-text">
+                        <button type="submit" name="verifyCredentials" class="btn btn-info">
+                            @T("Plugins.Tax.TaxJar.VerifyCredentials")
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+        $("body").on("click", "#btnAdd", function () {
+            //Reference the Name and Country TextBoxes.
+            var txtControllerName = $("#@Html.IdFor(model => model.TaxExclusionOnModel.ControllerName)");
+            var txtActionName = $("#@Html.IdFor(model => model.TaxExclusionOnModel.ActionName)");
+            var txtMethod = $("#@Html.IdFor(model => model.TaxExclusionOnModel.Method)");
+
+            if (txtControllerName.val().trim().length == 0 || txtActionName.val().trim().length == 0) {
+                alert('@T("Plugins.Tax.TaxJar.Fields.ControllerAction.Required")');
+            }
+            else {
+                var postData = {
+                    ControllerName: txtControllerName.val(),
+                    ActionName: txtActionName.val(),
+                    Method: txtMethod.find('option:selected').text()
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("AddTaxExclusion", "TaxJar"))",
+                    dataType: "json",
+                    data: postData,
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.success) {
+                            //Get the reference of the Table's TBODY element.
+                            var tBody = $("#tblTaxExclusionOn > TBODY")[0];
+
+                            //Add Row.
+                            var row = tBody.insertRow(-1);
+
+                            //Add Controller Name cell.
+                            var cell = $(row.insertCell(-1));
+                            cell.html(txtControllerName.val());
+
+                            //Add Action Name cell.
+                            cell = $(row.insertCell(-1));
+                            cell.html(txtActionName.val());
+
+                            //Add Method cell.
+                            cell = $(row.insertCell(-1));
+                            cell.html(txtMethod.find('option:selected').text());
+
+                            //Add Button cell.
+                            cell = $(row.insertCell(-1));
+                            var btnRemove = $("<button />");
+                            btnRemove.attr("type", "button");
+                            btnRemove.attr("class", "btn btn-danger");
+                            btnRemove.attr("onclick", "Remove(this);");
+                            btnRemove.html('<i class="far fa-trash-alt"></i> @T("Admin.Common.Delete")');
+                            cell.append(btnRemove);
+
+                            //Clear the TextBoxes.
+                            txtControllerName.val("");
+                            txtActionName.val("");
+                            txtMethod.prop('selectedIndex', 0);
+                        }
+                    }
+                });
+            }
+        });
+
+        function Remove(button) {
+            //Determine the reference of the Row using the Button.
+            var row = $(button).closest("TR");
+            if (confirm('@T("Admin.Common.DeleteConfirmation")')) {
+                //Get the reference of the Table.
+                var table = $("#tblTaxExclusionOn")[0];
+                console.log()
+                var postData = {
+                    index: row[0].rowIndex
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("DeleteTaxExclusion", "TaxJar"))",
+                    dataType: "json",
+                    data: postData,
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.success) {
+                            //Delete the Table row using it's Index.
+                            table.deleteRow(row[0].rowIndex);
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+    @if (Model.IsConfigured)
+    {
+        <script>
+            $(document).ready(function () {
+                $("#@Html.IdFor(model => model.TestAddress.CountryId)").change(function () {
+                    var selectedItem = $(this).val();
+                    var ddlStates = $("#@Html.IdFor(model => model.TestAddress.StateProvinceId)");
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                        data: {
+                            "countryId": selectedItem
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            ddlStates.html('');
+                            $.each(data, function (id, option) {
+                                ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert('Failed to retrieve states.');
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <div class="card card-default">
+            <div class="card-header">
+                @T("Plugins.Tax.TaxJar.TestTax")
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="TestAddress.CountryId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="TestAddress.CountryId" asp-items="Model.TestAddress.AvailableCountries" />
+                        <span asp-validation-for="TestAddress.CountryId"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="TestAddress.StateProvinceId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="TestAddress.StateProvinceId" asp-items="Model.TestAddress.AvailableStates" />
+                        <span asp-validation-for="TestAddress.StateProvinceId"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="TestAddress.City" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TestAddress.City" />
+                        <span asp-validation-for="TestAddress.City"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="TestAddress.Address1" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TestAddress.Address1" />
+                        <span asp-validation-for="TestAddress.Address1"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="TestAddress.ZipPostalCode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TestAddress.ZipPostalCode" />
+                        <span asp-validation-for="TestAddress.ZipPostalCode"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <button type="submit" name="testTax" class="btn btn-info">
+                            @T("Plugins.Tax.TaxJar.TestTax")
+                        </button>
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.TestTaxResult))
+                {
+                    <div class="form-group row">
+                        <div class="col-md-12" style="white-space: pre-line">
+                            @Model.TestTaxResult
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

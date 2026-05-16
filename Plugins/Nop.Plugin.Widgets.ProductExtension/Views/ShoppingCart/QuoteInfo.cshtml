@@ -1,0 +1,54 @@
+﻿@model Guid
+
+@{
+    NopHtml.AppendCssFileParts("~/Plugins/Widgets.ProductExtension/Content/Css/styles.css");
+}
+
+<script asp-location="Footer">
+    $(document).ready(function () {
+        if ($(document).has('.cart-options .common-buttons').length > 0) {
+            var quote = $("<button>", {
+                "class": "button-2 continue-shopping-button quote-button",
+                "formaction": "@Url.RouteUrl(ProductExtensionDefaults.DownloadQuoteRoute, new { customerGuid = Model })",
+                "text": "@T("Plugins.Widgets.ProductExtension.PDFQuote.Button")"
+            });
+            $('.cart-options .common-buttons').append(quote);
+        }
+    });
+
+      function handleCartButtonSizeAndPosition() {
+      var $buttons = $(".checkout-buttons");
+      var $footer = $(".checkout-buttons");
+      var $header = $(".header");
+      var headerHeight = $header.outerHeight();
+      var footerOffset = ($footer.offset().top) - $(window).height();
+
+
+      function updateCartButtonPosition() {
+        if ($(window).outerWidth() < 768 && $("body").hasClass("shopping-cart-page-body")) {
+          var scrollTop = $(window).scrollTop();
+          if (scrollTop < footerOffset) {
+            $buttons
+              .removeClass("cart-buttons-wrapper-top")
+              .addClass("cart-buttons-wrapper-bottom")
+              .removeAttr("style");
+          } else if (scrollTop >= footerOffset + $(window).height()) {
+              $buttons
+              .removeClass("cart-buttons-wrapper-bottom")
+              .addClass("cart-buttons-wrapper-top")
+              .css({ top: headerHeight  + "px" });
+          } else {
+            $buttons
+              .removeClass("cart-buttons-wrapper-top cart-buttons-wrapper-bottom")
+              .removeAttr("style");
+          }
+        }
+      }
+
+      $(window).on("scroll resize", updateCartButtonPosition);
+      updateCartButtonPosition();
+    }
+
+    handleCartButtonSizeAndPosition();
+
+</script>

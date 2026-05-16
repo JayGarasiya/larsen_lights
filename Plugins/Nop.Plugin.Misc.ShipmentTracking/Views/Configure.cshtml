@@ -1,0 +1,94 @@
+﻿@model ConfigurationModel
+
+@{
+    var plugin = pluginService.FindPluginByTypeInAssembly((this.ViewContext.ActionDescriptor as ControllerActionDescriptor).ControllerTypeInfo);
+
+    //friendly name
+    var friendlyName = plugin?.PluginDescriptor.FriendlyName;
+
+    var activeMenuSystemName = string.Empty;
+    var configureLocale = string.Empty;
+    var backToLocale = string.Empty;
+    var listActionMethodName = string.Empty;
+    var listControllerName = string.Empty;
+
+    if (plugin is IMiscPlugin)
+    {
+        //Misc plugins
+        activeMenuSystemName = "Local plugins";
+        configureLocale = "Admin.Configuration.Plugins.Misc.Configure";
+        backToLocale = "Admin.Configuration.Plugins.Misc.BackToList";
+        listActionMethodName = "List";
+        listControllerName = "Plugin";
+    }
+
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.PageTitle = T(configureLocale).Text + " - " + friendlyName;
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName(activeMenuSystemName);
+
+}
+
+@{
+    const string hideUPSBlockAttributeName = "ShipmentTracking.HideUPSBlock";
+    var hideUPSBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideUPSBlockAttributeName);
+
+    const string hideUSPSBlockAttributeName = "ShipmentTracking.HideUSPSBlock";
+    var hideUSPSBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideUSPSBlockAttributeName);
+
+    const string hideFEDEXBlockAttributeName = "ShipmentTracking.HideFEDEXBlock";
+    var hideFEDEXBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideFEDEXBlockAttributeName);
+
+    const string hideSPEEDEEBlockAttributeName = "ShipmentTracking.HideSPEEDEEBlock";
+    var hideSPEEDEEBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSPEEDEEBlockAttributeName);
+
+    const string hideDHLBlockAttributeName = "ShipmentTracking.HideDHLBlock";
+    var hideDHLBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideDHLBlockAttributeName);
+}
+<form asp-controller="ShipmentTracking" asp-action="Configure" method="post">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T(configureLocale) - @friendlyName
+            <small>
+                <i class="fas fa-arrow-circle-left"></i>
+                <a asp-action="@listActionMethodName" asp-controller="@listControllerName">@T(backToLocale)</a>
+            </small>
+        </h1>
+        <div class="float-right">
+            <button type="submit" name="save" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+
+                <div class="content">
+                    <div class="form-horizontal">
+                        <nop-cards id="avalara-cards">
+                            <nop-card asp-name="UPS" asp-icon="fab fa-ups" asp-title="@T("Plugins.Misc.ShipmentTracking.UPSMethod")" asp-hide-block-attribute-name="@hideUPSBlockAttributeName" asp-hide="@hideUPSBlock" asp-advanced="false">
+                                @(await Html.PartialAsync("~/Plugins/Misc.ShipmentTracking/Views/_UPS.cshtml", Model))
+                            </nop-card>
+                            <nop-card asp-name="USPS" asp-icon="fab fa-usps" asp-title="@T("Plugins.Misc.ShipmentTracking.USPSMethod")" asp-hide-block-attribute-name="@hideUSPSBlockAttributeName" asp-hide="@hideUSPSBlock">
+                                @(await Html.PartialAsync("~/Plugins/Misc.ShipmentTracking/Views/_USPS.cshtml", Model))
+                            </nop-card>
+                            <nop-card asp-name="FedEx" asp-icon="fab fa-fedex" asp-title="@T("Plugins.Misc.ShipmentTracking.FedExMethod")" asp-hide-block-attribute-name="@hideFEDEXBlockAttributeName" asp-hide="@hideFEDEXBlock">
+                                @(await Html.PartialAsync("~/Plugins/Misc.ShipmentTracking/Views/_FedEx.cshtml", Model))
+                            </nop-card>
+                            <nop-card asp-name="Speedee" asp-icon="fab fa-speaker-deck" asp-title="@T("Plugins.Misc.ShipmentTracking.SpeedeeMethod")" asp-hide-block-attribute-name="@hideSPEEDEEBlockAttributeName" asp-hide="@hideSPEEDEEBlock">
+                                @(await Html.PartialAsync("~/Plugins/Misc.ShipmentTracking/Views/_Speedee.cshtml", Model))
+                            </nop-card>
+                            <nop-card asp-name="DHL" asp-icon="fab fa-dhl" asp-title="@T("Plugins.Misc.ShipmentTracking.DHLMethod")" asp-hide-block-attribute-name="@hideDHLBlockAttributeName" asp-hide="@hideDHLBlock">
+                                @(await Html.PartialAsync("~/Plugins/Misc.ShipmentTracking/Views/_DHL.cshtml", Model))
+                            </nop-card>
+                        </nop-cards>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</form>

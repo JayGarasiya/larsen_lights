@@ -1,0 +1,231 @@
+﻿@model ChartsAndTablesSearchModel
+@{
+    const string prefix = "productsmenureportcategory-statistics";
+}
+
+<div class="card-body">
+    <div class="chart" style="height: 300px;">
+        <canvas id="@(prefix)-chart" height="300"></canvas>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var osConfig = nopChart.Bar('@T("Plugins.Reports.ChartsAndTables.Products.Menu.Category.TitleChart")');
+
+        function changeReportProductMenuCategoryStatistics() {
+            var osLabels = [];
+            var osDataSale = [];
+            var backgroundColor = [];
+            var borderColor = [];
+
+            var additionalData = {
+                IsChartReport: true,
+                StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+                EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+                StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+                OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+                PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+                CategoryId: $('#@Html.IdFor(model => model.CategoryId)').val(),
+                ManufacturerId: $('#@Html.IdFor(model => model.ManufacturerId)').val(),
+                VendorId: $('#@Html.IdFor(model => model.VendorId)').val(),
+            };
+
+            addAntiForgeryToken(additionalData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: '@Url.Action("ReportProductMenuCategoryList", "ChartsAndTablesMenu")',
+                data: additionalData,
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        var bcolour = colour("0.2");
+                        borderColor.push(bcolour.withoutgrade);
+                        backgroundColor.push(bcolour.withgrade);
+                        osLabels.push(data[i].Title);
+                        osDataSale.push(data[i].TotalSales);
+                    }
+
+                    if (!window.reportsProductsTabCategoryStatistics) {
+                        osConfig.data.datasets[0].backgroundColor = backgroundColor;
+                        osConfig.data.datasets[0].borderColor = borderColor;
+                        osConfig.data.labels = osLabels;
+                        osConfig.data.datasets[0].data = osDataSale;
+                        osConfig.data.scales =
+                            window.reportsProductsTabCategoryStatistics = new Chart(document.getElementById("@prefix-chart").getContext("2d"), osConfig);
+                    } else {
+                        window.reportsProductsTabCategoryStatistics.config.data.datasets[0].backgroundColor = backgroundColor;
+                        window.reportsProductsTabCategoryStatistics.config.data.datasets[0].borderColor = borderColor;
+                        window.reportsProductsTabCategoryStatistics.config.data.labels = osLabels;
+                        window.reportsProductsTabCategoryStatistics.config.data.datasets[0].data = osDataSale;
+                        window.reportsProductsTabCategoryStatistics.update();
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to load statistics.');
+                }
+            });
+        }
+        changeReportProductMenuCategoryStatistics();
+
+        $('#btnGenerate').on('click', function () {
+            changeReportProductMenuCategoryStatistics();
+        });
+    });
+</script>
+
+<div class="card-body">
+    @{
+        <div class="mb-1">
+            <div id="productsmenureportcategory"></div>
+        </div>
+
+        var gridModel = new DataTablesModel
+        {
+            Name = "productsmenureportcategory-grid",
+            UrlRead = new DataUrl("ReportProductMenuCategoryList", "ChartsAndTablesMenu"),
+            SearchButtonId = "btnGenerate",
+            Length = Model.PageSize,
+            LengthMenu = Model.AvailablePageSizes,
+            FooterCallback = "productsmenureportcategoryfootercallback",
+            FooterColumns = 2,
+            DrawCallback = "productsmenureportcategory",
+            Filters = new List<FilterParameter>
+            {
+                new FilterParameter(nameof(Model.StartDate), typeof(DateTime?)),
+                new FilterParameter(nameof(Model.EndDate), typeof(DateTime?)),
+                new FilterParameter(nameof(Model.StoreId)),
+                new FilterParameter(nameof(Model.OrderStatusId)),
+                new FilterParameter(nameof(Model.PaymentStatusId)),
+                new FilterParameter(nameof(Model.CategoryId)),
+                new FilterParameter(nameof(Model.ManufacturerId)),
+                new FilterParameter(nameof(Model.VendorId))
+            },
+            ColumnCollection = new List<ColumnProperty>
+            {
+                new ColumnProperty(nameof(ChartsAndTablesDataModel.Title))
+                {
+                    Title = T("Plugins.Reports.ChartsAndTables.Products.Menu.Category.Title").Text
+                },
+                new ColumnProperty(nameof(ChartsAndTablesDataModel.TotalSales))
+                {
+                    Title = T("Plugins.Reports.ChartsAndTables.Products.Menu.Category.TotalSales").Text,
+                    Width = "150",
+                    ClassName =  NopColumnClassDefaults.CenterAll,
+                }
+            }
+        };
+
+        var reportTotalSaleSummaryColumnNumber = 1;
+    }
+
+    @await Html.PartialAsync("Table", gridModel)
+
+    <script>
+        function productsmenureportcategoryfootercallback(tfoot, data, start, end, display) {
+        //update summary
+        var postData = {
+            StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+            EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+            StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+            OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+            PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+            CategoryId: $('#@Html.IdFor(model => model.CategoryId)').val(),
+            ManufacturerId: $('#@Html.IdFor(model => model.ManufacturerId)').val(),
+            VendorId: $('#@Html.IdFor(model => model.VendorId)').val(),
+        };
+
+        addAntiForgeryToken(postData);
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("ReportProductMenuCategoryAggregates", "ChartsAndTablesMenu")',
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                if (data) {
+                    for (var key in data) {
+                        var reportTotalSaleSummary = '<div><strong>@T("Plugins.Reports.ChartsAndTables.Aggrerator.Summary").Text</strong></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.TotalSalesValue").Text: <span>' + data['TotalSalesValue'] + '</span></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.AverageSalesValue").Text: <span>' + data['AverageSalesValue'] + '</span></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MinSalesValue").Text: <span>' + data['MinSalesValue'] + '</span></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MaxSalesValue").Text: <span>' + data['MaxSalesValue'] + '</span></div>'
+                        var reportTotalSaleColumn = $('#productsmenureportcategory-grid').DataTable().column(@(reportTotalSaleSummaryColumnNumber));
+                        $(reportTotalSaleColumn.footer()).html(reportTotalSaleSummary);
+                    }
+                }
+            }
+        });
+
+        if ($('#productsmenureportcategory').html().length == 0) {
+            var reportTotalSaleColumn = $('#productsmenureportcategory-grid').DataTable();
+            var button = new $.fn.dataTable.Buttons( reportTotalSaleColumn, {
+                buttons: [
+                    {
+                        extend:    'excelHtml5',
+                        text:      '<i class="far fa-file-excel"></i>@T("Admin.Common.ExportToExcel").Text',
+                        titleAttr: 'Excel',
+                        action: buttonsexport
+                    }
+                ]
+            });
+            button.container().appendTo($('#productsmenureportcategory',
+                reportTotalSaleColumn.table().container()
+            ));
+        }
+    }
+    </script>
+    <script>
+        function productsmenureportcategory(settings, json) {
+            const $container = $('#productsmenureportcategory');
+
+            if ($container.children('button').length === 0) {
+                const reportTotalSaleColumn = $('#productsmenureportcategory-grid').DataTable();
+                const pageTitle = document.title || 'Exported Report';
+
+                // Create buttons instance but do not auto-append the full container
+                const buttons = new $.fn.dataTable.Buttons(reportTotalSaleColumn, {
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: '@T("Admin.Common.ExportToExcel").Text',
+                            title: pageTitle,
+                            filename: pageTitle,
+                            className: 'btn btn-secondary',
+                            exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                header: function (data, columnIdx) {
+                                    const columnHeaders = [];
+                                    $('#productsmenureportcategory-grid thead th').each(function () {
+                                        columnHeaders.push($(this).text().trim());
+                                    });
+                                    return columnHeaders[columnIdx] || data;
+                                },
+                                body: function (data, row, column) {
+                                    const num = parseFloat(data);
+                                    return !isNaN(num) && isFinite(num) ? num.toFixed(2) : data;
+                                },
+                                footer: function (data, row, column) {
+                                    return null;
+                                }
+                                }
+                            }
+                        }
+                    ]
+                });
+
+                // Get the button element only (not the wrapping div)
+                const $button = buttons.container().find('button');
+                $container.append($button);
+
+                // Register the button to DataTable
+                reportTotalSaleColumn.buttons().container(); // activate the buttons internally
+            }
+        }
+    </script>
+</div>

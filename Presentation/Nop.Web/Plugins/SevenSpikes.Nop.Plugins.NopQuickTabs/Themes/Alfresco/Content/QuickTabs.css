@@ -1,0 +1,17 @@
+﻿
+.product-essential {
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+.full-description,
+.product-specs-box {
+	margin: 0;
+}
+.product-specs-box .data-table {
+	margin: 0;
+	background: none;
+	padding: 0;
+}
+#review-form, #contact-us-tab {
+	margin-bottom: 5px;
+}

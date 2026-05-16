@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Tawk Live Chat",
+  "SystemName": "Widgets.Chat",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.Chat.dll",
+  "Description": "This plugin allow customer to use the 'Real-time customer service' feature in your store."
+}

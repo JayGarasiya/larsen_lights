@@ -1,0 +1,12 @@
+﻿
+.newsletter-subscribe-popup {
+    text-align: right;
+}
+.newsletter-subscribe-popup .subscribe + .unsubscribe {
+    margin-right: 12px;
+    margin-left: 0;
+}
+.newsletter-subscribe-popup .close-popup {
+    right: auto;
+    left: 0;
+}

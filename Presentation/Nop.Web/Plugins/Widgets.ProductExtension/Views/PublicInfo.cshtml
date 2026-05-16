@@ -1,0 +1,21 @@
+﻿@model IList<PublicInfoModel>
+
+@if (Model.Count > 0)
+{
+    <div class="product-notes">
+        @foreach (var note in Model)
+        {
+            <div class="product-note">
+                @if (note.ShowDisplayName)
+                {
+                    <div class="title">
+                        <strong>@note.Name</strong>
+                    </div>
+                }
+                <div class="note-description">
+                    <span>@Html.Raw(note.Description)</span>
+                </div>
+            </div>
+        }
+    </div>
+}

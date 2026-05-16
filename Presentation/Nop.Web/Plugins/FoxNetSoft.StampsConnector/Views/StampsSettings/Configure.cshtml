@@ -1,0 +1,433 @@
+﻿@model FoxNetSoft.Plugin.Misc.StampsConnector.Models.ConfigureModel
+@using FoxNetSoft.Plugin.Misc.StampsConnector
+@{
+    Layout = "_ConfigurePlugin";
+}
+@await Component.InvokeAsync("StoreScopeConfiguration")
+<form asp-controller="StampsSettings" asp-action="Configure" method="post">
+    <script>
+
+        $(document).ready(function () {
+            $("#@Html.IdFor(model => model.showDebugInfo)").click(toggleshowDebugInfo);
+            $("#@Html.IdFor(model => model.UseAsShippingRateComputationMethod)").click(toggleShippingRateComputationMethod);
+
+            toggleshowDebugInfo();
+            toggleShippingRateComputationMethod();
+
+            $('#pnlgetpostagebalance').click(function () {
+                var storeId = @(Model.ActiveStoreScopeConfiguration);
+                var postData = {
+                    storeId: storeId
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    type: 'POST',
+                    url: '@Url.Action("GetPostageBalance", "StampsSettings")',
+                    data: postData,
+                    dataType: 'json',
+                    success: function (data) {
+                        if ($.isNumeric(data.postageBalance)) {
+                            $("#@Html.IdFor(model => model.PostageBalance)").val(data.postageBalance);
+                        }
+                        if (data.message.length > 0) {
+                            alert(data.message);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to get postage balance.');
+                    }
+                });
+            });
+
+            $('#pnlpurchasepostage').click(function () {
+                var storeId = @(Model.ActiveStoreScopeConfiguration);
+                var purchasepostage = $("#@Html.IdFor(model => model.PurchasePostage)").val();
+                var postData = {
+                    storeId: storeId,
+                    purchasepostage: purchasepostage
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    type: 'POST',
+                    url: '@Url.Action("PurchasePostage", "StampsSettings")',
+                    data: postData,
+                    dataType: 'json',
+                    success: function (data) {
+                        if ($.isNumeric(data.postageBalance)) {
+                            $("#@Html.IdFor(model => model.PostageBalance)").val(data.postageBalance);
+                        }
+                        if (data.message.length > 0) {
+                            alert(data.message);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert('Failed to purchase postage.');
+                    }
+                });
+            });
+        });
+
+        function toggleShippingRateComputationMethod() {
+            if ($('#@Html.IdFor(model => model.UseAsShippingRateComputationMethod)').is(':checked')) {
+                $('#pnlAdditionalHandlingCharge, #pnlAdditionalHandlingChargePercentage, #pnlAvailableCarrierServices, #pnlPackageType, #pnlEnableDeliveryConfirmation').showElement();
+            }
+            else {
+                $('#pnlAdditionalHandlingCharge, #pnlAdditionalHandlingChargePercentage, #pnlAvailableCarrierServices, #pnlPackageType, #pnlEnableDeliveryConfirmation').hideElement();
+            }
+        }
+        function toggleshowDebugInfo() {
+            if ($('#@Html.IdFor(model => model.showDebugInfo)').is(':checked')) {
+                $('#pnlclearlogfile, #pnlgetlogfile').showElement();
+            }
+            else {
+                $('#pnlclearlogfile, #pnlgetlogfile').hideElement();
+            }
+        }
+    </script>
+
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <p>
+                    @if (Model.LicenseStatus == LicenseStatus.Registered)
+                                {
+                        @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.IsRegisted")
+                                }
+                                else
+                                {
+                        @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.IsNoRegisted")
+                        <br />
+                                    <a href="https://www.foxnetsoft.com/nopstampsconnector" target="blank">Buy It Now</a>
+                                }
+                </p>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Username_OverrideForStore" asp-input="Username" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Username" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Username" />
+                        <span asp-validation-for="Username"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Password_OverrideForStore" asp-input="Password" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Password" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Password" />
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="SandBox_OverrideForStore" asp-input="SandBox" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="SandBox" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="SandBox" />
+            <span asp-validation-for="SandBox"></span>
+        </div>
+    </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SampleMode_OverrideForStore" asp-input="SampleMode" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SampleMode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SampleMode" />
+                        <span asp-validation-for="SampleMode"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="HideThePostageAmount" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="HideThePostageAmount" />
+                        <span asp-validation-for="HideThePostageAmount"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="AdditionalBoxWeight_OverrideForStore" asp-input="AdditionalBoxWeight" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="AdditionalBoxWeight" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalBoxWeight" />
+                        <span asp-validation-for="AdditionalBoxWeight"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="UseAsShippingRateComputationMethod" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UseAsShippingRateComputationMethod" />
+                        <span asp-validation-for="UseAsShippingRateComputationMethod"></span>
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlAdditionalHandlingCharge">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="AdditionalHandlingCharge_OverrideForStore" asp-input="AdditionalHandlingCharge" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="AdditionalHandlingCharge" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalHandlingCharge" />
+                        <span asp-validation-for="AdditionalHandlingCharge"></span>
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlAdditionalHandlingChargePercentage">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="AdditionalHandlingChargePercentage_OverrideForStore" asp-input="AdditionalHandlingChargePercentage" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="AdditionalHandlingChargePercentage" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalHandlingChargePercentage" />
+                        <span asp-validation-for="AdditionalHandlingChargePercentage"></span>
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlEnableDeliveryConfirmation">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="EnableDeliveryConfirmation_OverrideForStore" asp-input="EnableDeliveryConfirmation" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="EnableDeliveryConfirmation" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="EnableDeliveryConfirmation" />
+                        <span asp-validation-for="EnableDeliveryConfirmation"></span>
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlAvailableCarrierServices">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AvailableCarrierServicesRate" />
+                    </div>
+                    <div class="col-md-9">
+                        @foreach (var service in Model.AvailableCarrierServicesRate)
+                        {
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="@(nameof(Model.CheckedCarrierServicesRate))" value="@(service.Value)" checked="@(service.Selected)" />
+                                    @(service.Text)
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlPackageType">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PackageType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="PackageType" asp-items="Model.AvailablePackages" />
+                        <span asp-validation-for="PackageType"></span>
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlPassDimensions">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PassDimensions" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PassDimensions" />
+                        <span asp-validation-for="PassDimensions"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="InsurePackage" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="InsurePackage" />
+                        <span asp-validation-for="InsurePackage"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PostageBalance" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PostageBalance" />
+                        <div>
+                            <a href="#" id="pnlgetpostagebalance" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.GetPostageBalance")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PurchasePostage" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PurchasePostage" />
+                        <div>
+                            <a href="#" id="pnlpurchasepostage" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Purchase")</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <p>
+                    <b>Mapping beatween NopCommerce Shipping methods and Stamps.com</b>
+                </p>
+                @foreach (var shippingMethodMap in Model.ShippingMethodMapModels)
+                            {
+                                string controlId1 = string.Format("shippingmethod_servicetype_{0}", shippingMethodMap.Id);
+                                string controlId2 = string.Format("shippingmethod_packagetype_{0}", shippingMethodMap.Id);
+                                string controlId3 = string.Format("shippingmethod_signature_{0}", shippingMethodMap.Id);
+                    <div class="form-group row">
+                        <div class="col-md-3" style="text-align: right;">
+                            @shippingMethodMap.Name
+                        </div>
+                        <div class="col-md-9">
+                            <div>
+                                <select name="@(controlId1)" id="@(controlId1)">
+                                    @foreach (var serviceType in shippingMethodMap.ServiceTypeValues)
+                                                {
+                                        <option selected="@serviceType.Selected" value="@serviceType.Value">@serviceType.Text</option>
+                                                }
+                                </select>
+                            </div>
+                            <div>
+                                <select name="@(controlId2)" id="@(controlId2)">
+                                    @foreach (var packageType in shippingMethodMap.PackageTypeValues)
+                                                {
+                                        <option selected="@packageType.Selected" value="@packageType.Value">@packageType.Text</option>
+                                                }
+                                </select>
+                            </div>
+                            <div>
+                                <input id="@(controlId3)" type="checkbox" name="@(controlId3)" value="@shippingMethodMap.Id" checked="@shippingMethodMap.HasSignature" />
+                                <label for="@(controlId3)">@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.HasSignature")</label>
+                            </div>
+                        </div>
+                    </div>
+                            }
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-header">
+                @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Settings.CreateLabel")
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AvailableCarrierServicesLabel" />
+                    </div>
+                    <div class="col-md-9">
+                        @foreach (var service in Model.AvailableCarrierServicesLabel)
+                        {
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="@(nameof(Model.CheckedCarrierServicesLabel))" value="@(service.Value)" checked="@(service.Selected)" />
+                                    @(service.Text)
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                 <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AvailablePackageLabel" />
+                    </div>
+                    <div class="col-md-9">
+                        @foreach (var postage in Model.AvailablePackageLabel)
+                        {
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="@(nameof(Model.CheckedPackagesForLabel))" value="@(postage.Value)" checked="@(postage.Selected)" />
+                                    @(postage.Text)
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="CheckDeliveryConfirmationAutomatically" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="CheckDeliveryConfirmationAutomatically" />
+                        <span asp-validation-for="CheckDeliveryConfirmationAutomatically"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="showDebugInfo" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="showDebugInfo" />
+                        <span asp-validation-for="showDebugInfo"></span>
+                        <div id="pnlclearlogfile">
+                            <a href="@Url.Action("ClearLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ClearLogFile")</a>
+                        </div>
+                        <div id="pnlgetlogfile">
+                            <a href="@Url.Action("GetLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.GetLogFile")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StoreUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" id="StoreUrl" name="StoreUrl" value="@Model.StoreUrl" type="text" readonly="readonly">
+                        <span asp-validation-for="StoreUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SerialNumber" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SerialNumber" />
+                        <span asp-validation-for="SerialNumber"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+                <p>
+                    Installation and configuring plug-in at Youtube <a href="http://www.youtube.com/foxnetsoft" target="blank">www.youtube.com/foxnetsoft</a>
+                    <br />
+                    Installation and configuring plug-in at our site <a href="https://www.foxnetsoft.com/t/nopstampsconnector" target="blank">https://www.foxnetsoft.com/t/nopstampsconnector</a>
+                    <br />
+                    <a href="https://www.foxnetsoft.com" target="blank">www.foxnetsoft.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>

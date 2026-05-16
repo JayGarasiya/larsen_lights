@@ -1,0 +1,157 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Copyright>Copyright © Nop Solutions, Ltd</Copyright>
+    <Company>Nop Solutions, Ltd</Company>
+    <Authors>Nop Solutions, Ltd</Authors>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://www.nopcommerce.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nopSolutions/nopCommerce</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <OutputPath>$(SolutionDir)\Presentation\Nop.Web\Plugins\Tax.TaxJar</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+    <!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your project. 
+    You need to set this parameter to true if your plugin has a nuget package 
+    to ensure that the dlls copied from the NuGet cache to the output of your project-->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Areas\Admin\Views\Customer\Edit.cshtml" />
+    <None Remove="Areas\Admin\Views\Customer\List.cshtml" />
+    <None Remove="Areas\Admin\Views\Customer\_CreateOrUpdate.Orders.cshtml" />
+    <None Remove="Areas\Admin\Views\Order\RefundOrderSelected.cshtml" />
+    <None Remove="Areas\Admin\Views\Order\_OrderDetails.Info.cshtml" />
+    <None Remove="Areas\Admin\Views\_ViewImports.cshtml" />
+    <None Remove="Content\styles.css" />
+    <None Remove="logo.png" />
+    <None Remove="plugin.json" />
+    <None Remove="Themes\Pacific\Views\Customer\Info.cshtml" />
+    <None Remove="Themes\Pacific\Views\Customer\Login.cshtml" />
+    <None Remove="Themes\Pacific\Views\Customer\Register.cshtml" />
+    <None Remove="Themes\Pacific\Views\_ViewImports.cshtml" />
+    <None Remove="Views\Configuration\Configure.cshtml" />
+    <None Remove="Views\Configure.cshtml" />
+    <None Remove="Views\Customer\Addresses.cshtml" />
+    <None Remove="Views\Customer\Info.cshtml" />
+    <None Remove="Views\Customer\Register.cshtml" />
+    <None Remove="Views\DefaultAddress.cshtml" />
+    <None Remove="Views\Log\List.cshtml" />
+    <None Remove="Views\Log\View.cshtml" />
+    <None Remove="Views\ResendInvoice.cshtml" />
+    <None Remove="Views\TaxExemptPopUp.cshtml" />
+    <None Remove="Views\TaxJarAddressValidation.cshtml" />
+    <None Remove="Views\_TaxJarAddressValidationPopUp.cshtml" />
+    <None Remove="Views\_ViewImports.cshtml" />
+  </ItemGroup>  
+  
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)\Presentation\Nop.Web\Nop.Web.csproj" />
+    <ClearPluginAssemblies Include="$(SolutionDir)\Build\ClearPluginAssemblies.proj" />
+  </ItemGroup>  
+  
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Customer\Edit.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\Admin\Views\Customer\List.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\Admin\Views\Customer\_CreateOrUpdate.Orders.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\Admin\Views\Order\RefundOrderSelected.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\Admin\Views\Order\_OrderDetails.Info.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\Admin\Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\styles.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Themes\Pacific\Views\Customer\Info.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Themes\Pacific\Views\Customer\Login.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Themes\Pacific\Views\Customer\Register.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Themes\Pacific\Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Configuration\Configure.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Configuration\_Configuration.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Customer\Addresses.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Customer\Info.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Customer\Register.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Checkout\DefaultAddress.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Areas\Admin\Views\Order\ResendInvoice.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Checkout\TaxExemptPopUp.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Checkout\TaxJarAddressValidation.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Checkout\_TaxJarAddressValidationPopUp.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Log\List.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Log\View.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>  
+  
+  <ItemGroup>
+    <PackageReference Include="TaxJar" Version="3.3.2" />
+  </ItemGroup>  
+  
+  <ItemGroup>
+    <None Update="BouncyCastle.Cryptography.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\exemption-certificate.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="iTextSharp.LGPLv2.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>  
+ 
+  <!-- This target execute after "Build" target -->
+  <Target Name="NopTarget" AfterTargets="Build">
+    <!-- Delete unnecessary libraries from plugins path -->
+    <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(OutDir)" Targets="NopClear" />
+  </Target>
+
+</Project>

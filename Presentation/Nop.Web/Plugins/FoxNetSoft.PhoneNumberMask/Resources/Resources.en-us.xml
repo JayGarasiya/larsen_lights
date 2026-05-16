@@ -1,0 +1,54 @@
+﻿<Language Name="English" IsRightToLeft="false">
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.IsRegisted">
+    <Value>Registered version.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.IsNoRegisted">
+    <Value>Unregistered version.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.IsExpired">
+    <Value>Your license has expired, you should renew the license with a 50% discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.Enabled">
+    <Value>Enable plugin</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.Enabled.Hint">
+    <Value>Enable plugin.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.PhoneNumberMask">
+    <Value>Phone number mask</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.PhoneNumberMask.Hint">
+    <Value>Provide the Phone number mask. Ex. '(999) 999-9999'.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.Placeholder">
+    <Value>Placeholder for Phone Field</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.Placeholder.Hint">
+    <Value>Provide the Placeholder for Phone Field. Ex. '(___) ___-__-__'.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.SerialNumber">
+    <Value>Serial number</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.SerialNumber.Hint">
+    <Value>The serial number.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.StoreUrl">
+    <Value>Website address (for registration)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.StoreUrl.Hint">
+    <Value>Website address (for registration).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.showDebugInfo">
+    <Value>Enable Debugging</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.Settings.showDebugInfo.Hint">
+    <Value>Write debugging information into file. In ~/App_Data/ folder.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.ClearLogFile">
+    <Value>Clear the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.GetLogFile">
+    <Value>Download the log-file</Value>
+  </LocaleResource>
+</Language>
+

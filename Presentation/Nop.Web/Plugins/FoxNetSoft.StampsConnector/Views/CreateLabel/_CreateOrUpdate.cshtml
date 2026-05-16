@@ -1,0 +1,27 @@
+﻿@model FoxNetSoft.Plugin.Misc.StampsConnector.Models.CommonLabelModel
+@using FoxNetSoft.Plugin.Misc.StampsConnector.Models
+<div asp-validation-summary="ModelOnly"></div>
+<input asp-for="OrderId" type="hidden" />
+<input asp-for="ShipmentId" type="hidden" />
+
+@{
+    const string hideInfoBlockAttributeName = "StampsConnector.ReturnLabel.Info";
+    var customer = await workContext.GetCurrentCustomerAsync();
+    var hideInfoBlock = await genericAttributeService.GetAttributeAsync<bool>(customer, hideInfoBlockAttributeName);
+}
+
+<div class="content">
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-12 clearfix">
+                <div class="float-left">
+                </div>
+            </div>
+        </div>
+        <nop-cards id="stampsconnector-edit">
+            <nop-card asp-name="tab-main" asp-icon="fas fa-info" asp-title="@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Tab.Main")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock">@await Html.PartialAsync("~/Plugins/FoxNetSoft.StampsConnector/Views/CreateLabel/_CreateOrUpdate.Main.cshtml", Model)</nop-card>
+            <nop-card asp-name="tab-addresses" asp-icon="fas fa-truck" asp-title="@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Tab.Addresses")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">@await Html.PartialAsync("~/Plugins/FoxNetSoft.StampsConnector/Views/CreateLabel/_CreateOrUpdate.Addresses.cshtml", Model)</nop-card>
+            <nop-card asp-name="tab-products" asp-icon="fas fa-th-list" asp-title="@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Tab.Products")" asp-hide-block-attribute-name="@hideInfoBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="true">@await Html.PartialAsync("~/Plugins/FoxNetSoft.StampsConnector/Views/CreateLabel/_CreateOrUpdate.Products.cshtml", Model)</nop-card>
+        </nop-cards>
+    </div>
+</div>

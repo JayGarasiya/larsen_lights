@@ -1,0 +1,37 @@
+@model ModelProductModel
+@{
+    Layout = "_AdminLayout";
+
+    //page title
+    ViewBag.PageTitle = T("Plugins.Widgets.MakeTypeModel.ModelProduct.EditModelProductDetails").Text;
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName(MakeTypeModelDefaults.ModelProduct);
+}
+
+<form asp-controller="MakeTypeModel" asp-action="Edit" method="post" id="model-form">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T("Plugins.Widgets.MakeTypeModel.ModelProduct.EditModelProductDetails") - @Model.Name
+            <small>
+                <i class="fas fa-arrow-circle-left"></i>
+                <a asp-action="ModelList">@T("Plugins.Widgets.MakeTypeModel.ModelProduct.BackToList")</a>
+            </small>
+        </h1>
+        <div class="float-right">
+            <button type="submit" name="save" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save-continue" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.SaveContinue")
+            </button>
+            <span id="model-delete" class="btn btn-danger">
+                <i class="far fa-trash-alt"></i>
+                @T("Admin.Common.Delete")
+            </span>
+        </div>
+    </div>
+    @await Html.PartialAsync("~/Plugins/Widgets.MakeTypeModel/Areas/Admin/Views/MakeTypeModel/_CreateOrUpdate.cshtml", Model)
+</form>
+<nop-delete-confirmation asp-model-id="@Model.Id" asp-button-id="model-delete" />

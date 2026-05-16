@@ -1,0 +1,29 @@
+﻿
+span.search-box-text {
+	float: right;
+}
+.search-box-content select {
+    text-align: right;
+}
+.search-box-text .k-clear-value {
+    right: unset;
+    left: 0;
+}
+.instant-search-item .detail {
+	margin-right: 15px;
+    margin-left: 0;
+}
+
+@media all and (max-width: 1024px) {
+
+    .search-box-content select {
+        right: unset;
+        left: 0;
+    } 
+}
+@media all and (min-width: 1025px) {
+
+    .search-box-content select {
+        float: left;
+    }
+}

@@ -1,0 +1,26 @@
+
+.rich-blog-widget span.post-date {
+	right: 15px;
+	left: unset;
+}
+.blog-search-box .k-clear-value {
+    right: unset !important;
+	left: 1px !important;
+}
+.post-relations .separator {
+	margin-right: unset;
+	margin-left: 5px;
+}
+.share-post .facebook:first-child {
+	margin-right: -8px;
+	margin-left: unset;
+}
+.share-post .pinterest a:before {
+	margin-left: unset;
+}
+.post-navigation .prev:before {
+	content: "\e90c";
+}
+.post-navigation .next:after {
+	content: "\e90b";
+}

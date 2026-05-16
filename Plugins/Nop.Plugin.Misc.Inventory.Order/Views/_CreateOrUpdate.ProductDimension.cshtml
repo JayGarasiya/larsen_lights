@@ -1,0 +1,86 @@
+﻿@model ProductDimensionsModel
+
+<script>
+    $(document).ready(function () {
+        $('#addProductDimension').click(function () {
+            var productId = $("#@Html.IdFor(model => model.ProductId)").val();
+            var qtyCartoon = $("#@Html.IdFor(model => model.QtyCartoon)").val();
+            var dimensionsHeight = $("#@Html.IdFor(model => model.DimensionsHeight)").val();
+            var dimensionsLength = $("#@Html.IdFor(model => model.DimensionsLength)").val();
+            var dimensionsWidth = $("#@Html.IdFor(model => model.DimensionsWidth)").val();
+            var postData = {
+                productId: productId,
+                qtyCartoon: qtyCartoon,
+                dimensionsHeight: dimensionsHeight,
+                dimensionsLength: dimensionsLength,
+                dimensionsWidth: dimensionsWidth,
+                id: '@Model.Id'
+            };
+            addAntiForgeryToken(postData);
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("CreateProductDimensions", "InventoryOrder"))",
+                data: postData,
+                success: function (data, textStatus, jqXHR) {
+                    if (data.Result) {
+                        alert("Product Dimension is Save Successfully.");
+                    }
+                    else {
+                        alert(data.message);
+                    }
+                },
+            });
+        });
+    });
+</script>
+
+<div class="card-body">
+    <div class="card card-default">
+        <div class="card-body">
+
+            <input type="hidden" asp-for="@Model.ProductId" />
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-label asp-for="QtyCartoon" />
+                </div>
+                <div class="col-md-3">
+                    <nop-editor asp-for="QtyCartoon" />
+                    <span asp-validation-for="QtyCartoon"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-label asp-for="DimensionsHeight" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="DimensionsHeight" />
+                    <span asp-validation-for="DimensionsHeight"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-label asp-for="DimensionsLength" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="DimensionsLength" />
+                    <span asp-validation-for="DimensionsLength"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-label asp-for="DimensionsWidth" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="DimensionsWidth" />
+                    <span asp-validation-for="DimensionsWidth"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-9 offset-md-3">
+                    <button type="button" id="addProductDimension" class="btn btn-primary">@T("Plugins.InventoryOrder.Fields.SaveProductDimesions")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

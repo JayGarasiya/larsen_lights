@@ -1,0 +1,65 @@
+﻿@model LoginModel
+
+<div class="page login-page login-register-popup mfp-with-anim">
+    <div class="page-title">
+        <h1>@T("Account.Login.Welcome")</h1>
+    </div>
+    @await Html.PartialAsync("_ExternalAuthentication.Errors")
+    <div class="page-body">
+        <div class="customer-blocks">
+            <div class="returning-wrapper fieldset">
+                <form asp-route="Login" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]" method="post" autocomplete="off">
+                    <div asp-validation-summary="ModelOnly" class="message-error">@T("Account.Login.Unsuccessful")</div>
+                    <div class="form-fields">
+                        @if (Model.UsernamesEnabled)
+                        {
+                            <div class="inputs login-field username">
+                                <input asp-for="Username" class="username" placeholder="@T("Account.Login.Fields.Username")" autofocus="autofocus" />
+                                <span asp-validation-for="Username"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="inputs login-field email">
+                                <input asp-for="Email" class="email" placeholder="@T("Account.Login.Fields.Email")" autofocus="autofocus" />
+                                <span asp-validation-for="Email"></span>
+                            </div>
+                        }
+                        <div class="inputs login-field password">
+                            <input asp-for="Password" placeholder="@T("Account.Login.Fields.Password")" class="password" />
+                            <span asp-validation-for="Password"></span>
+                        </div>
+                        <div class="inputs reversed">
+                            <input asp-for="RememberMe" />
+                            <label asp-for="RememberMe"></label>
+                            <span class="forgot-password">
+                                <a asp-route="PasswordRecovery">@T("Account.Login.ForgotPassword")</a>
+                            </span>
+                        </div>
+                        @if (Model.DisplayCaptcha)
+                        {
+                            <nop-captcha />
+                        }
+                    </div>
+                    <div class="buttons">
+                        <button type="submit" class="button-1 login-button">@T("Account.Login.LoginButton")</button>
+                        @if (Model.CheckoutAsGuest)
+                        {
+                            <button type="button" class="button-1 checkout-as-guest-button" onclick="location.href='@Url.RouteUrl(NopRouteNames.Standard.CHECKOUT)'">@T("Account.Login.CheckoutAsGuest")</button>
+                        }
+                        @if (Model.RegistrationType != UserRegistrationType.Disabled)
+                        {
+                            <div class="register-block add-more-external-records">
+                                @T("Plugins.OnePage.Checkout.LoginRegister.CreateAccountHint")
+                                <a class="login-button" asp-route="Register" asp-route-returnurl="@Context.Request.Query["ReturnUrl"]">@T("Account.Register")</a>
+                            </div>
+                        }
+                    </div>
+                </form>
+            </div>
+            <div class="external-authentication">
+                @await Component.InvokeAsync(typeof(ExternalMethodsViewComponent), "ExternalAuthentication")
+            </div>
+        </div>
+    </div>
+</div>

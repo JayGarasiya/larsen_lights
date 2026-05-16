@@ -1,0 +1,71 @@
+﻿@model ProductNoteModel
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="cards-group">
+                <div class="card card-default">
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-label asp-for="Name" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="Name" asp-required="true" />
+                                <span asp-validation-for="Name"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-label asp-for="Description" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="Description" asp-template="RichEditor" asp-required="true" />
+                                <span asp-validation-for="Description"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-label asp-for="WidgetZone" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-select asp-for="WidgetZone" asp-items="Model.AvailableWidgetZones" asp-required="true" />
+                                <span asp-validation-for="WidgetZone"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-label asp-for="DisplayOrder" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="DisplayOrder" />
+                                <span asp-validation-for="DisplayOrder"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-label asp-for="Published" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="Published" />
+                                <span asp-validation-for="Published"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <nop-label asp-for="ShowDisplayName" />
+                            </div>
+                            <div class="col-md-9">
+                                <nop-editor asp-for="ShowDisplayName" />
+                                <span asp-validation-for="ShowDisplayName"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

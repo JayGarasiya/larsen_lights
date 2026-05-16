@@ -1,0 +1,162 @@
+﻿@model ConfigurationModel
+@{
+    Layout = "_ConfigurePlugin";
+}
+<form asp-controller="Evance" asp-action="Configure" method="post">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Enable" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enable" />
+                        <span asp-validation-for="Enable"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ThreedSEnable" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ThreedSEnable" />
+                    </div>
+                </div>
+                <nop-nested-setting asp-for="ThreedSEnable">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="@Model.ExcludeCustomerRoleIds" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="@Model.ExcludeCustomerRoleIds" asp-items="@Model.AvailableExcludeCustomerRoleTds" asp-multiple="true" />
+                        </div>
+                    </div>
+                </nop-nested-setting>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="CustomerVaultEnable" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="CustomerVaultEnable" />
+                        <span asp-validation-for="CustomerVaultEnable"></span>
+                    </div>
+                </div>
+                <nop-nested-setting asp-for="CustomerVaultEnable">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AllowSaveCard" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="AllowSaveCard" />
+                            <span asp-validation-for="AllowSaveCard"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AllowSaveACH" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="AllowSaveACH" />
+                            <span asp-validation-for="AllowSaveACH"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="DisplaySavedDetails" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="DisplaySavedDetails" />
+                            <span asp-validation-for="DisplaySavedDetails"></span>
+                        </div>
+                    </div>
+                </nop-nested-setting>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PaymentAPIBaseUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PaymentAPIBaseUrl" />
+                        <span asp-validation-for="PaymentAPIBaseUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="QueryAPIBaseUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="QueryAPIBaseUrl" />
+                        <span asp-validation-for="QueryAPIBaseUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SecurityKey" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SecurityKey" />
+                        <span asp-validation-for="SecurityKey"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="CollectCheckoutKey" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="CollectCheckoutKey" />
+                        <span asp-validation-for="CollectCheckoutKey"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AdditionalFee" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalFee" />
+                        <span asp-validation-for="AdditionalFee"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AdditionalFeePercentage" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalFeePercentage" />
+                        <span asp-validation-for="AdditionalFeePercentage"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="@Model.TransactionTypeId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="@Model.TransactionTypeId" asp-items="@Model.AvailableTransactionTypesIds" />
+                        <span asp-validation-for="@Model.TransactionTypeId"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="@Model.PaymentOptionIds" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="@Model.PaymentOptionIds" asp-items="@Model.AvailablePaymentOptionIds" asp-multiple="true" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="DropTable" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="DropTable" />
+                        <span asp-validation-for="DropTable"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

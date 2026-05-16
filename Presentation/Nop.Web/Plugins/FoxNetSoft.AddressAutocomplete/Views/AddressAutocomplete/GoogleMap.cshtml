@@ -1,0 +1,268 @@
+﻿@model FoxNetSoft.Plugin.Misc.AddressAutocomplete.Models.AddressAutocompleteModel
+
+<!script>
+    var googleAutocomplete;
+    var googleAddress1Field;
+    var googleSelectedCountyIsoCode="";
+    var googleRestictedCountries=[];
+    @if (!string.IsNullOrWhiteSpace(Model.RestictedCountries))
+    {
+        <text>
+        googleRestictedCountries = [ @Html.Raw(Model.RestictedCountries)];
+        </text>
+    }
+
+    function GoogleInitAutocomplete() {
+        googleAddress1Field = document.querySelector("#@(Model.AddressField)");
+        // Create the autocomplete object, restricting the search predictions to
+        // addresses in the US and Canada.
+        googleAutocomplete = new google.maps.places.Autocomplete(googleAddress1Field, { 
+            //fields: ["address_components", "geometry"],
+            fields: ["address_components"],
+            types: ["address"],
+        });
+
+        if (googleSelectedCountyIsoCode.length>0)
+        {
+            googleAutocomplete.setComponentRestrictions({
+                   country: googleSelectedCountyIsoCode
+            });
+        }
+        else
+        {
+            if (googleRestictedCountries.length>0)
+            {
+                googleAutocomplete.setComponentRestrictions({
+                   country: googleRestictedCountries
+                });
+            }
+        }
+        //googleAddress1Field.focus();
+        // When the user selects an address from the drop-down, populate the
+        // address fields in the form.
+        googleAutocomplete.addListener("place_changed", GoogleSelectAddressCallback);
+    }
+    function GoogleSelectAddressCallback()
+    {
+        const place = googleAutocomplete.getPlace();
+        GoogleFillInAddress(place);
+    }
+    function GoogleFillInAddress(place) {
+        console.log(place);
+        // Get the place details from the autocomplete object.
+        //const place = googleAutocomplete.getPlace();
+        let address1 = "";
+        let postcode = "";
+        let countryIsoCode = "";
+        let stateabbreviation = "";
+
+        // Get each component of the address from the place details,
+        // and then fill-in the corresponding field on the form.
+        // place.address_components are google.maps.GeocoderAddressComponent objects
+        // which are documented at http://goo.gle/3l5i5Mr
+        for (const component of place.address_components) {
+            const componentType = component.types[0];
+
+            switch (componentType) {
+                case "street_number": {
+                    address1 = `${component.long_name} ${address1}`;
+                    break;
+                }
+
+                case "route": {
+                    address1 += component.short_name;
+                    break;
+                }
+
+                case "postal_code": {
+                    postcode = `${component.long_name}${postcode}`;
+                    break;
+                }
+
+                case "postal_code_suffix": {
+                    postcode = `${postcode}-${component.long_name}`;
+                    break;
+                }
+                case "locality":
+                    //document.querySelector("#@(Model.Prefix)City").value = component.long_name;
+                    $("#@(Model.Prefix)City").val(component.long_name);
+                    break;
+                case "administrative_area_level_1": {
+                    stateabbreviation = component.short_name;
+                    // "long_name":"Illinois",
+                    //"short_name":"IL",
+                    break;
+                }
+                case "country":
+                    countryIsoCode = component.short_name;
+                    //"long_name":"United States",
+                    //"short_name":"US",
+                    break;
+            }
+        }
+
+        googleAddress1Field.value = address1;
+        $("#@(Model.Prefix)ZipPostalCode").val(postcode);
+
+        fetch("@(Url.Action("GetCountryIdByTwoLetterIsoCode", "AddressAutocomplete"))?"+ new URLSearchParams({
+                twoLetterIsoCode: countryIsoCode,
+                abbreviation: stateabbreviation
+                }), {
+           method: 'GET'
+         })
+         .then(response => {
+           if (response.ok) return response.json();
+           return response.json().then(response => {throw new Error(response.error)})
+         })
+         .then(data => { 
+                let stateProvinceId = data.stateProvinceId;
+                if ($("#@(Model.Prefix)CountryId").val()!=data.countryId)
+                {
+                    $("#@(Model.Prefix)CountryId").val(data.countryId);
+                    if (stateProvinceId>0)
+                    {
+                        $("#@(Model.Prefix)CountryId").change();
+                        // 1 second wait
+                        return new Promise(resolve => setTimeout(() => resolve(stateProvinceId), 300));
+                    }
+                }
+                return stateProvinceId;
+         })
+         .then(stateProvinceId => {
+             if (stateProvinceId>0)
+             {
+                    if ($("#@(Model.Prefix)StateProvinceId").val()!=stateProvinceId)
+                    {
+                       $("#@(Model.Prefix)StateProvinceId").val(stateProvinceId);
+                       $("#@(Model.Prefix)StateProvinceId").change();
+                    }
+             }
+         })
+         .catch(error => {console.log(error);})
+
+        //$("#@(Model.Prefix)PhoneNumber").focus();
+        $("#@(Model.Prefix)Address2").focus();
+    }
+    function GoogleSetRestictedCountry() {
+        var selectedItem = $("#@(Model.Prefix)CountryId").val();
+        if (selectedItem == "0"){
+            return;
+        }
+        googleSelectedCountyIsoCode = "";
+        if (googleRestictedCountries.length>0)
+        {
+           googleAutocomplete.setComponentRestrictions({
+              country: googleRestictedCountries
+           });
+        }
+        else
+        {
+            googleAutocomplete.setComponentRestrictions();
+        }
+        fetch("@(Url.Action("GetTwoLetterIsoCodeByCountryId", "AddressAutocomplete"))?"+ new URLSearchParams({
+                    countryId: selectedItem
+                }), {
+                method: 'GET'
+                })
+        .then(response => {
+                if (response.ok) return response.json();
+                return response.json().then(response => {throw new Error(response.error)})
+        })
+        .then(data => {
+                let twoLetterIsoCode = data.twoLetterIsoCode;
+                if (twoLetterIsoCode.length>0)
+                {
+                    googleAutocomplete.setComponentRestrictions({
+                        country: twoLetterIsoCode
+                    });
+                    googleSelectedCountyIsoCode = twoLetterIsoCode;
+                }
+        })
+        .catch(error => {console.log(error);})
+    }
+    window.GoogleInitAutocomplete = GoogleInitAutocomplete;
+</!script>
+
+
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=@(Model.APIKey)&callback=GoogleInitAutocomplete&libraries=places&v=weekly"
+        defer>
+</script>
+<script>
+    function GoogleGetLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+                    GoogleCodeLatLng(lat, lng);
+                    /*
+                    var url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + lang + "&sensor=true";
+
+                    $.getJSON(url, function (data) {
+                        var address = data.results[0].formatted_address;
+                        console.log(data.results[0]);
+                        //document.getElementById("address").value = address;
+                    });*/
+                },
+                () => {
+                    //handleLocationError(true, infoWindow, map.getCenter());
+                },
+            );
+        }
+    }
+    @if (Model.UseGeoLocationData)
+    {
+        <text>
+        GoogleGetLocation();
+        </text>
+    }
+        function GoogleCodeLatLng(lat, lng) {
+
+            var latlng = new google.maps.LatLng(lat, lng);
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    console.log(results);
+                    if (results[1]) {
+                        //formatted address
+                        console.log(results[0].formatted_address);
+                        GoogleFillInAddress(results[0]);
+
+                        //alert(results[0].formatted_address)
+                        //find country name
+                        //for (var i = 0; i < results[0].address_components.length; i++) {
+                        //    for (var b = 0; b < results[0].address_components[i].types.length; b++) {
+
+                                //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+//                                if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
+                                    //this is the object you are looking for
+    //                                city = results[0].address_components[i];
+  //                                  break;
+      //                          }
+        ///                    }
+           //             }
+                        //city data
+                        //alert(city.short_name + " " + city.long_name)
+                        //console.log(city.short_name + " " + city.long_name);
+
+                    } else {
+                        console.log("No results found");
+                        //alert("No results found");
+                    }
+                } else {
+                    console.log("Geocoder failed due to: " + status);
+                    //alert("Geocoder failed due to: " + status);
+                }
+            });
+        }
+</script>
+
+<script asp-location="Footer">
+    $(function () {
+        $("#@(Model.Prefix)CountryId").change(function () {
+            GoogleSetRestictedCountry();
+        });
+        GoogleSetRestictedCountry();
+    });
+</script>

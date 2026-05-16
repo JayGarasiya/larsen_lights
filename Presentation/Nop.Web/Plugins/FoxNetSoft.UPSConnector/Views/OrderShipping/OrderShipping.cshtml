@@ -1,0 +1,50 @@
+﻿@model FoxNetSoft.Plugin.Shipping.UPSConnector.Models.OrderShippingModel
+@{
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.PageTitle = @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Caption").Text;
+
+    NopHtml.SetActiveMenuItemSystemName("Orders");
+}
+
+@{
+    const string hideProductsBlockAttributeName = "UPSConnector.OrderShippingSelect.Products";
+    var customer = await workContext.GetCurrentCustomerAsync();
+    var hideProductsBlock = await genericAttributeService.GetAttributeAsync<bool>(customer, hideProductsBlockAttributeName);
+
+    const string hideShipmentsBlockAttributeName = "UPSConnector.OrderShippingSelect.Shipments";
+    var hideShipmentsBlock = await genericAttributeService.GetAttributeAsync<bool>(customer, hideShipmentsBlockAttributeName);
+}
+
+<form asp-controller="UPSConnectorAdmin" asp-action="OrderShipping" method="post" id="upsconnector-form">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Caption")
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-controller="Order" asp-action="Edit" asp-route-id="@Model.OrderId">@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.BackToOrder") #@(Model.OrderId)</a>
+            </small>
+        </h1>
+        <div class="float-right">
+        </div>
+    </div>
+    <input asp-for="OrderId" type="hidden" />
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12 clearfix">
+                    <div class="float-left">
+                    </div>
+                </div>
+            </div>
+            <nop-cards id="connector-select-shipment">
+                @if (Model.UnshippedItems.Any())
+                {
+                    <nop-card asp-name="tab-unshipped-products" asp-icon="fas fa-th-list" asp-title="@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Tab.Products")" asp-hide-block-attribute-name="@hideProductsBlockAttributeName" asp-hide="@hideProductsBlock">@await Html.PartialAsync("~/Plugins/FoxNetSoft.UPSConnector/Views/OrderShipping/_CreateOrUpdate.Products.cshtml", Model)</nop-card>
+                }
+                <nop-card asp-name="tab-shipments" asp-icon="fas fa-truck" asp-title="@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Tab.Shipments")" asp-hide-block-attribute-name="@hideShipmentsBlockAttributeName" asp-hide="@hideShipmentsBlock">@await Html.PartialAsync("~/Plugins/FoxNetSoft.UPSConnector/Views/OrderShipping/_CreateOrUpdate.Shipments.cshtml", Model)</nop-card>
+            </nop-cards>
+        </div>
+    </div>
+</form>
+

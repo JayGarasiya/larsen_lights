@@ -1,0 +1,173 @@
+﻿/*
+* Copyright 2014 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.mega-menu, .menu-title,
+.mega-menu .dropdown,
+.drop-menu .dropdown {
+	display: none;
+}	 
+
+@media all and (min-width: 1025px) {
+
+.mega-menu {
+	display: block;
+	position: relative;
+}
+.mega-menu-responsive {
+	display: none !important;
+}
+.mega-menu > li > a,
+.mega-menu > li > span {
+	display: block;
+	min-height: 50px;
+	padding: 13px 19px;
+	font-size: 18px;
+	color: #fff;
+}
+.mega-menu > li > a:hover,
+.mega-menu > li > span:hover {
+	background-color: rgba(0,0,0,.2);
+}
+.mega-menu > li > span {
+	cursor: default;
+}
+.with-dropdown-in-grid {
+	position: relative;
+}
+.drop-menu .sublist > li > span {
+	display: block;
+	padding: 8px 15px 8px 20px;
+	color: #333;
+}
+.drop-menu .sublist > li:hover > span {
+	background-color: #f3f3f3;
+}
+
+.mega-menu .dropdown,
+.drop-menu .dropdown {
+	position: absolute;
+}
+.mega-menu .dropdown {
+	left: 0;
+}
+.drop-menu .dropdown {
+	top: -10px;
+	left: 100%;
+	padding-left: 2px;
+}
+.mega-menu .active,
+.drop-menu .active {
+	display: block;
+}
+.mega-menu .row-wrapper,
+.drop-menu .row-wrapper {
+	width: 990px;
+	box-shadow: 0 0 20px rgba(0,0,0,.2);
+	background-color: #fff;
+	padding: 20px;
+}
+.mega-menu .row,
+.drop-menu .row {
+	display: flex;
+	column-gap: 10px;
+}
+.mega-menu .row + .row,
+.drop-menu .row + .row {
+	margin-top: 25px;
+}
+.mega-menu .box,
+.drop-menu .box {
+	display: flex;
+	flex-flow: column;
+	float: left;
+}
+.mega-menu .boxes-1 .box,
+.drop-menu .boxes-1 .box {
+    width: 100%;
+}
+.mega-menu .boxes-2 .box,
+.drop-menu .boxes-2 .box {
+    width: calc(50% - 5px);
+}
+.mega-menu .boxes-3 .box,
+.drop-menu .boxes-3 .box {
+	width: calc(33.333% - 6.66px);
+}
+.mega-menu .boxes-4 .box,
+.drop-menu .boxes-4 .box {
+    width: calc(25% - 7.5px);
+}
+.mega-menu .boxes-5 .box,
+.drop-menu .boxes-5 .box {
+    width: calc(20% - 8px);
+}
+.mega-menu .boxes-6 .box,
+.drop-menu .boxes-6 .box {
+	width: calc(16.666% - 8.33px);
+}
+.mega-menu .boxes-7 .box,
+.drop-menu .boxes-7 .box {
+	width: calc(14.285% - 8.57px);
+}
+.mega-menu .boxes-8 .box,
+.drop-menu .boxes-8 .box {
+	width: calc(12.5% - 8.75px);
+}
+
+.mega-menu .picture,
+.drop-menu .picture {
+	order: 0;
+	border: 1px solid #eee;
+	border-radius: 6px;
+	overflow: hidden;
+	font-size: 0;
+}
+.mega-menu .picture a,
+.drop-menu .picture a {
+	display: block;
+}
+.mega-menu .picture img,
+.drop-menu .picture img {
+	display: block;
+	border-radius: 6px;
+}
+.mega-menu .box .title,
+.drop-menu .box .title {
+	order: 1;
+	margin-top: 15px;
+	font-size: 20px;
+	font-weight: 700;
+}
+.mega-menu .title a,
+.drop-menu .title a {
+	color: #333;
+}
+.mega-menu .title a:hover,
+.drop-menu .title a:hover {
+	color: #4e30a4;
+}
+.mega-menu .subcategories,
+.drop-menu .subcategories {
+	order: 2;
+	display: flex;
+	flex-flow: column;
+	row-gap: 10px;
+	margin-top: 10px;
+}
+.mega-menu .subcategories a,
+.drop-menu .subcategories a {
+	color: #333;
+}
+.mega-menu .subcategories a:hover,
+.drop-menu .subcategories a:hover {
+	color: #4e30a4;
+}
+.mega-menu .subcategories .view-all,
+.drop-menu .subcategories .view-all {
+	font-weight: 700;
+	color: #4e30a4;
+}
+
+}

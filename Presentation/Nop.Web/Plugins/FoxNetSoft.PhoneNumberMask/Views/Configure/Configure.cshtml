@@ -1,0 +1,135 @@
+﻿@model FoxNetSoft.Plugin.Misc.PhoneNumberMask.Models.ConfigureModel
+@using FoxNetSoft.Plugin.Misc.PhoneNumberMask.Logger
+@{
+    Layout = "_ConfigurePlugin";
+}
+<form asp-controller="PhoneNumberMaskSettings" asp-action="Configure" method="post">
+    <script>
+        $(document).ready(function () {
+            $("#showDebugInfo").click(toggleshowDebugInfo);
+
+            toggleshowDebugInfo();
+        });
+
+        function toggleshowDebugInfo() {
+            if ($('#showDebugInfo').is(':checked')) {
+                $('#pnlclearlogfile, #pnlgetlogfile').show();
+            }
+            else {
+                $('#pnlclearlogfile, #pnlgetlogfile').hide();
+            }
+        }
+    </script>
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <p>
+                    @if (Model.LicenseStatus == LicenseStatus.Registered)
+                    {
+                        @T("Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.IsRegisted")
+                    }
+                    else
+                    {
+                        @T("Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.IsNoRegisted")
+                        <br />
+                                <a href="https://www.foxnetsoft.com/nopphonenumbermask" target="blank">Buy It Now</a>
+                    }
+                </p>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PhoneNumberMask" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PhoneNumberMask" />
+                        <span asp-validation-for="PhoneNumberMask"></span>
+                        <p>
+                            <strong>Example.</strong><br />
+                            (999) 999-9999<br />
+                            (999) 999-99-99<br />
+                            +1-999-999-9999<br />
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Placeholder" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Placeholder" />
+                        <span asp-validation-for="Placeholder"></span>
+                        <p>
+                            <strong>Example.</strong><br />
+                            (___) ___-____<br />
+                            (___) ___-__-__<br />
+                            +1-___-___-____<br />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="showDebugInfo" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="showDebugInfo" />
+                        <span asp-validation-for="showDebugInfo"></span>
+                        <div id="pnlclearlogfile">
+                            <a href="@Url.Action("ClearLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.ClearLogFile")</a>
+                        </div>
+                        <div id="pnlgetlogfile">
+                            <a href="@Url.Action("GetLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.PhoneNumberMask.GetLogFile")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StoreUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" id="StoreUrl" name="StoreUrl" value="@Model.StoreUrl" type="text" readonly="readonly">
+                        <span asp-validation-for="StoreUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SerialNumber" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SerialNumber" />
+                        <span asp-validation-for="SerialNumber"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+                <p>
+                    Installation and configuring plug-in at Youtube <a href="http://www.youtube.com/foxnetsoft" target="blank">www.youtube.com/foxnetsoft</a>
+                    <br />
+                    Installation and configuring plug-in at our site <a href="https://www.foxnetsoft.com/documentation-nopphonenumbermask" target="blank">https://www.foxnetsoft.com/documentation-nopphonenumbermask</a>
+                    <br />
+                    <a href="http://www.foxnetsoft.com" target="blank">www.foxnetsoft.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>
+
+

@@ -1,0 +1,271 @@
+﻿@model FoxNetSoft.Plugin.Shipping.UPSConnector.Models.CommonLabelModel
+@using FoxNetSoft.Plugin.Shipping.UPSConnector.Models
+
+<script>
+    $(document).ready(function () {
+    @if (Model.ExistingAddressesFrom.Count() > 1)
+    {
+        <text>
+            $("#@Html.IdFor(model => model.AddressFromId)").change(toggleChangeAddress);
+        </text>
+    }
+    @if (Model.ExistingAddressesTo.Count() > 1)
+    {
+        <text>
+            $("#@Html.IdFor(model => model.AddressToId)").change(toggleChangeAddress);
+        </text>
+    }
+    });
+
+    function toggleChangeAddress() {
+        $("#btnUpdateRates").click();
+    }
+</script>
+<div class="card-body">
+    <div class="card card-default">
+        <div class="card-body">
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <strong>@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Addresses.AddressFrom")</strong>
+                                        <br />
+                                        @if (Model.ExistingAddressesFrom.Count() > 1)
+                                        {
+                                            <nop-select asp-for="AddressFromId" asp-items="Model.ExistingAddressesFrom"/>
+                                        }
+                                        else
+                                        {
+                                            <input asp-for="AddressFromId" type="hidden" />
+                                        }
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.FullName")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.FirstName @Model.AddressFrom.LastName
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.Email")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.Email
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.Phone")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.PhoneNumber
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.Company")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.Company
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.Address1")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.Address1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.Address2")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.Address2
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.City")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.City
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.County")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.County
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.StateProvince")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.StateProvinceName
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.ZipPostalCode")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.ZipPostalCode
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @T("Admin.Orders.Address.Country")
+                                </td>
+                                <td>
+                                    @Model.AddressFrom.CountryName
+                                </td>
+                            </tr>
+                            @if (!string.IsNullOrEmpty(Model.AddressFrom.FormattedCustomAddressAttributes))
+                            {
+                                <tr>
+                                    <td colspan="2">
+                                        @Html.Raw(Model.AddressFrom.FormattedCustomAddressAttributes)
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-hover table-bordered">
+                                <tr>
+                                    <th colspan="2">
+                                    <strong>@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Addresses.AddressTo")</strong>
+                                    <br />
+                                    @if (Model.ExistingAddressesTo.Count() > 1)
+                                    {
+                                        <nop-select asp-for="AddressToId" asp-items="Model.ExistingAddressesTo" />
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="AddressToId" type="hidden" />
+                                    }
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.FullName")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.FirstName @Model.AddressTo.LastName
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.Email")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.Email
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.Phone")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.PhoneNumber
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.Company")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.Company
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.Address1")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.Address1
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.Address2")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.Address2
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.City")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.City
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.County")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.County
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.StateProvince")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.StateProvinceName
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.ZipPostalCode")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.ZipPostalCode
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @T("Admin.Orders.Address.Country")
+                                    </td>
+                                    <td>
+                                    @Model.AddressTo.CountryName
+                                    </td>
+                                </tr>
+                                @if (!string.IsNullOrEmpty(Model.AddressTo.FormattedCustomAddressAttributes))
+                                {
+                                    <tr class="custom-attributes-view">
+                                        <td colspan="2">
+                                        @Html.Raw(Model.AddressTo.FormattedCustomAddressAttributes)
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td colspan="2">
+                                        <img alt="google maps" src="@Url.Content("~/css/admin/images/google-maps.gif")" />
+                                        <a href="@Html.Raw(Model.ShippingAddressGoogleMapsUrl)" style="margin-bottom: 10px;" target="_blank">@T("Admin.Orders.Fields.ShippingAddress.ViewOnGoogleMaps")</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

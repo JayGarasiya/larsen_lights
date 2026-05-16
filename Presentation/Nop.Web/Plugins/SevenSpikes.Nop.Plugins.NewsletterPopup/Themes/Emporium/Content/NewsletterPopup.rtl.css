@@ -1,0 +1,17 @@
+﻿/*
+* Copyright 2016 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.newsletter-subscribe-popup {
+    text-align: right;
+}
+
+.newsletter-subscribe-popup .close-popup {
+    left: 25px;
+    right: auto;
+}
+
+.newsletter-subscribe-popup .options .subscribe {
+    margin: 0 0 5px 15px;
+}

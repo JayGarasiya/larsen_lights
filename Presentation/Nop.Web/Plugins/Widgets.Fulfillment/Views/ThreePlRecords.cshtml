@@ -1,0 +1,300 @@
+﻿@model ThreePlRecordSearchModel
+
+@{
+    Layout = "_AdminLayout";
+
+    //page title
+    ViewBag.PageTitle = T("Plugins.Widgets.Fulfillment.Fields.ManageLogs.Title").Text;
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName("Fulfillment.ThreePlRecords");
+}
+
+@{
+    const string hideSearchBlockAttributeName = "ManageLogs.HideSearchBlock";
+    var hideSearchBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSearchBlockAttributeName);
+}
+
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        @T("Plugins.Widgets.Fulfillment.Fields.ManageLogs.Title")
+    </h1>
+    <div class="float-right">
+        &nbsp;
+    </div>
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="form-horizontal">
+                <div class="cards-group">
+
+                    @*hide the entire search block if no elements are displayed*@
+                    <div class="card card-default card-search">
+                        <div class="card-body">
+                            <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                                <div class="search-text">@T("Admin.Common.Search")</div>
+                                <div class="icon-search"><i class="fas fa-search" aria-hidden="true"></i></div>
+                                <div class="icon-collapse"><i class="far fa-angle-@(!hideSearchBlock ? "up" : "down")" aria-hidden="true"></i></div>
+                            </div>
+
+                            <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="SearchOrderId" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-editor asp-for="SearchOrderId" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="SearchThreePlOrderId" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-editor asp-for="SearchThreePlOrderId" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row" @(!Model.AvailableStatus.Any() ? Html.Raw("style=\"display:none\"") : null)>
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="SearchStatusId" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-select asp-for="SearchStatusId" asp-items="Model.AvailableStatus" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="SearchPaidByCheck" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-editor asp-for="SearchPaidByCheck" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-8 offset-md-4">
+                                        <button type="button" id="search-logs" class="btn btn-primary btn-search">
+                                            <i class="fas fa-search"></i>
+                                            @T("Admin.Common.Search")
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-default">
+                        <div class="card-body">
+                            @await Html.PartialAsync("Table", new DataTablesModel
+                            {
+                                Name = "logs-grid",
+                                UrlRead = new DataUrl("ThreePlRecords", "Fulfillment", null),
+                                SearchButtonId = "search-logs",
+                                PrimaryKeyColumn = nameof(ThreePlRecordModel.Id),
+                                Length = Model.PageSize,
+                                LengthMenu = Model.AvailablePageSizes,
+                                Filters = new List<FilterParameter>
+                                {
+                                    new FilterParameter(nameof(Model.SearchOrderId)),
+                                    new FilterParameter(nameof(Model.SearchThreePlOrderId)),
+                                    new FilterParameter(nameof(Model.SearchStatusId)),
+                                    new FilterParameter(nameof(Model.SearchPaidByCheck), typeof(bool))
+                                },
+                                ColumnCollection = new List<ColumnProperty>
+                                {
+                                    new ColumnProperty(null)
+                                    {
+                                        Render = new RenderChildCaret(),
+                                        Width = "5",
+                                        Searchable = false,
+                                        ClassName =  NopColumnClassDefaults.ChildControl,
+                                    },
+                                    new ColumnProperty(nameof(ThreePlRecordModel.OrderId))
+                                    {
+                                        Title = T("Plugins.Widgets.Fulfillment.Fields.OrderId").Text,
+                                        Width = "50"
+                                    },
+                                    new ColumnProperty(nameof(ThreePlRecordModel.ThreePlStutus))
+                                    {
+                                        Title = T("Plugins.Widgets.Fulfillment.Fields.ThreePlStutus").Text,
+                                        Width = "100",
+                                        ClassName = NopColumnClassDefaults.CenterAll,
+                                        Render = new RenderCustom("renderColumnThreePlStutus")
+                                    },
+                                    new ColumnProperty(nameof(ThreePlRecordModel.PaidByCheck))
+                                    {
+                                        Title = T("Plugins.Widgets.Fulfillment.Fields.PaidByCheck").Text,
+                                        Width = "100",
+                                        ClassName = NopColumnClassDefaults.CenterAll,
+                                        Render = new RenderBoolean()
+                                    },
+                                    new ColumnProperty(nameof(ThreePlRecordModel.Note))
+                                    {
+                                        Title = T("Plugins.Widgets.Fulfillment.Fields.Note").Text,
+                                        Width = "300"
+                                    },
+                                    new ColumnProperty(nameof(ThreePlRecordModel.CancelledDate))
+                                    {
+                                        Title = T("Plugins.Widgets.Fulfillment.Fields.CancelledDate").Text,
+                                        Width = "120"
+                                    },
+                                    new ColumnProperty(nameof(ThreePlRecordModel.OrderId))
+                                    {
+                                        Title = T("Plugins.Widgets.Fulfillment.Fields.SyncRequeue").Text,
+                                        Width = "100",
+                                        ClassName =  NopColumnClassDefaults.Button,
+                                        Render = new RenderCustom("renderRequeue")
+                                    },
+                                    new ColumnProperty(nameof(ThreePlRecordModel.OrderId))
+                                    {
+                                        Title = T("Plugins.Widgets.Fulfillment.Fields.Sync").Text,
+                                        Width = "50",
+                                        ClassName =  NopColumnClassDefaults.Button,
+                                        Render = new RenderCustom("renderSync")
+                                    },
+                                    new ColumnProperty(nameof(ThreePlRecordModel.OrderId))
+                                    {
+                                        Title = T("Admin.Common.View").Text,
+                                        Width = "50",
+                                        ClassName = NopColumnClassDefaults.Button,
+                                        Render = new RenderButtonView(new DataUrl("~/Admin/Order/Edit/"))
+                                    }
+                                },
+                                ChildTable = new DataTablesModel
+                                {
+                                    Name = "order-logs-grid",
+                                    UrlRead = new DataUrl("ThreePlOrders", "Fulfillment", null),
+                                    IsChildTable = true,
+                                    Paging = false,
+                                    Length = Model.PageSize,
+                                    LengthMenu = Model.AvailablePageSizes,
+                                    Filters = new List<FilterParameter>
+                                    {
+                                        new FilterParameter(nameof(ThreePlOrderSearchModel.ThreePlId), nameof(ThreePlRecordModel.Id), true),
+                                        new FilterParameter(nameof(ThreePlOrderSearchModel.SearchThreePlOrderId), nameof(Model.SearchThreePlOrderId), true)
+                                    },
+                                    ColumnCollection = new List<ColumnProperty>
+                                    {
+                                        new ColumnProperty(nameof(ThreePlOrderModel.ThreePlOrderId))
+                                        {
+                                            Title = T("Plugins.Widgets.Fulfillment.Fields.ThreePlOrderId").Text,
+                                            Width = "100"
+                                        },
+                                        new ColumnProperty(nameof(ThreePlOrderModel.ThreePlStutus))
+                                        {
+                                            Title = T("Plugins.Widgets.Fulfillment.Fields.ThreePlStutus").Text,
+                                            Width = "100",
+                                            ClassName = NopColumnClassDefaults.CenterAll,
+                                            Render = new RenderCustom("renderColumnThreePlStutus")
+                                        },
+                                        new ColumnProperty(nameof(ThreePlOrderModel.CreationDate))
+                                        {
+                                            Title = T("Plugins.Widgets.Fulfillment.Fields.CreationDate").Text,
+                                            Width = "120"
+                                        },
+                                        new ColumnProperty(nameof(ThreePlOrderModel.CancelledDate))
+                                        {
+                                            Title = T("Plugins.Widgets.Fulfillment.Fields.CancelledDate").Text,
+                                            Width = "120"
+                                        },
+                                        new ColumnProperty(nameof(ThreePlOrderModel.Id))
+                                        {
+                                            Title = T("Admin.Common.Cancel").Text,
+                                            Width = "50",
+                                            ClassName =  NopColumnClassDefaults.Button,
+                                            Render = new RenderCustom("renderCancel")
+                                        }
+                                    }
+                                }
+                            })
+                            <script>
+                                function renderSync(data, type, row, meta) {
+                                    var button = '';
+                                    switch (row.ThreePlStutusId) {
+                                        case 10:
+                                        case 15:
+                                        case 25:
+                                            var url = "@Html.Raw(Url.Action("SyncThreePlRecord", "Fulfillment"))/" + data;
+                                            button = '<button onclick="requestThreePl(\'' + url + '\')" class="btn bg-olive"><i class="fas fa-upload"></i>@T("Plugins.Widgets.Fulfillment.Fields.Sync").Text</button>';
+                                            break;
+                                    }
+                                    return button;
+                                }
+
+                                function renderRequeue(data, type, row, meta) {
+                                    var button = '';
+                                    switch (row.ThreePlStutusId) {
+                                        case 30:
+                                            var url = "@Html.Raw(Url.Action("RequeueThreePlRecord", "Fulfillment"))/" + data;
+                                            button = '<button onclick="requestThreePl(\'' + url + '\')" class="btn btn-warning"><i class="fas fa-reply"></i>@T("Plugins.Widgets.Fulfillment.Fields.Requeue").Text</button>';
+                                            break;
+                                        case 25:
+                                            var url = "@Html.Raw(Url.Action("CancelThreePlRecord", "Fulfillment"))/" + data;
+                                            button = '<button onclick="requestThreePl(\'' + url + '\')" class="btn btn-danger"><i class="k-icon k-i-close"></i>@T("Admin.Common.Cancel").Text</button>';
+                                            break;
+                                    }
+                                    return button;
+                                }
+
+                                function renderCancel(data, type, row, meta) {
+                                    var button = '';
+                                    switch (row.ThreePlStutusId) {
+                                        case 25:
+                                            var url = "@Html.Raw(Url.Action("CancelThreePlOrder", "Fulfillment"))/" + data;
+                                            button = '<button onclick="requestThreePl(\'' + url + '\')" class="btn btn-danger"><i class="k-icon k-i-close"></i>@T("Admin.Common.Cancel").Text</button>';
+                                            break;
+                                    }
+                                    return button;
+                                }
+
+                                function requestThreePl(url) {
+                                    $.ajax({
+                                        type: "GET",
+                                        url: url,
+                                        complete: function (jqXHR, textStatus) {
+                                            updateTable('#logs-grid');
+                                        },
+                                        failure: function (response) {
+                                            alert(response.responseText);
+                                        },
+                                        error: function (response) {
+                                            alert(response.responseText);
+                                        }
+                                    });
+                                }
+
+                                function renderColumnThreePlStutus(data, type, row, meta) {
+                                    var color;
+                                    switch (row.ThreePlStutusId) {
+                                        case 10:
+                                        case 15:
+                                        case 25:
+                                            color = 'yellow';
+                                            break;
+                                        case 20:
+                                            color = 'green';
+                                            break;
+                                        case 30:
+                                        case 40:
+                                        case 45:
+                                            color = 'red';
+                                            break;
+                                        case 50:
+                                            color = 'blue';
+                                            break;
+                                    }
+                                    return '<span class="grid-report-item ' + color + '">' + data + '</span >';
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

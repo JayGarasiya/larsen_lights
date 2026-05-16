@@ -1,0 +1,104 @@
+﻿@inherits Nop.Web.Framework.Mvc.Razor.NopRazorPage<TModel>
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@*we remove the default InputTagHelper to prevent the checkbox duplicating: https://stackoverflow.com/questions/42544961/asp-net-core-custom-input-tag-helper-rendering-duplicate-checkboxes*@
+@removeTagHelper Microsoft.AspNetCore.Mvc.TagHelpers.InputTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Nop.Web.Framework
+
+
+@inject INopHtmlHelper NopHtml
+@inject INopUrlHelper NopUrl
+@inject IWebHelper webHelper
+@inject IStoreContext storeContext
+@inject ISettingService settingService
+@inject IViewComponentSelector viewComponentSelector
+@inject SeoSettings seoSettings
+@inject CommonSettings commonSettings
+@inject IHtmlFormatter htmlFormatter
+@inject ILocalizationService localizationService
+@inject IThemeContext themeContext
+@inject ICustomerService customerService
+@inject MediaSettings mediaSettings
+@inject AppSettings appSettings
+@inject FilterLevelSettings filterLevelSettings
+@inject IEventPublisher eventPublisher
+@inject IPermissionService permissionService
+@inject IWorkContext workContext
+@inject IDownloadService downloadService
+@inject CatalogSettings catalogSettings
+@inject IMenuService menuService
+@inject IMenuModelFactory menuModelFactory
+@inject IHttpContextAccessor httpContextAccessor
+@inject OrderSettings orderSettings
+
+
+
+@using Microsoft.AspNetCore.Http
+@using System.Net
+@using System.Linq
+@using Nop.Core
+@using Nop.Core.Domain.Tax
+@using Nop.Core.Domain.Topics
+@using Nop.Core.Domain.Menus
+@using Nop.Services.Configuration
+@using Nop.Services.Menus
+@using Nop.Services.Localization
+@using Nop.Web.Factories
+@using Nop.Web.Models.Menus
+@using Nop.Core.Domain.Orders
+@using Nop.Core.Domain.Media
+@using Nop.Services.Orders
+@using Nop.Core.Configuration
+@using Nop.Core.Domain.Catalog
+@using Nop.Core.Domain.Common
+@using Nop.Core.Domain.FilterLevels
+@using Nop.Core.Domain.Seo
+@using Nop.Core.Events
+@using Nop.Services.Customers
+@using Nop.Services.Security
+@using System.Globalization;
+@using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@using Microsoft.Extensions.Primitives
+@using static Nop.Services.Common.NopLinksDefaults
+@using Nop.Core.Http;
+@using Nop.Web.Components
+@using Nop.Web.Extensions
+@using Nop.Web.Framework
+@using Nop.Web.Framework.Events
+@using Nop.Web.Framework.Extensions
+@using Nop.Web.Framework.Infrastructure
+@using Nop.Web.Framework.Models
+@using Nop.Web.Framework.Models.Cms
+@using Nop.Web.Framework.Mvc.Routing
+@using Nop.Web.Framework.Security.Captcha
+@using Nop.Web.Framework.Security.Honeypot
+@using Nop.Web.Framework.Themes
+@using Nop.Web.Framework.UI
+@using Nop.Web.Models.Blogs
+@using Nop.Web.Models.Boards
+@using Nop.Web.Models.Catalog
+@using Nop.Web.Models.Checkout
+@using Nop.Web.Models.Common
+@using Nop.Web.Models.Customer
+@using Nop.Web.Models.Media
+@using Nop.Web.Models.News
+@using Nop.Web.Models.Newsletter
+@using Nop.Web.Models.Order
+@using Nop.Web.Models.Polls
+@using Nop.Web.Models.PrivateMessages
+@using Nop.Web.Models.Profile
+@using Nop.Web.Models.ShoppingCart
+@using Nop.Web.Models.Sitemap
+@using Nop.Web.Models.Topics
+@using Nop.Web.Models.Vendors
+@using Nop.Core.Domain.Blogs
+@using Microsoft.AspNetCore.Mvc.ViewComponents
+@using Microsoft.AspNetCore.StaticFiles
+@using Nop.Services.Html
+@using Nop.Core.Domain.Vendors
+@using Nop.Core.Domain.Customers
+@using Nop.Core.Domain.News
+@using System.Text
+@using Nop.Services.Catalog
+@using Nop.Services.Media

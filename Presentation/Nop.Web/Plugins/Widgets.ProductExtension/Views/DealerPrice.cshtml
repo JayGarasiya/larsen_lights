@@ -1,0 +1,18 @@
+﻿@model DealerPriceSelectorModel
+
+@if (Model.AvailablePrices.Count > 1)
+{
+    <div class="currency-selector">
+        @{
+            var returnUrl = webHelper.GetRawUrl(Context.Request);
+            var prices = await Model.AvailablePrices.SelectAwait(async x => new SelectListItem
+            {
+                Text = x.Text,
+                Value = x.Disabled ? x.Value : Url.RouteUrl(ProductExtensionDefaults.ChangePriceRoute, new { customerprice = x.Value, returnUrl }, webHelper.GetCurrentRequestProtocol()),
+                Selected = x.Selected,
+                Disabled = x.Disabled
+            }).ToListAsync();
+            <select id="customerPrice" name="customerPrice" asp-items="@prices" onchange="setLocation(this.value);" aria-label="@T("Plugins.Widgets.ProductExtension.Fields.Dealer.Prices")"></select>
+        }
+    </div>
+}

@@ -1,0 +1,119 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Nop.Core;
+using Nop.Plugin.Payments.PurchaseOrder.Models;
+using Nop.Services.Configuration;
+using Nop.Services.Localization;
+using Nop.Services.Messages;
+using Nop.Services.Security;
+using Nop.Web.Framework;
+using Nop.Web.Framework.Controllers;
+using Nop.Web.Framework.Mvc.Filters;
+using Nop.Web.Areas.Admin.Factories;
+
+
+namespace Nop.Plugin.Payments.PurchaseOrder.Controllers
+{
+    [AuthorizeAdmin]
+    [Area(AreaNames.ADMIN)] 
+    [AutoValidateAntiforgeryToken]
+    public class PaymentPurchaseOrderController : BasePaymentController
+    {
+        #region Fields
+
+        protected  readonly ILocalizationService _localizationService;
+        protected readonly INotificationService _notificationService;
+        protected readonly IPermissionService _permissionService;
+        protected readonly ISettingService _settingService;
+        protected readonly IStoreContext _storeContext;
+        protected readonly IBaseAdminModelFactory _baseAdminModelFactory;
+
+        #endregion
+
+        #region Ctor
+
+        public PaymentPurchaseOrderController(ILocalizationService localizationService,
+            INotificationService notificationService,
+            IPermissionService permissionService,
+            ISettingService settingService,
+            IStoreContext storeContext,
+            IBaseAdminModelFactory baseAdminModelFactory)
+        {
+            _localizationService = localizationService;
+            _notificationService = notificationService;
+            _permissionService = permissionService;
+            _settingService = settingService;
+            _storeContext = storeContext;
+            _baseAdminModelFactory = baseAdminModelFactory;
+        }
+
+        #endregion
+
+        #region Methods
+
+        [CheckPermission(StandardPermission.Configuration.MANAGE_PAYMENT_METHODS)]
+        public async Task<IActionResult> Configure()
+        {
+            //load settings for a chosen store scope
+            var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+            var purchaseOrderPaymentSettings = await _settingService.LoadSettingAsync<PurchaseOrderPaymentSettings>(storeScope);
+
+            var model = new ConfigurationModel();
+            model.AdditionalFee = purchaseOrderPaymentSettings.AdditionalFee;
+            model.AdditionalFeePercentage = purchaseOrderPaymentSettings.AdditionalFeePercentage;
+            model.ShippableProductRequired = purchaseOrderPaymentSettings.ShippableProductRequired;
+            model.ShowImpersonated = purchaseOrderPaymentSettings.ShowImpersonated;
+            model.SelectedCustomerRoleIds = purchaseOrderPaymentSettings.SelectedCustomerRoleIds;
+            model.ActiveStoreScopeConfiguration = storeScope;
+
+            if (storeScope > 0)
+            {
+                model.AdditionalFee_OverrideForStore = await _settingService.SettingExistsAsync(purchaseOrderPaymentSettings, x => x.AdditionalFee, storeScope);
+                model.AdditionalFeePercentage_OverrideForStore = await _settingService.SettingExistsAsync(purchaseOrderPaymentSettings, x => x.AdditionalFeePercentage, storeScope);
+                model.ShippableProductRequired_OverrideForStore = await _settingService.SettingExistsAsync(purchaseOrderPaymentSettings, x => x.ShippableProductRequired, storeScope);
+                model.ShowImpersonated_OverrideForStore = await _settingService.SettingExistsAsync(purchaseOrderPaymentSettings, x => x.ShowImpersonated, storeScope);
+                model.SelectedCustomerRoleIds_OverrideForStore = await _settingService.SettingExistsAsync(purchaseOrderPaymentSettings, x => x.SelectedCustomerRoleIds, storeScope);
+            }
+            //prepare available customer roles
+            await _baseAdminModelFactory.PrepareCustomerRolesAsync(model.AvailableCustomerRoles, false);
+
+            return View("~/Plugins/Payments.PurchaseOrder/Views/Configure.cshtml", model);
+        }
+
+        [HttpPost]
+
+        [CheckPermission(StandardPermission.Configuration.MANAGE_PAYMENT_METHODS)]
+        public async Task<IActionResult> Configure(ConfigurationModel model)
+        {
+            if (!ModelState.IsValid)
+                return await Configure();
+
+            //load settings for a chosen store scope
+            var storeScope = await _storeContext.GetActiveStoreScopeConfigurationAsync();
+            var purchaseOrderPaymentSettings = await _settingService.LoadSettingAsync<PurchaseOrderPaymentSettings>(storeScope);
+
+            //save settings
+            purchaseOrderPaymentSettings.AdditionalFee = model.AdditionalFee;
+            purchaseOrderPaymentSettings.AdditionalFeePercentage = model.AdditionalFeePercentage;
+            purchaseOrderPaymentSettings.ShippableProductRequired = model.ShippableProductRequired;
+            purchaseOrderPaymentSettings.ShowImpersonated = model.ShowImpersonated;
+            purchaseOrderPaymentSettings.SelectedCustomerRoleIds = model.SelectedCustomerRoleIds.ToList();
+
+            /* We do not clear cache after each setting update.
+             * This behavior can increase performance because cached settings will not be cleared 
+             * and loaded from database after each update */
+            await _settingService.SaveSettingOverridablePerStoreAsync(purchaseOrderPaymentSettings, x => x.AdditionalFee, model.AdditionalFee_OverrideForStore, storeScope, false);
+            await _settingService.SaveSettingOverridablePerStoreAsync(purchaseOrderPaymentSettings, x => x.AdditionalFeePercentage, model.AdditionalFeePercentage_OverrideForStore, storeScope, false);
+            await _settingService.SaveSettingOverridablePerStoreAsync(purchaseOrderPaymentSettings, x => x.ShippableProductRequired, model.ShippableProductRequired_OverrideForStore, storeScope, false);
+            await _settingService.SaveSettingOverridablePerStoreAsync(purchaseOrderPaymentSettings, x => x.ShowImpersonated, model.ShowImpersonated_OverrideForStore, storeScope, false);
+            await _settingService.SaveSettingOverridablePerStoreAsync(purchaseOrderPaymentSettings, x => x.SelectedCustomerRoleIds, model.SelectedCustomerRoleIds_OverrideForStore, storeScope, false);
+
+            //now clear settings cache
+            await _settingService.ClearCacheAsync();
+
+            _notificationService.SuccessNotification(await _localizationService.GetResourceAsync("Admin.Plugins.Saved"));
+
+            return await Configure();
+        }
+        #endregion
+    }
+}

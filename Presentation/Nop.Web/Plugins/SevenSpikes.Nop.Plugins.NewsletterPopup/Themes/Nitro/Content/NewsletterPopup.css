@@ -1,0 +1,166 @@
+﻿/*
+* Copyright 2018 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+/* GLOBAL STYLES */
+
+.newsletter-subscribe-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1070;
+    background: rgba(0,0,0,0.5);
+}
+.newsletter-subscribe-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1110;
+    width: 90%;
+    max-width: 500px;
+    min-height: 300px;
+    margin: auto;
+    background-color: #fff;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 30px;
+    text-align: center;
+    transform: translate(-50%,-50%);
+}
+/*Remove Comment if you want to hide result message*/
+/*.newsletter-subscribe-popup .newsletter-subscribe.hidden { 
+    display: none;
+}*/
+.newsletter-subscribe-popup-title {
+    position: relative;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 0;
+}
+.newsletter-subscribe-popup-title:before {    
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #a12;
+    z-index: 1;
+}
+.newsletter-subscribe-popup-title span {
+    display: inline-block;
+    min-width: 150px;
+    font-weight: normal;
+    font-size: 17px;
+    background: #fff;
+    color: #fff;
+    padding: 13px 25px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+}
+.newsletter-subscribe-popup-title span:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 4px;
+    right: 4px;
+    background: #a12;
+    font-size: 0;
+    text-indent: -9999px;
+    z-index: -1;
+}
+.newsletter-subscribe-popup-title span:after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;    
+    margin-top: -1px;
+    margin-left: -27px;
+    border-style: solid dashed dashed;
+    border-width: 8px 27px 0 27px;
+    border-color: #a12 transparent transparent;
+}
+.newsletter-subscribe-description-wrapper {
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+.newsletter-subscribe-popup .newsletter-email {
+    display: inline-block;
+    margin-bottom: 10px;
+    max-width: 100%;
+    background: #333;
+    padding: 2px;
+}
+.newsletter-subscribe-popup .newsletter-subscribe-text {
+    min-width: 250px;
+}
+.newsletter-subscribe-popup .newsletter-subscribe-button {
+    border: none;
+}
+.newsletter-subscribe-popup .captcha-box {
+    margin: 15px 0 0;
+}
+.newsletter-subscribe-popup .consent-error {
+	display: none;
+    margin-top: 15px;
+}
+.newsletter-subscribe-popup .newsletter-validation,
+.newsletter-subscribe-popup .newsletter-result {
+    margin: 5px 0;
+} 
+.newsletter-subscribe-popup .newsletter-subscribe-options {
+    margin-top: 15px;
+    line-height: 24px;
+    color: #666;
+}
+.newsletter-subscribe-popup .close-popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RENFNEE3QkMwRDFBMTFFNkJGMjFEQjJFQ0YyODMxMzIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RENFNEE3QkQwRDFBMTFFNkJGMjFEQjJFQ0YyODMxMzIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEQ0U0QTdCQTBEMUExMUU2QkYyMURCMkVDRjI4MzEzMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEQ0U0QTdCQjBEMUExMUU2QkYyMURCMkVDRjI4MzEzMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Phtf69EAAADCSURBVHjalFLdCoYgDJ3kCxdRFF33rF55U5CmtY8zmFjfVYNx5n6O25SWZWHvPTEzHcchuG2bYEqJcs7FnueZ6TxPQtF93xLY910whCCo/nEcGVgYUA2EggSMsK/romEYSuzB0rZtCUBjjDRNE2tLpQDqnBPs+55rAtyAG3FGNwZBqErTNMJqjKF1XY36kWytJatJtYD17SuiLekqu65j3RA2826J6iHRf31G8t/QMDADVocETaztx1o/P9zXr/ETYAD5WmfdtvPxhQAAAABJRU5ErkJggg==) no-repeat center;
+    font-size: 0;
+    opacity: .8;
+}
+.newsletter-subscribe-popup .close-popup:hover {
+    opacity: 1;
+}
+
+.newsletter input[type="email"],.newsletter .captcha-box,.newsletter .options {
+    display: none;
+}
+.newsletter .newsletter-email .newsletter-subscribe-button {
+    float: none;
+    padding: 0 24%;
+    font-size: 14px;
+    width: auto;
+    border: none;
+    /*background-position: 18% center;*/
+    background-image: none;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+
+@media (min-width: 768px) {
+
+    .newsletter-subscribe-popup {
+        padding: 50px;
+        text-align: left;
+    }
+    .newsletter-subscribe-popup .captcha-box > div {
+        display: block;
+    }
+    .newsletter-subscribe-popup .newsletter-validation,
+    .newsletter-subscribe-popup .newsletter-result {
+        text-align: left;
+    }
+}

@@ -1,0 +1,61 @@
+﻿@model ConfigurationModel
+
+<div class="card-body">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="EnableFedExMethod" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="EnableFedExMethod" />
+            <span asp-validation-for="EnableFedExMethod"></span>
+        </div>
+    </div>
+    <nop-nested-setting asp-for="EnableFedExMethod">
+        <div class="form-group row" id="pnlFedExTrackingApiUrl">
+            <div class="col-md-3">
+                <nop-label asp-for="FedExTrackingApiUrl" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="FedExTrackingApiUrl" />
+                <span asp-validation-for="FedExTrackingApiUrl"></span>
+            </div>
+        </div>
+        <div class="form-group row" id="pnlFedExClientId">
+            <div class="col-md-3">
+                <nop-label asp-for="FedExClientId" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="FedExClientId" />
+                <span asp-validation-for="FedExClientId"></span>
+            </div>
+        </div>
+        <div class="form-group row" id="pnlFedExClientSecret">
+            <div class="col-md-3">
+                <nop-label asp-for="FedExClientSecret" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="FedExClientSecret" />
+                <span asp-validation-for="FedExClientSecret"></span>
+            </div>
+        </div>
+    </nop-nested-setting>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.EnableFedExMethod)").click(toggleFedExMethods);
+
+        toggleFedExMethods();
+    });
+
+    function toggleFedExMethods() {
+        if ($('#@Html.IdFor(model => model.EnableFedExMethod)').is(':checked')) {
+            $('#pnlFedExTrackingApiUrl').showElement();
+            $('#pnlFedExClientId').showElement();
+            $('#pnlFedExClientSecret').showElement();
+        } else {
+            $('#pnlFedExTrackingApiUrl').hideElement();
+            $('#pnlFedExClientId').hideElement();
+            $('#pnlFedExClientSecret').hideElement();
+        }
+    }
+</script>

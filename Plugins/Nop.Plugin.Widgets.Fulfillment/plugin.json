@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "3PL Central",
+  "SystemName": "Widgets.Fulfillment",
+  "Version": "3.07",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.Fulfillment.dll",
+  "Description": "This plugin allows to integrate with 3PL Central service"
+}

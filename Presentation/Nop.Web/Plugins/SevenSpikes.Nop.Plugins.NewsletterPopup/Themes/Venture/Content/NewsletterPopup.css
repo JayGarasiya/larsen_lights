@@ -1,0 +1,198 @@
+﻿/*
+* Copyright 2018 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+/* DEFAULT NEWSLETTER FORM */
+
+.newsletter .newsletter-subscribe-text {
+    display: none;
+}
+.newsletter .newsletter-subscribe-button {
+    float: none;
+    width: 200px;
+    padding: 0 24%;
+    font-size: 14px;
+    background-position: 20% center;
+    text-transform: uppercase;
+    color: #2c2c2c;
+}
+.newsletter .newsletter-email .options,
+.newsletter .newsletter-email .captcha-box {
+    display: none;
+}
+.newsletter .newsletter-validation,
+.newsletter .newsletter-result {
+	display: none !important;
+}
+
+/* NEWSLETTER POPUP */
+
+.newsletter-subscribe-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0; right: 0;
+    bottom: 0; left: 0;
+    z-index: 1070;
+    background: rgba(0,0,0,0.6);
+}
+.newsletter-subscribe-popup {
+    position: fixed;
+    top: 50%; left: 50%;
+    z-index: 1110;
+    width: 90%;
+    max-width: 500px;
+    min-height: 300px;
+    margin: auto;
+    padding: 30px 10px;
+    background-color: #fff;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    text-transform: none;
+    color: #909090;
+    transform: translate(-50%,-50%);
+}
+.newsletter-subscribe-popup-title {
+    margin-bottom: 20px;
+    font-family: "Fjalla One", sans-serif;
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 28px;
+    color: #2c2c2c;
+}
+.newsletter-subscribe-description-wrapper {
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+/*uncomment if you want to hide result message*/
+/*.newsletter-subscribe-popup .newsletter-subscribe.hidden { 
+    display: none;
+}*/
+.newsletter-subscribe-popup .newsletter-email {
+    display: inline-block;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+.newsletter-subscribe-popup .newsletter-subscribe-text {
+    width: 300px;
+    max-width: calc(100% - 50px);
+    margin: 0;
+    background: #f0f0f0 !important;
+}
+.newsletter-subscribe-popup .captcha-box {
+    margin: 15px 0;
+}
+.newsletter-subscribe-popup .consent-error {
+	display: none;
+    margin: 15px 0 0;
+}
+.newsletter-subscribe-popup .newsletter-validation,
+.newsletter-subscribe-popup .newsletter-result {
+    margin: 15px 0 0;
+}
+.newsletter-subscribe-popup .newsletter-subscribe-options {
+    display: flex;
+    flex-flow: column;
+    row-gap: 5px;
+    margin: 20px 0 0;
+}
+.newsletter-subscribe-popup .close-popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    font-size: 0;
+}
+.newsletter-subscribe-popup .close-popup:after {
+    font-family: "venture-font";
+    text-transform: none;
+    content: "u";
+    font-size: 13.5px;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    margin: auto;
+    color: #909090;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.newsletter-subscribe-popup .close-popup:hover:after {
+    color: #2c2c2c;
+}
+
+/* CUSTOM FORM ELEMENTS */
+
+.newsletter-subscribe-popup input[type='checkbox'],
+.newsletter-subscribe-popup input[type='radio'] {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+.newsletter-subscribe-popup input[type='checkbox'] ~ label,
+.newsletter-subscribe-popup input[type='radio'] ~ label {
+    position: relative;
+    padding: 5px 5px 5px 25px;
+    margin: 0;
+    text-align: left;
+    font-family: 'Lato', sans-serif;
+    text-transform: none;
+    color: #909090;
+    cursor: pointer;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.newsletter-subscribe-popup input[type='checkbox'] ~ label:before,
+.newsletter-subscribe-popup input[type='radio'] ~ label:before  {
+    content: '';
+    display: inline-block;
+    width: 17px;
+    height: 17px;
+    border: 1px solid #ededed;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+}
+.newsletter-subscribe-popup input[type='checkbox']:checked ~ label:after,
+.newsletter-subscribe-popup input[type='radio']:checked ~ label:after {
+    content: '';
+    display: block;
+    background: #f3cc2e;
+    position: absolute;
+    top: 0;
+    width: 11px;
+    height: 11px;
+    left: 3px;
+    bottom: 0;
+    margin: auto;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.newsletter-subscribe-popup input[type='radio'] ~ label:before,
+.newsletter-subscribe-popup input[type='radio'] ~ label:after {
+    border-radius: 50%;
+}
+
+
+@media (min-width: 481px) {
+
+    .newsletter-subscribe-description-wrapper {
+        padding: 0 50px;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .newsletter-subscribe-popup {
+        padding: 60px 10px 50px;
+    }
+}

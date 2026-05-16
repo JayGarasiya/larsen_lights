@@ -1,0 +1,100 @@
+/*
+* Copyright 2016 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.picture-thumbs.in-carousel {
+    display: block; /*show thumbs & reset css grid*/
+    max-width: 600px;
+    margin: 10px auto 0;
+    text-align: center;
+}
+.in-carousel .picture-thumbs-list {
+    margin: 0 -5px;
+}
+.in-carousel .picture-thumbs-item {
+    display: none; /*hide thumbs until slick slider is loaded*/
+    padding: 0 5px;
+}
+.picture-thumbs-item.slick-slide {
+    display: block; /*show thumbs after slick slider is loaded*/
+}
+.picture-thumbs button + .slick-list {
+    margin: 0 50px; /*reserved spaece for arrow navigation*/
+} 
+
+/* navigation */
+
+.picture-thumbs .slick-prev,
+.picture-thumbs .slick-next {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #fff #fff #000;
+    font-size: 0;
+    cursor: pointer;
+}
+.in-carousel .slick-dotted .slick-prev,
+.in-carousel .slick-dotted .slick-next {
+    bottom: 20px;
+}
+.picture-thumbs .slick-prev {
+    left: 0;
+}
+.picture-thumbs .slick-next {
+    right: 0;
+}
+.picture-thumbs .slick-prev:after {
+    content: "\e914";
+    font-size: 14px;
+}
+.picture-thumbs .slick-next:after {
+    content: "\e915";
+    font-size: 14px;
+}
+.picture-thumbs .slick-prev:hover,
+.picture-thumbs .slick-next:hover {
+	border-color: #000;
+}
+.picture-thumbs .slick-prev.slick-disabled,
+.picture-thumbs .slick-next.slick-disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.slick-dots {
+    margin: 15px 0 0;
+    text-align: center;
+    font-size: 0;
+}
+.slick-dots li {
+    display: inline-block;
+    margin: 0 6px;
+}
+.slick-dots button {
+    width: 8px;
+    height: 8px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background-color: #000;
+    font-size: 0;
+}
+.slick-dots .slick-active button,
+.slick-dots button:hover {
+    border: 1px solid #000;
+    background-color: #fff;
+}
+
+/* items */
+
+.picture-thumbs a.cloudzoom-gallery {
+    display: block !important;
+    margin: 0 !important;
+    float: none !important;
+    width: auto !important;
+    height: auto !important;
+}

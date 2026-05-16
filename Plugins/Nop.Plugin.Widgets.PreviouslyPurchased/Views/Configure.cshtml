@@ -1,0 +1,63 @@
+﻿@model ConfigurationModel
+
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+
+<form asp-controller="PreviouslyPurchased" asp-action="Configure" method="post">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Enabled_OverrideForStore" asp-input="Enabled" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                <nop-nested-setting asp-for="Enabled">
+                    <div class="form-group row" id="productsType-field">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="ProductsType_OverrideForStore" asp-input="ProductsType" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="ProductsType" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="ProductsType" asp-items="@await(((PreviouslyPurchasedType)Model.ProductsType).ToSelectListAsync())" />
+                            <span asp-validation-for="ProductsType"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="productsNumber-field">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="PreviouslyPurchasedProductsNumber_OverrideForStore" asp-input="PreviouslyPurchasedProductsNumber" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="PreviouslyPurchasedProductsNumber" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="PreviouslyPurchasedProductsNumber" />
+                            <span asp-validation-for="PreviouslyPurchasedProductsNumber"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="myAccountNavigation-field">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="MyAccountNavigation_OverrideForStore" asp-input="MyAccountNavigation" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="MyAccountNavigation" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="MyAccountNavigation" />
+                            <span asp-validation-for="MyAccountNavigation"></span>
+                        </div>
+                    </div>
+                </nop-nested-setting>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <input type="submit" name="save" class="btn btn-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

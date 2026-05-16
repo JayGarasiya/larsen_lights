@@ -1,0 +1,17 @@
+
+.newsletter-subscribe-popup .close-popup {
+	right: auto;
+    left: 0;
+}
+.newsletter-subscribe-popup input + label {
+    margin-right: 3px;
+	margin-left: 0;
+}
+
+@media (min-width: 769px) {
+
+    .newsletter-subscribe-popup .close-popup {
+	    right: auto;
+        left: 18px;
+    }
+}

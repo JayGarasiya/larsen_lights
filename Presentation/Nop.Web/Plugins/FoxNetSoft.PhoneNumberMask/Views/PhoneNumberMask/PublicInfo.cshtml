@@ -1,0 +1,13 @@
+﻿@model FoxNetSoft.Plugin.Misc.PhoneNumberMask.Models.PhoneNumberMaskModel
+@{
+    Layout = "";
+}
+<script asp-exclude-from-bundle="true" src="~/Plugins/FoxNetSoft.PhoneNumberMask/Scripts/jquery.maskedinput.min.js" asp-location="Footer"></script>
+<script asp-location="Footer">
+    $(document).ready(function () {
+        fnsPhoneNumberMask("input[name='Phone'], input[name='Fax'], input[name*='PhoneNumber'], input[name*='FaxNumber']");
+    });
+    function fnsPhoneNumberMask(select) {
+        $(select).mask("@Model.PhoneNumberMask").attr("placeholder", "@Model.Placeholder");
+    }
+</script>

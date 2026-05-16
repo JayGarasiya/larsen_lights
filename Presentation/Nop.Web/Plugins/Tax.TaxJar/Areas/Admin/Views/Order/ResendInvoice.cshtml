@@ -1,0 +1,96 @@
+﻿@model OrderModel
+
+<button type="button" id="resend-invoice" class="btn btn-info">
+    <i class="far fa-file-pdf"></i>
+    @T("Plugins.Tax.TaxJar.PdfInvoice.ResendInvoice")
+</button>
+<button type="button" id="resend-taxjar" class="btn btn-info">
+    <i class="far fa-file-pdf"></i>
+    @T("Plugins.Tax.TaxJar.ResendTransaction")
+</button>
+<script>
+    $(document).ready(function () {
+        $('#resend-invoice').attr("data-toggle", "modal").attr("data-target", "#resend-invoice-action-alert");
+        $('#resend-invoice-to-customer').click(function (e) {
+            e.preventDefault();
+            var postData = {
+                orderId: @(Model.Id),
+                email: $("#@Html.IdFor(model => model.BillingAddress.Email)").val(),
+            };
+            addAntiForgeryToken(postData);
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '@Url.Action("ResendInvoice", "TaxJar")',
+                data: postData,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success){
+                        location.reload(true);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to resend invoice to the customer.');
+                }
+            });
+        });
+
+        $('#resend-taxjar').click(function (e) {
+            e.preventDefault();
+            var postData = {
+                orderId: @(Model.Id),
+            };
+            addAntiForgeryToken(postData);
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '@Url.Action("ResyncOrderTaxTransaction", "TaxJar")',
+                data: postData,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        location.reload(true);
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to resend invoice to the customer.');
+                }
+            });
+        });
+    });
+</script>
+
+<div id="resend-invoice-action-alert" class="modal fade" tabindex="-1" aria-labelledby="resend-invoice-action-alert-title" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="resend-invoice-action-alert-title">@T("Admin.Common.Alert")</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <ul class="common-list">
+                    <li>
+                        <em>@string.Format(T("Plugins.Tax.TaxJar.PdfInvoice.ResendInvoiceInfo").Text, Model.Id)</em>
+                    </li>
+                </ul>
+                <div class="form-horizontal">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <div class="label-wrapper">
+                                <label class="col-form-label">
+                                    @T("Admin.Address.Fields.Email")
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="@Model.BillingAddress.Email" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" name="save-services-configure" class="btn btn-primary" id="resend-invoice-to-customer">@T("Plugins.Tax.TaxJar.PdfInvoice.ResendInvoice")</button>
+            </div>
+        </div>
+    </div>
+</div>

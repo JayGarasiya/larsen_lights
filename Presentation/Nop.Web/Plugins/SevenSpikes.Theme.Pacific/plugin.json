@@ -1,0 +1,11 @@
+﻿{
+	"Group": "7Spikes",
+	"FriendlyName": "Nop Pacific Theme",
+	"SystemName": "SevenSpikes.Theme.Pacific",
+	"Version": "4.9",
+	"SupportedVersions": [ "4.90" ],
+	"Author": "Seven Spikes Ltd",
+	"DisplayOrder": 10,
+	"FileName": "SevenSpikes.Theme.Pacific.dll",
+	"Description": "This plugin allows you to configure the Pacific theme settings"
+}

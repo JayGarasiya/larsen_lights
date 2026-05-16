@@ -1,0 +1,14 @@
+﻿
+.product-reviews .title {
+    text-align: right;
+}
+
+@media all and (min-width: 769px) {
+
+    .ui-tabs-panel .write-review {
+        float: left;
+    }
+    .ui-tabs-panel .product-review-list {
+        float: right;
+    }
+}

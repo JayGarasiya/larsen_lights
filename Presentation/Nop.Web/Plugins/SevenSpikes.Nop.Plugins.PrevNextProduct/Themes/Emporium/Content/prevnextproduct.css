@@ -1,0 +1,111 @@
+﻿/*
+* Copyright 2014 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.mobile-prev-next-holder {
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.prev-next-holder {
+    margin-bottom: 6px;
+    overflow: hidden;
+}
+
+.previous-product,
+.next-product {
+    width: calc(50% - 3px);
+}
+.previous-product {
+	float: left;
+}
+.next-product {
+    float: right;
+}
+
+.previous-product a,
+.next-product a {
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 45px;
+    line-height: 45px;
+    font-size: 13px;
+    color: #959595;
+    border-radius: 3px;
+    background-color: #f6f6f6;
+    font-weight: 700;
+    text-transform: uppercase;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: all .2s ease;
+}
+
+.previous-product a:hover,
+.next-product a:hover {
+    background-color: #eaeaea;
+}
+
+.previous-product a:before,
+.next-product a:before {
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    color: #97c300;
+    font-size: 10px;
+    text-transform: none;
+    font-weight: normal;
+}
+.previous-product a {
+    padding-left: 30px;
+    text-align: left;
+}
+
+.previous-product a:before {
+    left: 10px;
+    content: "\56";
+}
+.next-product a {
+    padding-right: 30px;
+    text-align: right;
+}
+.next-product a:before {
+    content: "\57";
+    right: 10px;
+}
+.previous-product a:hover,
+.next-product a:hover {
+    opacity: .95;
+}
+
+.previous-product-label,
+.next-product-label {
+	display: none;
+}
+.product-details-page {
+	clear: both;
+}
+
+@media all and (min-width: 480px) {
+    .previous-product a {
+        padding-left: 40px;
+    }
+    .next-product a {
+        padding-right: 40px;
+    }
+    .previous-product a:before {
+        left: 20px;
+    }
+    .next-product a:before {
+        right: 20px;
+    }
+
+}
+
+@media all and (min-width:1281px) {
+    .prev-next-holder {
+        margin-bottom: 30px;
+    }
+}

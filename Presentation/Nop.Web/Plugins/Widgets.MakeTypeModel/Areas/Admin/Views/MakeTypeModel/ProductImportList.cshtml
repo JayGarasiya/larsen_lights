@@ -1,0 +1,216 @@
+﻿@model ProductImportSearchModel
+
+@{
+    Layout = "_AdminLayout";
+
+    //page title
+    ViewBag.PageTitle = T("Plugins.Widgets.MakeTypeModel.ProductImports").Text;
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName(MakeTypeModelDefaults.ProductImports);
+}
+
+@{
+    const string hideSearchBlockAttributeName = "ProductImports.HideSearchBlock";
+    var hideSearchBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSearchBlockAttributeName);
+}
+
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        @T("Plugins.Widgets.MakeTypeModel.ProductImports")
+    </h1>
+    <div class="float-right">
+        <button type="button" name="importexcel" class="btn bg-olive" data-toggle="modal" data-target="#importexcelhyc-window">
+            <i class="fa fa-upload"></i>
+            @T("Admin.Common.Import")
+        </button>
+    </div>
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="cards-group">
+                <div class="card card-default card-search">
+                    <div class="card-body">
+                        <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                            <div class="search-text">@T("Admin.Common.Search")</div>
+                            <div class="icon-search"><i class="fas fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="far fa-angle-@(!hideSearchBlock ? "up" : "down")" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchImportType" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-select asp-for="SearchImportType" asp-items="Model.AvailableImportTypes" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchImportStatus" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-select asp-for="SearchImportStatus" asp-items="Model.AvailableImportStatuses" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="text-center col-12">
+                                    <button type="button" id="search-product-imports" class="btn btn-primary btn-search"><i class="fas fa-search"></i>@T("Admin.Common.Search")</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-default">
+                    <div class="card-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                        {
+                            Name = "import-product-grid",
+                            UrlRead = new DataUrl("ProductImportList", "MakeTypeModel", null),
+                            UrlDelete = new DataUrl("ProductImportDelete", "MakeTypeModel", null),
+                            SearchButtonId = "search-product-imports",
+                            Length = Model.PageSize,
+                            LengthMenu = Model.AvailablePageSizes,
+                            Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.SearchImportType)),
+                                new FilterParameter(nameof(Model.SearchImportStatus))
+                            },
+                            ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(ProductImportModel.ImportType))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ProductImport.Fields.ImportType").Text,
+                                    Width = "100",
+                                },
+                                new ColumnProperty(nameof(ProductImportModel.FileName))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ProductImport.Fields.FileName").Text,
+                                    Width = "150",
+                                },
+                                new ColumnProperty(nameof(ProductImportModel.ImportStatus))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ProductImport.Fields.ImportStatus").Text,
+                                    Width = "100",
+                                },
+                                new ColumnProperty(nameof(ProductImportModel.RowNumber))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ProductImport.Fields.RowNumber").Text,
+                                    Width = "50",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                },
+                                new ColumnProperty(nameof(ProductImportModel.DeleteAll))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ProductImport.Fields.DeleteAll").Text,
+                                    Width = "50",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Render = new RenderBoolean()
+                                },
+                                new ColumnProperty(nameof(ProductImportModel.CreatedOnUtc))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.ProductImport.Fields.CreatedOnUtc").Text,
+                                    Width = "100",
+                                    Render = new RenderDate()
+                                },
+                                new ColumnProperty(nameof(MakeProductModel.Id))
+                                {
+                                    Title = T("Admin.Common.Delete").Text,
+                                    Width = "50",
+                                    Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+                                    ClassName = NopColumnClassDefaults.Button
+                                }
+                            }
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*import Hy-capacity products*@
+<div id="importexcelhyc-window" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importexcel-window-title">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="importexcel-window-title">@T("Admin.Common.ImportFromExcel")</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form asp-controller="MakeTypeModel" asp-action="ProductImportAdd" method="post" enctype="multipart/form-data">
+                <div class="form-horizontal">
+                    <div class="modal-body">
+                        <ul class="common-list">
+                            <li>
+                                <em>@T("Admin.Catalog.Products.List.ImportFromExcelTip")</em>
+                            </li>
+                            <li>
+                                <em>@T("Products.DownloadSample")</em>
+                            </li>
+                            <li>
+                                1. <a class="button-2 download-sample-button" href="~/Plugins/Widgets.MakeTypeModel/Content/Hy-Capacity_Products.xlsx">@T("Enums.Nop.Plugin.Widgets.MakeTypeModel.Domain.ProductImportTypeEnum.Products")</a>
+                            </li>
+                            <li>
+                                2. <a class="button-2 download-sample-button" href="~/Plugins/Widgets.MakeTypeModel/Content/Accordion.xlsx">@T("Enums.Nop.Plugin.Widgets.MakeTypeModel.Domain.ProductImportTypeEnum.ModelFit")</a>
+                            </li>
+                            <li>
+                                3. <a class="button-2 download-sample-button" href="~/Plugins/Widgets.MakeTypeModel/Content/Hy-Capacity_Products-Stock.xlsx">@T("Enums.Nop.Plugin.Widgets.MakeTypeModel.Domain.ProductImportTypeEnum.Stock")</a>
+                            </li>
+                        </ul>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="label-wrapper">
+                                    <label class="col-form-label">
+                                        @T("Plugins.Widgets.MakeTypeModel.ProductImport.Fields.ImportType")
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <select id="ImportTypeId" name="ImportTypeId" class="form-control">
+                                    @foreach (var data in Model.AvailableImportTypes.Where(p => !p.Text.Equals(T("Admin.Common.All").Text)))
+                                    {
+                                        <option value="@data.Value">@data.Text</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="label-wrapper">
+                                    <label class="col-form-label">
+                                        @T("Plugins.Widgets.MakeTypeModel.ProductImport.Fields.DeleteAll")
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <input class="check-box" data-val="true" id="DeleteAll" name="DeleteAll" type="checkbox" value="true">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <div class="label-wrapper">
+                                    <label class="col-form-label">
+                                        @T("Admin.Common.ExcelFile")
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="file" id="importexcelfile" name="importexcelfile" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            @T("Admin.Common.ImportFromExcel")
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

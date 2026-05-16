@@ -1,0 +1,405 @@
+﻿<Language Name="English" IsRightToLeft="false">
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.IsRegisted">
+    <Value>Registered version.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.IsNoRegisted">
+    <Value>Unregistered version is fully operational. Only 50 shipping labels will be created.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.IsExpired">
+    <Value>Your license has expired, you should renew the license with a 50% discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Enabled">
+    <Value>Enabled plugin</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Enabled.Hint">
+    <Value>Enabled plugin.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.UseAsShippingRateComputationMethod">
+    <Value>Use as Shipping Rate Computation Method</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.UseAsShippingRateComputationMethod.Hint">
+    <Value>Use as Shipping Rate Computation Method.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.AdditionalHandlingCharge">
+    <Value>Additional handling charge</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.AdditionalHandlingCharge.Hint">
+    <Value>Enter additional handling fee to charge your customers.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.AdditionalHandlingChargePercentage">
+		<Value>Additional handling charge. Use percentage</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.AdditionalHandlingChargePercentage.Hint">
+		<Value>Determines whether to apply a percentage additional handling charge to the order total. If not enabled, a fixed value is used.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.AdditionalBoxWeight">
+    <Value>Additional Box Weight</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.AdditionalBoxWeight.Hint">
+    <Value>Enter additional box weight if you want to add packing weight for each purchase. One box of packing for all products from the order.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CheckedCarrierServicesRate">
+    <Value>Carrier Services (getting rates)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CheckedCarrierServicesRate.Hint">
+    <Value>Select the services you want to offer to customers for getting shipping rates.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Settings.CreateLabel">
+		<Value>Creating Labels (settings)</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CheckedCarrierServicesLabel">
+		<Value>Carrier Services (create labels)</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CheckedCarrierServicesLabel.Hint">
+		<Value>Select the services you want to use for creating labels.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CheckedPackagesForLabel">
+		<Value>Packages (create labels)</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CheckedPackagesForLabel.Hint">
+		<Value>Select the packages you want to use for creating labels.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageType">
+    <Value>Package type</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageType.Hint">
+    <Value>Select the package type you want to send to Stamps.com.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PassDimensions">
+		<Value>Pass dimensions</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PassDimensions.Hint">
+		<Value>Pass dimensions</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.InsurePackage">
+		<Value>Insure package</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.InsurePackage.Hint">
+		<Value>Check to insure packages. Cannot use insurance on packages worth more than $10000.00.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.StoreUrl">
+    <Value>Website address (for registration)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.StoreUrl.Hint">
+    <Value>Website address (for registration).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.showDebugInfo">
+    <Value>Enable Debugging</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.showDebugInfo.Hint">
+    <Value>Write debugging information into file. In ~/App_Data/ folder.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.SerialNumber">
+    <Value>Serial number</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.SerialNumber.Hint">
+    <Value>Serial number.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ClearLogFile">
+    <Value>Clear the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.GetLogFile">
+    <Value>Download the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Username">
+    <Value>Username</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Username.Hint">
+    <Value>Username.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Password">
+    <Value>Password</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Password.Hint">
+    <Value>Password.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.SandBox">
+    <Value>Use Sandbox</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.SandBox.Hint">
+    <Value>Check to enable Sandbox (testing environment).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.SampleMode">
+    <Value>Use Sample Mode</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.SampleMode.Hint">
+    <Value>Check to enable Sample Mode (testing environment).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ServiceType">
+    <Value>ServiceType</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ServiceType.Hint">
+    <Value>Select ServiceType for order shipments.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.HasSignature">
+    <Value>Signature Confirmation</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.HasSignature.Hint">
+    <Value>The parcel has Signature confirmation.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.HideThePostageAmount">
+    <Value>Hide the postage amount</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.HideThePostageAmount.Hint">
+    <Value>Hides the postage amount on the label.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.EnableDeliveryConfirmation">
+    <Value>Allow to select 'Delivery confirmation'</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.EnableDeliveryConfirmation.Hint">
+    <Value>Customer can select shipments with 'Delivery confirmation' for their parcel.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CheckDeliveryConfirmationAutomatically">
+    <Value>Check delivery confirmation automatically</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CheckDeliveryConfirmationAutomatically.Hint">
+    <Value>Check delivery confirmation automatically (by task). You can manually check it too.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PostageBalance">
+    <Value>Postage Balance</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PostageBalance.Hint">
+    <Value>Postage Balance.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.GetPostageBalance">
+    <Value>Get it from stamps.com</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PurchasePostage">
+    <Value>Purchase Postage</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PurchasePostage.Hint">
+    <Value>Purchase Postage.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Purchase">
+    <Value>Purchase</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Name">
+    <Value>stamps.com</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.GenerateLabel">
+    <Value>Generate Label</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.RePrintLabel">
+    <Value>Re-Print Label</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.CheckDeliveryConfirmation">
+    <Value>Check Delivery Confirmation</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.VoidLabel">
+    <Value>Void Label</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.ReturnLabel">
+		<Value>Return Label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.RePrintReturnLabel">
+		<Value>Re-Print Return Label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Question1">
+    <Value>Are you sure you want to generate a label?</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Question2">
+    <Value>Are you sure you want to re-print a label?</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Question3">
+    <Value>Are you sure you want to check for delivery confirmation?</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Question4">
+    <Value>Are you sure you want to void the label?</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Question5">
+		<Value>Are you sure you want to re-print a return label?</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.CarrierService">
+		<Value>Carrier service</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.CarrierService.Hint">
+		<Value>Select the carrier service you want to send to Stamps.com.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.PackageType">
+		<Value>Package type</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.PackageType.Hint">
+		<Value>Select the package type you want to send to Stamps.com.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.InsurePackage">
+		<Value>Insure Package</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.InsurePackage.Hint">
+		<Value>Enable Insurance for the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.EnableDeliveryConfirmation">
+    <Value>Delivery confirmation</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.EnableDeliveryConfirmation.Hint">
+    <Value>Enable delivery confirmation for this parcel.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.EnableSignatureConfirmation">
+    <Value>Signature confirmation</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.EnableSignatureConfirmation.Hint">
+    <Value>Enable signature confirmation for this parcel.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.HideThePostageAmount">
+    <Value>Hide the postage amount</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.HideThePostageAmount.Hint">
+    <Value>Hide the postage amount for this parcel on the label.</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.ShippingDescription">
+		<Value>Shipping description</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.ShippingDescription.Hint">
+		<Value>Shipping description for the label.</Value>
+	</LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.EnableCashOnDelivery">
+    <Value>Enable Cash On Delivery (COD)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.EnableCashOnDelivery.Hint">
+    <Value>Special service. Enable Cash On Delivery (COD).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.CashOnDeliveryAmount">
+    <Value>Amount for Cash on Delivery (COD) (check it!)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabelModel.CashOnDeliveryAmount.Hint">
+    <Value>Amount for Cash on Delivery (COD). We use the order total for the default value.</Value>
+  </LocaleResource>
+	
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.NameButtonGroup">
+    <Value>Stamps.com</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.OrderNotPaid">
+    <Value>Can't create a label. Order not paid.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Window.Caption">
+    <Value>Stamps.com - Generate label</Value>
+  </LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.WrongOrderId">
+		<Value>Wrong order ID={0} or shipment ID={1}.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShipmentId">
+		<Value>Wrong shipment ID={0}. Select the shipment and try to repeat.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingLabel">
+		<Value>Stamps.com. Create the shipping label.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ReturnLabel">
+		<Value>Stamps.com. Create the return label.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.BackToOrder">
+		<Value>Back to order</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.BackToShipment">
+		<Value>Back to shipment</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CreateLabel">
+		<Value>Create Label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Tab.Main">
+		<Value>Main</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Tab.Addresses">
+		<Value>Shipping addresses</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Tab.Products">
+		<Value>Products</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.VoidLabel.Success">
+		<Value>The shipping label '{0}' was voided.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.VoidLabel.Error">
+		<Value>Error. The shipping label '{0}' wasn't voided. Message: {1}.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Main.ShippingRates.Caption">
+		<Value>Shipping rates:</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingRate.Name">
+		<Value>Name</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingRate.Description">
+		<Value>Description</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingRate.Rate">
+		<Value>Rate</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ShippingRate.TransitDays">
+		<Value>Transit Days</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Main.ShippingRate.Button.CalculateRates">
+		<Value>Calculate rates</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.Weight">
+		<Value>Weight</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.Weight.Hint">
+		<Value>Total weight of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.Height">
+		<Value>Height</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.Height.Hint">
+		<Value>Total height of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.Length">
+		<Value>Length</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.Length.Hint">
+		<Value>Total length of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.Width">
+		<Value>Width</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.Width.Hint">
+		<Value>Total width of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.InsuranceAmount">
+		<Value>Insurance amount</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.PackageModel.InsuranceAmount.Hint">
+		<Value>Insurance amount of the parcel.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Addresses.AddressFrom">
+		<Value>Ship from:</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Addresses.AddressTo">
+		<Value>Ship to:</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Main.Packages.Caption">
+		<Value>Packages:</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Main.Packages.New">
+		<Value>Add new</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Main.Packages.Remove">
+		<Value>Remove</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.OrderShipping.Caption">
+		<Value>Stamps Connector. Select products/shipments for creating labels</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.OrderShipping.Tab.Products">
+		<Value>Unshipped products</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.OrderShipping.Tab.Shipments">
+		<Value>Existing shipments</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.OrderShipping.Products.Ship">
+		<Value>Ship products</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.OrderShipping.Shipments.CreateLabel">
+		<Value>Create shipping label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.OrderShipping.Shipments.ReturnLabel">
+		<Value>Create return label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.OrderShipping.Shipments.VoidLabel">
+		<Value>Void label</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.ReturnLabel.Success">
+		<Value>The return label was sent.</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CommonLabel.AddressFrom.Original">
+		<Value>Original address</Value>
+	</LocaleResource>
+	<LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.StampsConnector.CommonLabel.AddressTo.Original">
+		<Value>Original address</Value>
+	</LocaleResource>
+</Language>

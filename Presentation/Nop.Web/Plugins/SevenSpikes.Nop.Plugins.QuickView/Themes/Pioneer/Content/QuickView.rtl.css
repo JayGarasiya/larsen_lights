@@ -1,0 +1,37 @@
+﻿ /*
+* Copyright 2014 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.quickView .k-window-titlebar .k-button {
+	right: unset;
+	left: -10px;
+}
+.quickView .gallery {
+	float: right;
+}
+.quickView .links-panel a:after {
+	content: "\e90b";
+}
+.quickView .overview {
+    float: left;
+}
+.quickView .ui-icon-circle-arrow-s:after,
+.quickView .ui-icon-circle-arrow-e:after {
+    right: unset;
+	left: 12px;
+}
+.quickView .overview .delivery {
+	text-align: right;
+}
+.quickView .overview .right {
+	right: unset;
+	left: 10px;
+}
+.quickView .purchase-area .prices,
+.quickView .variant-info .prices {
+	text-align: right;
+}
+.quickView .min-qty-notification {
+	text-align: right;
+}

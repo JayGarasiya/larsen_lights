@@ -1,0 +1,143 @@
+﻿/*
+* Copyright 2014 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+/* SEARCH BOX */
+
+.store-search-box span.search-box-text {
+	flex-grow: 1;
+	position: relative;
+}
+.store-search-box input.search-box-text {
+	width: 100%;
+}
+.store-search-box .search-box-select {
+	order: -1;
+	position: relative;
+	width: 155px;
+	height: 34px;
+	border-width: 0 1px 0 0;
+	border-color: #eee;
+	border-radius: unset;
+	background-position: right 18px center;
+	padding-right: 36px;
+}
+.store-search-box input.narrow {
+	padding-left: 18px;
+}
+
+/* RESET */
+
+.search-box-text .k-clear-value {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    right: 0px;
+    z-index: 1;
+	background: #fff;
+	padding: 0 12px;
+    cursor: pointer;
+}
+.search-box-text .k-clear-value:after {
+    content: "\e906";
+    font-size: 10px;
+    color: #888;
+}
+.search-box-text .k-clear-value.k-hidden {
+    display: none;
+}
+.search-box-text .k-clear-value .k-icon {
+    display: none;
+}
+
+/* AUTOCOMPLETE */
+
+.instantSearch {
+	width: 100% !important;
+	height: auto !important;
+	left: 0 !important;
+}
+.k-child-animation-container {
+    width: 100% !important;
+    height: auto !important;
+}
+.instantSearch .k-list-container {
+	position: static !important;
+	width: 100% !important;
+	text-align: left;
+	font-size: 16px !important;
+	color: #333;
+}
+.instantSearch .k-list-scroller {
+    height: 100% !important;
+    overflow-y: auto;
+}
+.instantSearch .k-no-data {
+	padding: 11px 10px;
+}
+.instant-search-item {
+	margin-top: 10px;
+	cursor: pointer;
+}
+.instant-search-item a {
+	display: flex;
+	align-items: center;
+	column-gap: 15px;
+}
+.instant-search-item img {
+	display: block;
+	width: 70px;
+	min-width: 70px;
+	border-radius: 6px;
+}
+.instant-search-item .price {
+	margin-top: 5px;
+    font-weight: 700;
+    color: #4e30a4;
+}
+
+@media all and (max-width: 1024px) {
+
+	.search-box .search-box-select {
+		display: none;
+	}
+	.instantSearch {
+		height: calc(100vh - 62px) !important;
+	}
+	.instantSearch .k-list-container {
+		height: 100% !important;
+	}
+}
+@media all and (min-width: 1025px) {
+
+	.instantSearch {
+		top: calc(100% + 5px) !important;
+		box-shadow: 0 0 20px rgba(0,0,0,.2);
+		border-radius: 6px;
+		background-color: #fff;
+		padding: 5px 0;
+	}
+	.instantSearch.resize {
+		left: 155px !important;
+		width: calc(100% - 155px) !important;
+	}
+	.instantSearch .k-list-container {
+		min-height: 80px; /*single item*/
+	}
+	.instant-search-item {
+		margin-top: 0;
+	}
+	.instant-search-item a {
+		padding: 5px 10px;
+	}
+	.instant-search-item img {
+		border: 1px solid #eee;
+	}
+    .k-hover .instant-search-item,
+	.k-focus .instant-search-item  {
+		background: #f3f3f3;
+	}
+}

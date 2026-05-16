@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Stamps.com Connector",
+  "SystemName": "FoxNetSoft.Plugin.Misc.StampsConnector",
+  "Version": "3.03",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "FoxNetSoft",
+  "DisplayOrder": 1,
+  "FileName": "FoxNetSoft.Plugin.Misc.StampsConnector.dll",
+  "Description": "This plugin allows to print labels using stamps.com"
+}

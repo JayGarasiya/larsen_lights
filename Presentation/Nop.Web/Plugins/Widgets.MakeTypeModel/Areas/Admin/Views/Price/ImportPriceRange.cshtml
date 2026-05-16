@@ -1,0 +1,197 @@
+﻿@model PriceImportModel
+
+@{
+    Layout = "_AdminLayout";
+    ViewBag.PageTitle = T("Plugins.Widgets.MakeTypeModel.Navigation.PriceImports").Text;
+    NopHtml.SetActiveMenuItemSystemName(MakeTypeModelDefaults.PriceImports);
+}
+<script>
+    $(document).ready(function () {
+        // Toggle input boxes
+        $('#usePercentageCheckbox').change(function () {
+            if ($(this).is(':checked')) {
+                $('#pricePercentage').removeClass('d-none');
+                $('#priceAmount').addClass('d-none');
+            } else {
+                $('#pricePercentage').addClass('d-none');
+                $('#priceAmount').removeClass('d-none');
+            }
+        });
+    });
+</script>
+<script>
+    $('#btnAdd').click(function () {
+        var index = $('#PriceImport tbody tr').length;
+
+        var usePercentage = $('#usePercentageCheckbox').is(':checked');
+        var percentageVal = $('#pricePercentage').val().trim();
+        var amountVal = $('#priceAmount').val().trim();
+        var fromPrice = $('#fromPrice').val().trim();
+        var toPrice = $('#toPrice').val().trim();
+
+        if (fromPrice === '' || toPrice === '' || (usePercentage && percentageVal === '') || (!usePercentage && amountVal === '')) {
+            alert("Please fill in all required fields before adding.");
+            return;
+        }
+         // Custom validation for price import percentage
+        if (usePercentage && parseFloat(percentageVal) > 100) {
+            alert("Please enter a percentage less than 100 %.");
+            return;
+        }
+        const newRow = `
+            <tr>
+                <td>
+                    <input type="hidden" name="PriceRanges[${index}].UsePercentage" value="${usePercentage}" />
+                    ${usePercentage
+                        ? `<input type="hidden" name="PriceRanges[${index}].PricePercentage" value="${percentageVal}" />${percentageVal} %`
+                        : `<input type="hidden" name="PriceRanges[${index}].PriceAmount" value="${amountVal}" />${amountVal}`
+                    }
+                </td>
+                <td>
+                    <input type="hidden" name="PriceRanges[${index}].FromPrice" value="${fromPrice}" />${fromPrice}
+                </td>
+                <td>
+                    <input type="hidden" name="PriceRanges[${index}].ToPrice" value="${toPrice}" />${toPrice}
+                </td>
+                <td>
+                   <button type="button" class="btn btn-danger" onclick="$(this).closest('tr').remove();">
+                        <i class="far fa-trash-alt"></i> @T("Admin.Common.Delete")
+                    </button>
+                </td>
+            </tr>
+        `;
+
+        $('#PriceImport tbody').append(newRow);
+        $('#pricePercentage, #priceAmount, #fromPrice, #toPrice').val('');
+    });
+
+
+</script>
+
+<form asp-controller="MakeTypeModel" asp-action="PriceImportAdd" method="post" enctype="multipart/form-data">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T("Plugins.Widgets.MakeTypeModel.Navigation.PriceImports.Add")
+            <small>
+                <i class="fas fa-arrow-circle-left"></i>
+                <a asp-action="PriceImportsList">@T("Plugins.Widgets.MakeTypeModel.PriceImports.BackToList")</a>
+            </small>
+        </h1>
+    </div>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div class="cards-group">
+                    <div class="card card-default">
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="VendorId" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-select asp-for="VendorId" asp-items="Model.AvailableVendors" asp-required="true" />
+                                    <span asp-validation-for="VendorId"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="IsMulitplePriceRange" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="IsMulitplePriceRange" />
+                                    <span asp-validation-for="IsMulitplePriceRange"></span>
+                                </div>
+                            </div>
+                            <nop-nested-setting asp-for="IsMulitplePriceRange">
+                                <div class="form-group row">
+                                    <div class="col-md-3">&nbsp;</div>
+                                    <div class="col-md-9">
+                                        <table id="PriceImport" class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>@T("Plugins.Widgets.MakeTypeModel.PriceImport.Fields.PriceValue")</th>
+                                                    <th>@T("Plugins.Widgets.MakeTypeModel.PriceImport.Fields.FromPrice")</th>
+                                                    <th>@T("Plugins.Widgets.MakeTypeModel.PriceImport.Fields.ToPrice")</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < Model.PriceRanges.Count; i++)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <input type="hidden" name="PriceRanges[@i].UsePercentage" value="@Model.PriceRanges[i].UsePercentage.ToString().ToLower()" />
+                                                            @if (Model.PriceRanges[i].UsePercentage)
+                                                            {
+                                                                <input type="hidden" name="PriceRanges[@i].PricePercentage" value="@Model.PriceRanges[i].PricePercentage" />
+                                                                @Model.PriceRanges[i].PricePercentage <span>%</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <input type="hidden" name="PriceRanges[@i].PriceAmount" value="@Model.PriceRanges[i].PriceAmount" />
+                                                                @Model.PriceRanges[i].PriceAmount
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="PriceRanges[@i].FromPrice" value="@Model.PriceRanges[i].FromPrice" />
+                                                            @Model.PriceRanges[i].FromPrice
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="PriceRanges[@i].ToPrice" value="@Model.PriceRanges[i].ToPrice" />
+                                                            @Model.PriceRanges[i].ToPrice
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger" onclick="$(this).closest('tr').remove();">
+                                                                <i class="far fa-trash-alt"></i> @T("Admin.Common.Delete")
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-check mb-2">
+                                                            <input type="checkbox" class="form-check-input" id="usePercentageCheckbox" />
+                                                            <label class="form-check-label" for="usePercentageCheckbox">Use Percentage</label>
+                                                        </div>
+                                                        <input type="number" step="any" id="pricePercentage" class="form-control d-none" placeholder="Enter Percentage" />
+                                                        <input type="number" step="any" id="priceAmount" class="form-control" placeholder="Enter Amount" />
+                                                    </td>
+                                                    <td><input type="number" step="any" id="fromPrice" class="form-control" /></td>
+                                                    <td><input type="number" step="any" id="toPrice" class="form-control" /></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary" id="btnAdd">
+                                                            <i class="fas fa-plus-square"></i> @T("Admin.Common.AddNew")
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </nop-nested-setting>
+                            <div class="form-group row" id="pnlDownloadFile">
+                                <div class="col-md-3">
+                                    <nop-label asp-for="DownloadId" />
+                                </div>
+                                <div class="col-md-9">
+                                    <nop-editor asp-for="DownloadId" />
+                                    <span asp-validation-for="DownloadId"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-9 offset-md-3">
+                                    <input type="submit" name="save" class="btn btn-primary" value="@T("Admin.Common.Save")" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+

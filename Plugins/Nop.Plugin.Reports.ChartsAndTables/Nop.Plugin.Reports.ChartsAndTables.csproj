@@ -1,0 +1,327 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Copyright>Copyright © nopCommercePlus</Copyright>
+        <Company>nopCommercePlus</Company>
+        <Authors>Forefront Infotech</Authors>
+        <OutputPath>..\..\Presentation\Nop.Web\Plugins\Reports.ChartsAndTables</OutputPath>
+        <OutDir>$(OutputPath)</OutDir>
+        <!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your    project. You need to set this parameter to true if your plugin has a nuget package to ensure that   the dlls copied from the NuGet cache to the output of your project-->
+        <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    </PropertyGroup>
+    <ItemGroup>
+      <None Remove="Content\Js\d3.v5.js" />
+      <None Remove="Content\Js\jszip.min.js" />
+      <None Remove="Content\Js\report.chart.js" />
+      <None Remove="logo.jpg" />
+      <None Remove="plugin.json" />
+      <None Remove="Views\Category\CategoryDetailReport.cshtml" />
+      <None Remove="Views\Category\_CategoryDetailReport.Category.cshtml" />
+      <None Remove="Views\Category\_CategoryDetailReport.CategoryShare.cshtml" />
+      <None Remove="Views\Category\_CategoryDetailReport.Manufacturer.cshtml" />
+      <None Remove="Views\Category\_CategoryDetailReport.Product.cshtml" />
+      <None Remove="Views\Category\_CategoryDetailReport.Vendor.cshtml" />
+      <None Remove="Views\Configuration\Configure.cshtml" />
+      <None Remove="Views\Configuration\LicenseKey.cshtml" />
+      <None Remove="Views\Configuration\MiscConfigure.cshtml" />
+      <None Remove="Views\Configuration\_Configure.Category.cshtml" />
+      <None Remove="Views\Configuration\_Configure.Common.cshtml" />
+      <None Remove="Views\Configuration\_Configure.Customer.cshtml" />
+      <None Remove="Views\Configuration\_Configure.Dashboard.cshtml" />
+      <None Remove="Views\Configuration\_Configure.Manufacturer.cshtml" />
+      <None Remove="Views\Configuration\_Configure.Order.cshtml" />
+      <None Remove="Views\Configuration\_Configure.Product.cshtml" />
+      <None Remove="Views\Configuration\_Configure.Vendor.cshtml" />
+      <None Remove="Views\Customer\CustomerDetailReport.cshtml" />
+      <None Remove="Views\Customer\CustomersMenuReport.cshtml" />
+      <None Remove="Views\Customer\_CustomerDetailReport.Category.cshtml" />
+      <None Remove="Views\Customer\_CustomerDetailReport.Customers.cshtml" />
+      <None Remove="Views\Customer\_CustomerDetailReport.Manufacturer.cshtml" />
+      <None Remove="Views\Customer\_CustomerDetailReport.Product.cshtml" />
+      <None Remove="Views\Customer\_CustomerDetailReport.Vendor.cshtml" />
+      <None Remove="Views\Customer\_CustomersMenuReport.Country.cshtml" />
+      <None Remove="Views\Customer\_CustomersMenuReport.CustomerRoles.cshtml" />
+      <None Remove="Views\Customer\_CustomersMenuReport.Customers.cshtml" />
+      <None Remove="Views\Customer\_CustomersMenuReport.Gender.cshtml" />
+      <None Remove="Views\Customer\_CustomersMenuReport.RegisteredCustomer.cshtml" />
+      <None Remove="Views\Dashboard\DashboardChart.cshtml" />
+      <None Remove="Views\Dashboard\DashboardReport.cshtml" />
+      <None Remove="Views\Dashboard\_DashboardBestSellerCategoryYearChart.cshtml" />
+      <None Remove="Views\Dashboard\_DashboardBestSellerManufacturerYearChart.cshtml" />
+      <None Remove="Views\Dashboard\_DashboardBestSellerProductMonthChart.cshtml" />
+      <None Remove="Views\Dashboard\_DashboardBestSellerProductYearChart.cshtml" />
+      <None Remove="Views\Dashboard\_DashboardBestSellerVendorYearChart.cshtml" />
+      <None Remove="Views\Dashboard\_DashboardMonthChart.cshtml" />
+      <None Remove="Views\Dashboard\_DashboardMonthYearChart.cshtml" />
+      <None Remove="Views\Dashboard\_DashboardWeekChart.cshtml" />
+      <None Remove="Views\Dashboard\_DashboardYearChart.cshtml" />
+      <None Remove="Views\Manufacturer\ManufacturerDetailReport.cshtml" />
+      <None Remove="Views\Manufacturer\_ManufacturerDetailReport.Category.cshtml" />
+      <None Remove="Views\Manufacturer\_ManufacturerDetailReport.Manufacturer.cshtml" />
+      <None Remove="Views\Manufacturer\_ManufacturerDetailReport.ManufacturerShare.cshtml" />
+      <None Remove="Views\Manufacturer\_ManufacturerDetailReport.Product.cshtml" />
+      <None Remove="Views\Order\OrdersMenuReport.cshtml" />
+      <None Remove="Views\Order\TableReport.cshtml" />
+      <None Remove="Views\Order\_OrdersMenuReport.OrderItem.cshtml" />
+      <None Remove="Views\Order\_OrdersMenuReport.Orders.cshtml" />
+      <None Remove="Views\Order\_OrdersMenuReport.PaymentMethod.cshtml" />
+      <None Remove="Views\Order\_OrdersMenuReport.ShippingMethod.cshtml" />
+      <None Remove="Views\Product\ProductDetailReport.cshtml" />
+      <None Remove="Views\Product\ProductsMenuReport.cshtml" />
+      <None Remove="Views\Product\_ProductDetailReport.Country.cshtml" />
+      <None Remove="Views\Product\_ProductDetailReport.Customer.cshtml" />
+      <None Remove="Views\Product\_ProductDetailReport.Global.cshtml" />
+      <None Remove="Views\Product\_ProductDetailReport.Products.cshtml" />
+      <None Remove="Views\Product\_ProductDetailReport.ProductsAttribute.cshtml" />
+      <None Remove="Views\Product\_ProductsMenuReport.Category.cshtml" />
+      <None Remove="Views\Product\_ProductsMenuReport.Manufacturer.cshtml" />
+      <None Remove="Views\Product\_ProductsMenuReport.Products.cshtml" />
+      <None Remove="Views\Product\_ProductsMenuReport.ProductsAttribute.cshtml" />
+      <None Remove="Views\Product\_ProductsMenuReport.Vendor.cshtml" />
+      <None Remove="Views\Vendor\VendorDetailReport.cshtml" />
+      <None Remove="Views\Vendor\_VendorDetailReport.Category.cshtml" />
+      <None Remove="Views\Vendor\_VendorDetailReport.Manufacturer.cshtml" />
+      <None Remove="Views\Vendor\_VendorDetailReport.Product.cshtml" />
+      <None Remove="Views\Vendor\_VendorDetailReport.Vendor.cshtml" />
+      <None Remove="Views\Vendor\_VendorDetailReport.VendorShare.cshtml" />
+      <None Remove="Views\_ViewImports.cshtml" />
+    </ItemGroup>
+	<ItemGroup>
+	  <Content Include="Content\Js\d3.v5.js">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Content\Js\jszip.min.js">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Content\Js\report.chart.js">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="logo.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="plugin.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Category\CategoryDetailReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Category\_CategoryDetailReport.Category.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Category\_CategoryDetailReport.CategoryShare.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Category\_CategoryDetailReport.Manufacturer.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Category\_CategoryDetailReport.Product.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Category\_CategoryDetailReport.Vendor.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\Configure.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\LicenseKey.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\MiscConfigure.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\_Configure.Category.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\_Configure.Common.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\_Configure.Customer.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\_Configure.Dashboard.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\_Configure.Manufacturer.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\_Configure.Order.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\_Configure.Product.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Configuration\_Configure.Vendor.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\CustomerDetailReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\CustomersMenuReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomerDetailReport.Category.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomerDetailReport.Customers.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomerDetailReport.Manufacturer.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomerDetailReport.Product.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomerDetailReport.Vendor.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomersMenuReport.Country.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomersMenuReport.CustomerRoles.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomersMenuReport.Customers.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomersMenuReport.Gender.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Customer\_CustomersMenuReport.RegisteredCustomer.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\DashboardChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\DashboardReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\_DashboardBestSellerCategoryYearChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\_DashboardBestSellerManufacturerYearChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\_DashboardBestSellerProductMonthChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\_DashboardBestSellerProductYearChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\_DashboardBestSellerVendorYearChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\_DashboardMonthChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\_DashboardMonthYearChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\_DashboardWeekChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Dashboard\_DashboardYearChart.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Manufacturer\ManufacturerDetailReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Manufacturer\_ManufacturerDetailReport.Category.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Manufacturer\_ManufacturerDetailReport.Manufacturer.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Manufacturer\_ManufacturerDetailReport.ManufacturerShare.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Manufacturer\_ManufacturerDetailReport.Product.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Order\OrdersMenuReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Order\TableReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Order\_OrdersMenuReport.OrderItem.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Order\_OrdersMenuReport.Orders.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Order\_OrdersMenuReport.PaymentMethod.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Order\_OrdersMenuReport.ShippingMethod.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\ProductDetailReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\ProductsMenuReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductDetailReport.Country.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductDetailReport.Customer.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductDetailReport.Global.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductDetailReport.Products.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductDetailReport.ProductsAttribute.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductsMenuReport.Category.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductsMenuReport.Manufacturer.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductsMenuReport.Products.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductsMenuReport.ProductsAttribute.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Product\_ProductsMenuReport.Vendor.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Vendor\VendorDetailReport.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Vendor\_VendorDetailReport.Category.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Vendor\_VendorDetailReport.Manufacturer.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Vendor\_VendorDetailReport.Product.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Vendor\_VendorDetailReport.Vendor.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\Vendor\_VendorDetailReport.VendorShare.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Views\_ViewImports.cshtml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Presentation\Nop.Web\Nop.Web.csproj" />
+		<ClearPluginAssemblies Include="$(MSBuildProjectDirectory)\..\..\Build\ClearPluginAssemblies.proj" />
+	</ItemGroup>
+	
+    <!-- This target execute after "Build" target -->
+    <Target Name="NopTarget" AfterTargets="Build">
+        <!-- Delete unnecessary libraries from plugins path -->
+        <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(MSBuildProjectDirectory)\$(OutDir)" Targets="NopClear" />
+    </Target>
+</Project>

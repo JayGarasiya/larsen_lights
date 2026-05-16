@@ -1,0 +1,18 @@
+
+.picture-thumbs .slick-prev,
+.picture-thumbs .slick-next {
+    display: none !important;
+}
+.picture-thumbs.in-carousel {
+    display: block !important;
+}
+.picture-thumbs.in-carousel .thumb-item {
+    width: 80px !important;
+    max-width: 98% !important;
+}
+.picture-thumbs-list {
+    display: none; /*hide thumbs until slick slider is loaded*/
+}
+.picture-thumbs .slick-initialized {
+    display: block; /*show thumbs after slick slider is loaded*/
+}

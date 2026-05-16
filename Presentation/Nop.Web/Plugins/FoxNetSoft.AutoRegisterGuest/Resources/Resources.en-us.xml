@@ -1,0 +1,129 @@
+﻿<Language Name="English" IsRightToLeft="false">
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.IsRegisted">
+    <Value>Registered version.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.IsNoRegisted">
+    <Value>Unregistered version is fully operational. Only 50 guests will be registered.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.IsExpired">
+    <Value>Your license has expired, you should renew the license with a 50% discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Enabled">
+    <Value>Enabled plugin</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Enabled.Hint">
+    <Value>All Guests will be registered (automatically or manually) after payment of their orders.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.AutoRegisterMode">
+    <Value>Mode</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.AutoRegisterMode.Hint">
+    <Value>Select the mode for auto-registering guests.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.SolicitationMessage">
+    <Value>Solicitation Message</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.SolicitationMessage.Hint">
+    <Value>Solicitation message on the order completed page.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.AllowedTokens">
+    <Value>Allowed message tokens</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.AllowedTokens.Hint">
+    <Value>This is a list of the message tokens you can use in your message.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.AllowedTokens.Token">
+    <Value>%Customer.URLForRegisterGuest% - URL for automatic guest registration.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.StoreUrl">
+    <Value>Website address (for registration)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.StoreUrl.Hint">
+    <Value>Website address (for registration).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.showDebugInfo">
+    <Value>Enable Debugging</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.showDebugInfo.Hint">
+    <Value>Write debugging information to a file in the ~/App_Data/ folder.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.SerialNumber">
+    <Value>Serial number</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.SerialNumber.Hint">
+    <Value>Serial number.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.ClearLogFile">
+    <Value>Clear the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.GetLogFile">
+    <Value>Download the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.SendWelcomeMessage">
+    <Value>Send welcome message to guest</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.SendWelcomeMessage.Hint">
+    <Value>Send welcome message to guest with password.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.ButtonInOrder">
+    <Value>Register Customer</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.ButtonInOrderList">
+    <Value>Register Guests</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.QuestionInOrder">
+    <Value>Do you want to register the customer?</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.QuestionInOrderList">
+    <Value>Do you want to register selected guests?</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Successfully">
+    <Value>Customer has been registered successfully.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.ErrorRegistered">
+    <Value>Error. Couldn't register guest:</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.ChangedCustomer">
+    <Value>A customer with an existing email has been found. Customer has been updated successfully.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.RewardPointsMovedTo">
+    <Value>Reward points have been moved to customer with id={0}.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.RewardPointsMovedFrom">
+    <Value>Reward points have been moved from customer with id={0}.</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.AutoRegisterMode.AfterPaid">
+    <Value>Automatically after payment of the order</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.AutoRegisterMode.AfterPlaced">
+    <Value>Automatically after the order was created</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.AutoRegisterMode.Manually">
+    <Value>Administrator does it manually</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.AutoRegisterMode.CustomerOnOrderCompletedPage">
+    <Value>Guest does it manually on order completed page</Value>
+  </LocaleResource>
+  <LocaleResource Name="FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Error.WrongOrderId">
+    <Value>Error. Couldn't find order with Id='{0}'.</Value>
+  </LocaleResource>
+  <LocaleResource Name="FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Error.CustomerRegistered">
+    <Value>Error. Customer is registered.</Value>
+  </LocaleResource>
+  <LocaleResource Name="FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Error.CommonMessage">
+    <Value>Error. Customer can't be registered. Contact the store owner.</Value>
+  </LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Error.ExistingAccount">
+		<Value><![CDATA[Dear customer, you have already registered in our store. If you log in, you can use the benefits for registered customers. If you forgot your password, please use the "Forgot password?" link on the login screen.]]></Value>
+	</LocaleResource>
+	<LocaleResource Name="FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Error.WrongSettings">
+    <Value>Error. Customer can't be registered. Customer can't register themselves.</Value>
+  </LocaleResource>
+  <LocaleResource Name="FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Result.Successfully">
+    <Value>Your registration has been successfully completed. You have just been sent an email with your login and password.</Value>
+  </LocaleResource>
+	<LocaleResource Name="admin.contentmanagement.messagetemplates.description.customer.newpassword">
+		<Value><![CDATA[This message template is used when the plugin AutoRegisterGuest sends an email with customer's passwords to Guests.]]></Value>
+	</LocaleResource>
+</Language>
+

@@ -1,0 +1,26 @@
+﻿/*
+* Copyright 2016 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.mega-menu .dropdown {
+    left: unset;
+    right: 250px;
+    box-shadow: -5px 0 12px rgba(0,0,0,.05);
+}
+.mega-menu .dropdown.fullWidth .box .title {
+    margin-left: unset;
+    margin-right: 10px;
+}
+
+@media all and (min-width: 1281px) {
+
+    .mega-menu .dropdown {
+        left: unset;
+        right: 300px;
+    }
+    .mega-menu .dropdown.fullWidth .box .title {
+        margin-left: unset;
+	    margin-right: 20px;
+    }
+}

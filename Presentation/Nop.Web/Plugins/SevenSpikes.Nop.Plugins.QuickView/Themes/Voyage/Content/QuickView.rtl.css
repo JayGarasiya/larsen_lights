@@ -1,0 +1,25 @@
+﻿
+.product-list .quick-view-button {
+    margin-right: 15px;
+    margin-left: 0;
+}
+.quickView .k-window-titlebar-action {
+    left: 0;
+    right: auto;
+}
+.quickView .gallery {
+    float: right;
+}
+.quickView .links-panel a:after {
+    transform: scaleX(-1);
+    margin-right: 5px;
+    margin-left: 0;
+}
+.quickView .overview {
+    float: left;
+}
+.quickView .ui-icon-circle-arrow-s:after,
+.quickView .ui-icon-circle-arrow-e:after {
+    left: 4px;
+    right: auto;
+}

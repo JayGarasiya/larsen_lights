@@ -1,0 +1,29 @@
+﻿@model PreviouslyPurchasedModel
+
+@{
+    Layout = "_ColumnsTwo";
+
+    //title
+    NopHtml.AddTitleParts(T("Plugins.Widgets.PreviouslyPurchased.Title").Text);
+    //page class
+    NopHtml.AppendPageCssClassParts("html-product-previously-purchased-page");
+    NopHtml.AddScriptParts(ResourceLocation.Footer, "~/js/public.catalogproducts.js");
+}
+
+@section CatalogFilters {
+    @await Html.PartialAsync("_CatalogFilters", Model.CatalogProductsModel)
+}
+
+<div class="page product-tag-page">
+    <div class="page-title">
+        <h1>@T("Plugins.Widgets.PreviouslyPurchased.Title")</h1>
+    </div>
+    <div class="page-body">
+        @await Html.PartialAsync("_CatalogSelectors", Model.CatalogProductsModel)
+        @{
+            var catalogProductsViewData = new ViewDataDictionary(ViewData);
+            catalogProductsViewData["fetchUrl"] = Html.Raw(Url.Action("GetPreviouslyPurchasedProducts", "PreviouslyPurchasedCatalog"));
+        }
+        @await Html.PartialAsync("_CatalogProducts", Model.CatalogProductsModel, catalogProductsViewData)
+    </div>
+</div>

@@ -1,0 +1,34 @@
+
+span.search-box-text {
+    float: right;
+}
+.search-option-enabled .select-wrap {
+    float: right;
+	padding: 0 2px 0 0;
+}
+.search-box-text .k-clear-value {
+	right: unset;
+	left: 0;
+}
+.instant-search-item .img-block {
+    float: right;
+}
+.instant-search-item .detail {
+    margin-right: 90px;
+	margin-left: 0;
+    text-align: right;
+}
+
+@media all and (min-width: 481px) {
+
+	.search-option-enabled .select-wrap {
+		background-position: left center;
+	}
+}
+
+@media all and (min-width: 1501px) {
+
+	.header.normal .search-option-enabled .select-wrap {
+		background-position: left center;
+	}
+}

@@ -1,0 +1,175 @@
+﻿@model FooterModel
+
+@{
+    var storeId = (await storeContext.GetCurrentStoreAsync()).Id;
+    var removeCopyright = await settingService.GetSettingByKeyAsync("pacificthemesettings.removecopyright", false, storeId, true);
+    var removeDesignedBy = await settingService.GetSettingByKeyAsync("pacificthemesettings.removedesignedby", false, storeId, true);
+
+    var footerMenus = await menuModelFactory.PrepareMenuModelsAsync(MenuType.Footer) ?? new List<Nop.Web.Models.Menus.MenuModel>();
+    var informationMenu = footerMenus.ElementAtOrDefault(0);
+    var customerServiceMenu = footerMenus.ElementAtOrDefault(1);
+    var myAccountMenu = footerMenus.ElementAtOrDefault(2);
+}
+
+<div class="footer">
+    <div class="footer-upper">
+        <div class="footer-blocks-wrapper center">
+            <div class="footer-block-center">
+                @await Component.InvokeAsync(typeof(NewsLetterBoxViewComponent))
+                @await Component.InvokeAsync(typeof(SocialButtonsViewComponent))
+            </div>
+        </div>
+        <div class="footer-blocks-wrapper left">
+            <div class="footer-block contact">
+                <div class="title">
+                    <strong>@T("SevenSpikes.Themes.Pacific.Common.ContactInfo")</strong>
+                </div>
+                <ul class="list footer-collapse">
+                    <li class="phone">
+                        <span>@T("SevenSpikes.Themes.Pacific.Common.Phone")</span>
+                    </li>
+                    <li class="work-time">
+                        <span>@T("SevenSpikes.Themes.Pacific.Common.WorkTime")</span>
+                    </li>
+                    <li class="e-mail">
+                        <span>@T("SevenSpikes.Themes.Pacific.Common.EMail")</span>
+                    </li>
+                    <li class="address-city">
+                        <span>@T("SevenSpikes.Themes.Pacific.Common.City")</span>
+                    </li>
+                    <li class="address-street">
+                        <span>@T("SevenSpikes.Themes.Pacific.Common.Street")</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-block information">
+                <div class="title">
+                    <strong>@T("SevenSpikes.Themes.Pacific.Common.Information")</strong>
+                </div>
+                <ul class="list footer-collapse">
+                    @if (informationMenu?.Items?.Any() ?? false)
+                    {
+                        foreach (var menuItem in informationMenu.Items)
+                        {
+                            <li>
+                                @if (!string.IsNullOrEmpty(menuItem.Url))
+                                {
+                                    <a href="@menuItem.Url">@menuItem.Title</a>
+                                }
+                                else
+                                {
+                                    @menuItem.Title
+                                }
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.SITEMAP)">@T("Sitemap")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.CONTACT_US)">@T("ContactUs")</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="footer-blocks-wrapper right">
+            <div class="footer-block service">
+                <div class="title">
+                    <strong>@T("SevenSpikes.Themes.Pacific.Common.CustomerService")</strong>
+                </div>
+                <ul class="list footer-collapse">
+                    @if (customerServiceMenu?.Items?.Any() ?? false)
+                    {
+                        foreach (var menuItem in customerServiceMenu.Items)
+                        {
+                            <li>
+                                @if (!string.IsNullOrEmpty(menuItem.Url))
+                                {
+                                    <a href="@menuItem.Url">@menuItem.Title</a>
+                                }
+                                else
+                                {
+                                    @menuItem.Title
+                                }
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.SEARCH)">@T("Search")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.NEWS)">@T("News")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.BLOG)">@T("Blog")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.BOARDS)">@T("Forum.Forums")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.RECENTLY_VIEWED_PRODUCTS)">@T("Products.RecentlyViewedProducts")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.COMPARE_PRODUCTS)">@T("Products.Compare.List")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.NEW_PRODUCTS)">@T("Products.NewProducts")</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="footer-block account">
+                <div class="title">
+                    <strong>@T("SevenSpikes.Themes.Pacific.Common.MyAccount")</strong>
+                </div>
+                <ul class="list footer-collapse">
+                    @if (myAccountMenu?.Items?.Any() ?? false)
+                    {
+                        foreach (var menuItem in myAccountMenu.Items)
+                        {
+                            <li>
+                                @if (!string.IsNullOrEmpty(menuItem.Url))
+                                {
+                                    <a href="@menuItem.Url">@menuItem.Title</a>
+                                }
+                                else
+                                {
+                                    @menuItem.Title
+                                }
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.CUSTOMER_INFO)">@T("Account.MyAccount")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.CUSTOMER_ORDERS)">@T("Account.CustomerOrders")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.CUSTOMER_ADDRESSES)">@T("Account.CustomerAddresses")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.CART)">@T("ShoppingCart")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.WISHLIST)">@T("Wishlist")</a></li>
+                        <li><a href="@Url.RouteUrl(NopRouteNames.General.APPLY_VENDOR_ACCOUNT)">@T("Vendors.ApplyAccount")</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-lower">
+        <div class="footer-lower-left">
+            @if (!removeCopyright)
+            {
+                <div class="footer-powered-by">
+                    Powered by <a href="@(OfficialSite.Main)" target="_blank" @(Model.IsHomePage ? string.Empty : "rel=nofollow")>nopCommerce</a>
+                    @*Would you like to remove the "Powered by nopCommerce" link in the bottom of the footer?
+						Find more info at https://www.nopcommerce.com/nopcommerce-copyright-removal-key*@
+                </div>
+            }
+            @if (!removeDesignedBy)
+            {
+                <div class="footer-designed-by">
+                    Designed by <a href="https://www.nop-templates.com/" target="_blank">Nop-Templates.com</a>
+                </div>
+            }
+        </div>
+        <div class="footer-lower-right">
+            <div class="footer-disclaimer">
+                @T("Content.CopyrightNotice", DateTime.Now.Year, Model.StoreName)
+            </div>
+            @if (Model.DisplayTaxShippingInfoFooter)
+            {
+                var inclTax = await workContext.GetTaxDisplayTypeAsync() == TaxDisplayType.IncludingTax;
+
+                <div class="footer-tax-shipping">
+                    @T(inclTax ? "Footer.TaxShipping.InclTax" : "Footer.TaxShipping.ExclTax", await NopUrl.RouteTopicUrlAsync("shippinginfo"))
+                </div>
+            }
+        </div>
+        @await Component.InvokeAsync(typeof(StoreThemeSelectorViewComponent))
+    </div>
+    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.Footer, additionalData = Model })
+</div>

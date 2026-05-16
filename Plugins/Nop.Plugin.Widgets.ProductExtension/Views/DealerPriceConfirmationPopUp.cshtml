@@ -1,0 +1,75 @@
+﻿@model DealerPriceSelectorModel
+
+@if (Model.ShowConfirmation)
+{
+    <input id="listingpricevalid" type="checkbox" name="listingpricevalid" style="visibility:hidden; display: none;" />
+    <div class="taxexempt-popup mfp-with-anim mfp-hide" id="dealer-price-confirm">
+        <div class="taxexempt-title">
+            <h1>@T("Plugins.Widgets.ProductExtension.DealerPriceConfirmation.Title")</h1>
+        </div>
+        <div class="taxexempt-body">
+            <div class="taxexempt-options">
+                <span>@Html.Raw(T("Plugins.Widgets.ProductExtension.DealerPriceConfirmation.Body"))</span>
+            </div>
+        </div>
+        <div class="apply-taxexempt-button-container">
+            <button type="button" class="button-2 btn-submit apply-listing-price-button apply-shipping-button">@T("Plugins.Widgets.ProductExtension.DealerPriceConfirmation.Yes")</button>
+            <button type="button" class="button-2 btn-cancel apply-dealer-price-button apply-shipping-button">@T("Plugins.Widgets.ProductExtension.DealerPriceConfirmation.No")</button>
+        </div>
+    </div>
+
+    <script asp-location="Footer">
+        $(document).ready(function () {
+
+            var confirmDialog = function (cb) {
+                $.magnificPopup.open({
+                    modal: true,
+                    items: {
+                        src: "#dealer-price-confirm",
+                        type: 'inline'
+                    },
+                    callbacks: {
+                        open: function () {
+                            var $content = $(this.content);
+                            $content.on('click', '.btn-submit', function () {
+                                $.magnificPopup.close();
+                                $("#listingpricevalid").prop('checked', true);
+                                $("#checkout").click();
+                                $(document).off('keydown', keydownHandler);
+                            });
+
+                            $content.on('click', '.btn-cancel', function () {
+                                $.magnificPopup.close();
+                                $("#listingpricevalid").prop('checked', false);
+                                $(document).off('keydown', keydownHandler);
+                            });
+
+                            var keydownHandler = function (e) {
+                                if (e.keyCode == 13) {
+                                    $content.find('.btn-submit').click();
+                                    return false;
+                                } else if (e.keyCode == 27) {
+                                    $content.find('.btn-cancel').click();
+                                    return false;
+                                }
+                            };
+                            $(document).on('keydown', keydownHandler);
+                        }
+                    }
+                });
+            }
+
+            $('#checkout').on('click', function () {
+                var priceValid = true;
+                console.log($('#listingpricevalid').is(':checked'));
+                if (!$('#listingpricevalid').is(':checked')) {
+                    confirmDialog();
+                    priceValid = false;
+                } else {
+                    priceValid = true;
+                }
+                return priceValid;
+            });
+        });
+    </script>
+}

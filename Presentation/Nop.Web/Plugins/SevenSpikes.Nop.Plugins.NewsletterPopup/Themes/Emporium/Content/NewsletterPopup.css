@@ -1,0 +1,165 @@
+﻿/*
+* Copyright 2018 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.newsletter-subscribe-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1070;
+    background: rgba(68,68,68,0.5);
+}
+
+.newsletter-subscribe-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1110;
+    width: 90%;
+    max-width: 550px;
+    min-height: 300px;
+    margin: auto;
+    background-color: #fff;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 30px;
+    text-align: center;
+    transform: translate(-50%,-50%);
+}
+
+/*Remove Comment if you want to hide result message*/
+/*.newsletter-subscribe-popup .newsletter-subscribe.hidden { 
+    display: none;
+}*/
+
+.newsletter-subscribe-popup-title {
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 22px;
+    color: #444;
+}
+
+.newsletter-subscribe-description-wrapper {
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: #888;
+}
+
+.newsletter-subscribe-popup .newsletter-email {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.newsletter-subscribe-popup .newsletter-email {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.newsletter-subscribe-popup .options span {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.newsletter-subscribe-popup .options label {
+    font-size: 15px;
+}
+
+.newsletter-subscribe-popup .options .subscribe {
+    margin-right: 15px;
+}
+
+.newsletter-subscribe-popup .captcha-box {
+    margin: 15px 0;
+}
+.newsletter-subscribe-popup .consent-error {
+	display: none;
+    margin: 10px 0 0;
+    font-size: 13px;
+}
+
+.newsletter-subscribe-popup .newsletter-validation,
+.newsletter-subscribe-popup .newsletter-result {
+    margin: 5px 0;
+}
+
+.newsletter-subscribe-popup .close-popup {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    font-size: 0;
+}
+
+.newsletter-subscribe-popup .close-popup:before {
+    content: "\7a";
+    display: block;
+    font-size: 20px;
+    color: #444;
+    opacity: .6;
+    transition: color .1s ease;
+}
+.newsletter-subscribe-popup .close-popup:hover:before {
+    color: #97c300;
+}
+
+.newsletter-subscribe-popup .close-popup:hover {
+    opacity: 1;
+}
+
+.newsletter-subscribe-popup .newsletter-subscribe-options {
+    display: flex;
+    flex-flow: column;
+    row-gap: 5px;
+    margin-top: 20px;
+    color: #888;
+}
+
+.newsletter-subscribe-popup .newsletter-subscribe-options label {
+    font-size: 15px;
+}
+
+.newsletter-subscribe-popup .newsletter-email button {
+    float: none;
+    clear: both;
+    border: none;
+}
+
+.newsletter input[type="email"] {
+    display: none;
+}
+
+.newsletter .options, .newsletter .captcha-box {
+    display: none;
+}
+
+.newsletter .newsletter-email .newsletter-subscribe-button {
+    float: none;
+    padding: 0 24%;
+    font-size: 14px;
+    width: auto;
+    background-position: 20% center;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+
+@media (min-width: 768px) {
+
+    .newsletter-subscribe-popup {
+        padding: 50px;
+        text-align: left;
+    }
+
+    .newsletter-subscribe-popup .captcha-box > div {
+        display: block;
+    }
+
+    .newsletter-subscribe-popup .newsletter-validation,
+    .newsletter-subscribe-popup .newsletter-result {
+        text-align: left;
+    }
+}

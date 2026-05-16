@@ -1,0 +1,5 @@
+﻿
+.accordion .ui-tab-title:after {
+    left: 4px;
+    right: auto;
+}

@@ -1,0 +1,61 @@
+﻿@model ConfigurationModel
+
+<div class="card-body">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="EnableSpeedeeMethod" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="EnableSpeedeeMethod" />
+            <span asp-validation-for="EnableSpeedeeMethod"></span>
+        </div>
+    </div>
+    <nop-nested-setting asp-for="EnableSpeedeeMethod">
+        <div class="form-group row" id="pnlSpeedeeTrackingApiUrl">
+            <div class="col-md-3">
+                <nop-label asp-for="SpeedeeTrackingApiUrl" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="SpeedeeTrackingApiUrl" />
+                <span asp-validation-for="SpeedeeTrackingApiUrl"></span>
+            </div>
+        </div>
+        <div class="form-group row" id="pnlSpeedeeAccount">
+            <div class="col-md-3">
+                <nop-label asp-for="SpeedeeAccount" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="SpeedeeAccount" />
+                <span asp-validation-for="SpeedeeAccount"></span>
+            </div>
+        </div>
+        <div class="form-group row" id="pnlSpeedeePassword">
+            <div class="col-md-3">
+                <nop-label asp-for="SpeedeePassword" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="SpeedeePassword" />
+                <span asp-validation-for="SpeedeePassword"></span>
+            </div>
+        </div>
+    </nop-nested-setting>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.EnableSpeedeeMethod)").click(toggleSpeedeeMethods);
+
+        toggleSpeedeeMethods();
+    });
+
+    function toggleSpeedeeMethods() {
+        if ($('#@Html.IdFor(model => model.EnableSpeedeeMethod)').is(':checked')) {
+            $('#pnlSpeedeeTrackingApiUrl').showElement();
+            $('#pnlSpeedeeAccount').showElement();
+            $('#pnlSpeedeePassword').showElement();
+        } else {
+            $('#pnlSpeedeeTrackingApiUrl').hideElement();
+            $('#pnlSpeedeeAccount').hideElement();
+            $('#pnlSpeedeePassword').hideElement();
+        }
+    }
+</script>

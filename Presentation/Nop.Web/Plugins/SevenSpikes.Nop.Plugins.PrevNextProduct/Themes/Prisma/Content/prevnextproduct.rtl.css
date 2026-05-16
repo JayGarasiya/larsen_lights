@@ -1,0 +1,30 @@
+﻿/*
+* Copyright 2014 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.previous-product {
+	float: right;
+}
+.next-product {
+	float: left;
+}
+
+.previous-product a {
+	text-align: right;
+    border-left: 2px solid #fff;
+}
+    .previous-product a:before {
+        content: '\e925';
+        right: 0;
+        left: auto;
+    }
+.next-product a {
+	text-align: left;
+    border-right: 2px solid #fff;
+}
+    .next-product a:after {
+        content: '\e924';
+        left: 0;
+        right: auto;
+    }

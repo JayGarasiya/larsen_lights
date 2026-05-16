@@ -1,0 +1,119 @@
+﻿/*
+* Copyright 2018 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.newsletter-subscribe-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1070;
+    background: rgba(0,0,0,0.5);
+}
+.newsletter-subscribe-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1110;
+    width: 90%;
+    max-width: 500px;
+    min-height: 300px;
+    margin: auto;
+    padding: 30px;
+    background-color: #e87772;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    color: #ffffff;
+    transform: translate(-50%,-50%);
+}
+/*Remove Comment if you want to hide result message*/
+/*.newsletter-subscribe-popup .newsletter-subscribe.hidden { 
+    display: none;
+}*/ 
+.newsletter-subscribe-popup-title {
+    margin-bottom: 20px;
+    font-weight: normal;
+    font-size: 28px;
+}
+.newsletter-subscribe-description-wrapper {
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+.newsletter-subscribe-popup .newsletter-email {
+    display: inline-block;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+.newsletter-subscribe-popup .options {
+    margin: 0 0 10px;
+}
+.newsletter-subscribe-popup .captcha-box {
+    margin: 15px 0 10px;
+}
+.newsletter-subscribe-popup .consent-error {
+	display: none;
+    margin: 10px 0 0;
+}
+.newsletter-subscribe-popup .newsletter-validation,
+.newsletter-subscribe-popup .newsletter-result {
+    padding: 0;
+} 
+.newsletter-subscribe-popup .newsletter-subscribe-options {
+    display: flex;
+    flex-flow: column;
+    row-gap: 5px;
+    margin-top: 20px;
+}
+.newsletter-subscribe-popup .close-popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QUFFNzcxQzJGQzQ3MTFFN0EwMzJFRjNEMEVGMzk4RkQiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QUFFNzcxQzFGQzQ3MTFFN0EwMzJFRjNEMEVGMzk4RkQiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpEQ0U0QTdCQzBEMUExMUU2QkYyMURCMkVDRjI4MzEzMiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpEQ0U0QTdCRDBEMUExMUU2QkYyMURCMkVDRjI4MzEzMiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PkQBRvsAAABKSURBVHjaYvwPBAwMDIwMxIH/jBD1DMRoAquBaSCkCS6HrAGXJhQxdA3oCjAMwKYBppABmxOZGEgEFDuJJE+TFKwkRRxJSQMgwAAZrDXr8Miv/wAAAABJRU5ErkJggg==) no-repeat center;
+    font-size: 0;
+    opacity: .8;
+}
+.newsletter-subscribe-popup .close-popup:hover {
+    opacity: 1;
+}
+.subscribe-block h3, .newsletter .options,
+.newsletter input[type="email"],.newsletter .captcha-box {
+    display: none;
+}
+.newsletter .newsletter-email .newsletter-subscribe-button {
+    float: none;
+    padding: 0 31%;
+    border-radius: 20px;
+    font-size: 14px;
+    width: 100%;
+    min-width: 200px;
+    background-position: 20% center;
+    text-transform: uppercase;
+    text-indent: 0;
+    color: #fff;
+}
+
+
+@media (min-width: 768px) {
+
+    .newsletter-subscribe-popup {
+        padding: 50px;
+        text-align: left;
+    }
+    .newsletter-subscribe-popup .newsletter-subscribe-text {
+        width: 300px;
+    }
+    .newsletter-subscribe-popup .captcha-box > div {
+        display: block;
+    }
+    .newsletter-subscribe-popup .newsletter-validation,
+    .newsletter-subscribe-popup .newsletter-result {
+        text-align: left;
+    }
+}

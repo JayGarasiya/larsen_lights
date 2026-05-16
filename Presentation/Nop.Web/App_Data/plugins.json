@@ -1,0 +1,282 @@
+﻿{
+  "InstalledPluginNames": [
+    "Obsolete field, using only for compatibility"
+  ],
+  "InstalledPlugins": [
+    {
+      "SystemName": "Payments.PayPalCommerce",
+      "Version": "4.90.20"
+    },
+    {
+      "SystemName": "DiscountRequirement.MustBeAssignedToCustomerRole",
+      "Version": "4.90.2"
+    },
+    {
+      "SystemName": "DiscountRequirement.MustNotBeAssignedToCustomerRole",
+      "Version": "2.00"
+    },
+    {
+      "SystemName": "DiscountRequirement.SpendAmountOver",
+      "Version": "2.10"
+    },
+    {
+      "SystemName": "CurrencyExchange.ECB",
+      "Version": "4.90.1"
+    },
+    {
+      "SystemName": "PromotionFeed.GoogleShopping",
+      "Version": "4.90.1"
+    },
+    {
+      "SystemName": "FoxNetSoft.AddressAutocomplete",
+      "Version": "1.01"
+    },
+    {
+      "SystemName": "FoxNetSoft.AssignGuestOrders",
+      "Version": "1.00"
+    },
+    {
+      "SystemName": "FoxNetSoft.Plugin.Misc.AutoRegisterGuest",
+      "Version": "1.08"
+    },
+    {
+      "SystemName": "FoxNetSoft.PhoneNumberMask",
+      "Version": "1.01"
+    },
+    {
+      "SystemName": "FoxNetSoft.ShipWorks",
+      "Version": "1.04"
+    },
+    {
+      "SystemName": "FoxNetSoft.Plugin.Misc.StampsConnector",
+      "Version": "3.03"
+    },
+    {
+      "SystemName": "FoxNetSoft.UPSConnector",
+      "Version": "2.04"
+    },
+    {
+      "SystemName": "Inventory.Order",
+      "Version": "1.02"
+    },
+    {
+      "SystemName": "Misc.Brevo",
+      "Version": "4.90.8"
+    },
+    {
+      "SystemName": "Misc.BulkEdit",
+      "Version": "1.00"
+    },
+    {
+      "SystemName": "Misc.Dynamics365",
+      "Version": "4.90.01"
+    },
+    {
+      "SystemName": "Misc.InvoicePDF",
+      "Version": "1.00"
+    },
+    {
+      "SystemName": "Misc.NopMobileApp",
+      "Version": "4.90.1"
+    },
+    {
+      "SystemName": "Misc.OmnibusDirective",
+      "Version": "4.90.1"
+    },
+    {
+      "SystemName": "Misc.Omnisend",
+      "Version": "4.90.6"
+    },
+    {
+      "SystemName": "Misc.PowerBI",
+      "Version": "4.90.1"
+    },
+    {
+      "SystemName": "Misc.RFQ",
+      "Version": "4.90.13"
+    },
+    {
+      "SystemName": "Misc.ShipmentTracking",
+      "Version": "1.05"
+    },
+    {
+      "SystemName": "Misc.WebApi.Frontend",
+      "Version": "4.90.1"
+    },
+    {
+      "SystemName": "Misc.Zettle",
+      "Version": "4.90.5"
+    },
+    {
+      "SystemName": "MultiFactorAuth.GoogleAuthenticator",
+      "Version": "4.90.3"
+    },
+    {
+      "SystemName": "OnePage.Checkout",
+      "Version": "1.02"
+    },
+    {
+      "SystemName": "Payments.CheckMoneyOrder",
+      "Version": "4.90.1"
+    },
+    {
+      "SystemName": "Payments.Evance",
+      "Version": "1.00"
+    },
+    {
+      "SystemName": "Payments.Manual",
+      "Version": "4.90.1"
+    },
+    {
+      "SystemName": "Payments.PurchaseOrder",
+      "Version": "1.37"
+    },
+    {
+      "SystemName": "Pickup.PickupInStore",
+      "Version": "4.90.2"
+    },
+    {
+      "SystemName": "Reports.ChartsAndTables",
+      "Version": "2.08"
+    },
+    {
+      "SystemName": "Search.Lucene",
+      "Version": "4.90.1"
+    },
+    {
+      "SystemName": "SevenSpikes.Core",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "Shipping.FixedByWeightByTotal",
+      "Version": "4.90.4"
+    },
+    {
+      "SystemName": "Shipping.UPS",
+      "Version": "4.90.3"
+    },
+    {
+      "SystemName": "Tax.FixedOrByCountryStateZip",
+      "Version": "4.90.4"
+    },
+    {
+      "SystemName": "Tax.TaxJar",
+      "Version": "3.04"
+    },
+    {
+      "SystemName": "Widgets.AccessiBe",
+      "Version": "4.90.2"
+    },
+    {
+      "SystemName": "Widgets.Chat",
+      "Version": "1.00"
+    },
+    {
+      "SystemName": "Widgets.FacebookPixel",
+      "Version": "4.90.2"
+    },
+    {
+      "SystemName": "Widgets.Fulfillment",
+      "Version": "3.07"
+    },
+    {
+      "SystemName": "Widgets.GoogleAnalytics",
+      "Version": "4.90.2"
+    },
+    {
+      "SystemName": "Widgets.MakeTypeModel",
+      "Version": "1.13"
+    },
+    {
+      "SystemName": "Widgets.PreviouslyPurchased",
+      "Version": "1.00"
+    },
+    {
+      "SystemName": "Widgets.ProductExtension",
+      "Version": "2.06"
+    },
+    {
+      "SystemName": "Widgets.QuickOrder",
+      "Version": "1.00"
+    },
+    {
+      "SystemName": "Widgets.Swiper",
+      "Version": "4.90.4"
+    },
+    {
+      "SystemName": "ExternalAuth.Facebook",
+      "Version": "4.90.3"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.AjaxCart",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.AjaxFilters",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.AnywhereSliders",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.CloudZoom",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.InstantSearch",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.JCarousel",
+      "Version": "4.80"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.MegaMenu",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.NewsletterPopup",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.NopQuickTabs",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.PrevNextProduct",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.ProductRibbons",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.QuickView",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.RichBlog",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.SaleOfTheDay",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Nop.Plugins.SmartProductCollections",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "SevenSpikes.Theme.Pacific",
+      "Version": "4.9"
+    },
+    {
+      "SystemName": "Tax.Avalara",
+      "Version": "4.90.7"
+    }
+  ],
+  "PluginNamesToUninstall": [],
+  "PluginNamesToDelete": [],
+  "PluginNamesToInstall": []
+}

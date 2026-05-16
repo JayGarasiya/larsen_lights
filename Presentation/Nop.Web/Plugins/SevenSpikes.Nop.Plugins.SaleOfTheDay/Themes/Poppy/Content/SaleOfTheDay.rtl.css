@@ -1,0 +1,35 @@
+﻿
+.sale-of-the-day-offer .slick-prev {
+    right: 50%;
+    left: unset;
+    margin-right: -48px;
+    margin-left: 0;
+}
+.sale-of-the-day-offer .slick-next {
+    left: 50%;
+    right: unset;
+    margin-left: -48px;
+    margin-right: unset;
+}
+
+@media all and (min-width: 1025px) {
+
+    .sale-of-the-day-offer .slick-prev {
+        margin-right: -38px;
+        margin-left: unset;
+    }
+    .sale-of-the-day-offer .slick-next {
+        margin-left: -38px;
+        margin-right: unset;
+    }
+}
+
+@media all and (min-width: 1601px) {
+
+    .sale-of-the-day-offer .picture-thumbs-navigation-arrow.picture-thumbs-prev-arrow {
+        text-align: right;
+    }
+    .sale-of-the-day-offer .picture-thumbs-navigation-arrow.picture-thumbs-next-arrow {
+        text-align: left;
+    }
+}

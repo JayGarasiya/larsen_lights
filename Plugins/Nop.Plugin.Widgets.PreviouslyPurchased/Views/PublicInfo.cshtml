@@ -1,0 +1,62 @@
+﻿@model IList<ProductOverviewModel>
+
+@{
+    NopHtml.AppendCssFileParts("~/Plugins/Widgets.PreviouslyPurchased/Content/styles.css");
+
+    var controllerName = Url.ActionContext.RouteData.Values["controller"].ToString();
+    var actionName = Url.ActionContext.RouteData.Values["action"].ToString();
+
+    var isAccountPage = (controllerName.Equals("customer", StringComparison.InvariantCultureIgnoreCase) && (
+            actionName.Equals("info", StringComparison.InvariantCultureIgnoreCase) ||
+            actionName.Equals("addresses", StringComparison.InvariantCultureIgnoreCase) ||
+            actionName.Equals("addressadd", StringComparison.InvariantCultureIgnoreCase) ||
+            actionName.Equals("addressedit", StringComparison.InvariantCultureIgnoreCase) ||
+            actionName.Equals("downloadableproducts", StringComparison.InvariantCultureIgnoreCase) ||
+            actionName.Equals("changepassword", StringComparison.InvariantCultureIgnoreCase) ||
+            actionName.Equals("avatar", StringComparison.InvariantCultureIgnoreCase))) ||
+            actionName.Equals("customerproductreviews", StringComparison.InvariantCultureIgnoreCase) ||
+            controllerName.Equals("helpdesk", StringComparison.InvariantCultureIgnoreCase) ||
+            controllerName.Equals("vendor", StringComparison.InvariantCultureIgnoreCase) &&
+                            actionName.Equals("info", StringComparison.InvariantCultureIgnoreCase) ||
+            (controllerName.Equals("backinstocksubscription", StringComparison.InvariantCultureIgnoreCase) &&
+                            actionName.Equals("customersubscriptions", StringComparison.InvariantCultureIgnoreCase)) ||
+            (controllerName.Equals("order", StringComparison.InvariantCultureIgnoreCase) &&
+                            actionName.Equals("customerorders", StringComparison.InvariantCultureIgnoreCase)) ||
+            (controllerName.Equals("order", StringComparison.InvariantCultureIgnoreCase) &&
+                            actionName.Equals("customerrewardpoints", StringComparison.InvariantCultureIgnoreCase)) ||
+            (controllerName.Equals("boards", StringComparison.InvariantCultureIgnoreCase) &&
+                            actionName.Equals("customerforumsubscriptions", StringComparison.InvariantCultureIgnoreCase)) ||
+            (controllerName.Equals("returnrequest", StringComparison.InvariantCultureIgnoreCase) &&
+                            actionName.Equals("customerreturnrequests", StringComparison.InvariantCultureIgnoreCase))||
+            (controllerName.Equals("evance", StringComparison.InvariantCultureIgnoreCase) &&
+                            actionName.Equals("customervaultlist", StringComparison.InvariantCultureIgnoreCase));
+}
+@if (Model.Count > 0 && !isAccountPage)
+{
+    <div class="block block-previously-purchased-products">
+        <div class="title">
+            <strong>@T("Plugins.Widgets.PreviouslyPurchased")</strong>
+        </div>
+        <div class="listbox">
+            <ul class="list">
+                @for (var i = 0; i < Model.Count; i++)
+                {
+                    var product = Model[i];
+                    var picture = product.PictureModels.FirstOrDefault();
+                    <li @(i == Model.Count - 1 ? @Html.Raw(" class=\"last\"") : null)>
+                        @if (picture != null && !string.IsNullOrEmpty(picture.ImageUrl))
+                        {
+                            <a class="product-picture" href="@(await NopUrl.RouteGenericUrlAsync<Product>(new { SeName = product.SeName }))" title="@picture.Title">
+                                <img alt="@picture.AlternateText" src="@picture.ImageUrl" title="@picture.Title" />
+                            </a>
+                        }
+                        <a class="product-name" href="@(await NopUrl.RouteGenericUrlAsync<Product>(new { SeName = product.SeName }))">@product.Name</a>
+                    </li>
+                }
+            </ul>
+            <div class="view-all">
+                <a href="@Url.RouteUrl(PreviouslyPurchasedDefaults.PreviouslyPurchasedProductsRoute)">@T("Common.View") @T("Common.All")</a>
+            </div>
+        </div>
+    </div>
+}

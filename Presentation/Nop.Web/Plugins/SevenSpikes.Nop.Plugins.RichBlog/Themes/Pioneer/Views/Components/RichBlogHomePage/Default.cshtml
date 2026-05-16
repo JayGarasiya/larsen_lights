@@ -1,0 +1,56 @@
+﻿@model IList<BlogPostModel7Spikes>
+@inject IViewComponentSelector viewComponentSelector
+
+<div class="rich-blog-widget">
+    <div class="title">
+        <strong>@T("SevenSpikes.RichBlog.Public.LatestFromBlog")</strong>
+        <a class="view-all" href="@Url.RouteUrl("Blog")">@T("SevenSpikes.RichBlog.Public.ViewAllBlogPosts")</a>
+    </div>
+    <div class="blog-posts">
+        @foreach (var post in Model)
+        {
+            <div class="blog-post">
+                <div class="post-primary">
+                    @if (!string.IsNullOrWhiteSpace(post.HomePagePictureUrl))
+                    {
+                        <div class="post-picture">
+                            <a href="@Url.RouteUrl("BlogPost", new { SeName = post.SeName })">
+                                @if (viewComponentSelector.SelectComponent("LazyLoadImage") != null)
+                                {
+                                    @await Component.InvokeAsync("LazyLoadImage", new (string Key, string Value)[]
+                                    {
+                                        ("src", post.HomePagePictureUrl),
+                                        ("alt", post.Title),
+                                        ("title", post.Title)
+                                    })
+                                }
+                                else
+                                {
+                                    <img src="@post.HomePagePictureUrl" alt="@post.Title" title="@post.Title" />
+                                }
+                            </a>
+                            <span class="post-date">@post.CreatedOn.ToString("dd MMMM, yyyy")</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="post-date">
+                            <span>@post.CreatedOn.ToString("dd MMMM, yyyy")</span>
+                        </div>
+                    }
+                </div>
+                <div class="post-details">
+                    <div class="post-title">
+                        <a href="@Url.RouteUrl("BlogPost", new { SeName = post.SeName })">@post.Title</a>
+                    </div>
+                    <div class="post-description">
+                        @Html.Raw(!string.IsNullOrEmpty(post.BodyOverview) ? post.BodyOverview : post.Body)
+                    </div>
+                    <div class="post-buttons">
+                        <a class="read-more" href="@Url.RouteUrl("BlogPost", new { SeName = post.SeName })">@T("SevenSpikes.RichBlog.Public.ReadMore")</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

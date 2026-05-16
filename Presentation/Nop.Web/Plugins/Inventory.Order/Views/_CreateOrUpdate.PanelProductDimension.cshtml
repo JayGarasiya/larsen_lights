@@ -1,0 +1,16 @@
+﻿@model ProductDimensionsModel
+
+@{
+    const string HideProductDimensionBlockAttributeName = "ProductDimensionPage.HideProductDimensionBlock";
+    var hideProductDimensionBlock = await genericAttributeService.GetAttributeAsync<bool>
+    (await workContext.GetCurrentCustomerAsync(), HideProductDimensionBlockAttributeName, defaultValue: true);
+}
+
+<div asp-validation-summary="All"></div>
+<input asp-for="Id" type="hidden" />
+
+<nop-cards id="product-cards">
+    <nop-card asp-name="product-crosssells-products" asp-icon="fas fa-random" asp-title="@T("Plugins.InventoryOrder.Fields.ProductDimensionsTitle")"
+              asp-hide-block-attribute-name="@HideProductDimensionBlockAttributeName" asp-hide="@hideProductDimensionBlock" asp-advanced="false">@await Html.PartialAsync("~/Plugins/Inventory.Order/Views/_CreateOrUpdate.ProductDimension.cshtml", Model)</nop-card>
+</nop-cards>
+

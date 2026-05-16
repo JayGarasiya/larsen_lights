@@ -1,0 +1,275 @@
+﻿@model FoxNetSoft.Plugin.Shipping.UPSConnector.Models.CommonLabelModel
+@using FoxNetSoft.Plugin.Shipping.UPSConnector.Models
+@{
+    var isReturnLabel = Model is ReturnLabelModel;
+}
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.EnableCashOnDelivery)").click(toggleEnableCashOnDelivery);
+
+        toggleEnableCashOnDelivery();
+    });
+
+    function toggleEnableCashOnDelivery() {
+        if ($('#@Html.IdFor(model => model.EnableCashOnDelivery)').is(':checked')) {
+            $('#pnlCashOnDeliveryAmount').showElement();
+        } else {
+            $('#pnlCashOnDeliveryAmount').hideElement();
+        }
+    }
+
+    var packadge_count = @(Model.Packages.Count());
+    function fns_delete_packadge(i)
+    {
+        $('#packadge_'+i).remove();
+    }
+    function fns_add_packadge_td(nameitem, i)
+    {
+        var newdr='<td style=\'width: 18%;\'>';
+        newdr = newdr+'<input id="packadge_'+nameitem+'_'+i+'" name="packadge_'+nameitem+'_'+i+'" type="number" value="" class="form-control" />';
+        newdr = newdr+'</td>';
+        return newdr;
+    }
+    function fns_add_packadge()
+    {
+        packadge_count=packadge_count+1;
+        var newtr='<tr id="packadge_'+packadge_count+'">';
+        newtr = newtr + fns_add_packadge_td('weight', packadge_count);
+        newtr = newtr + fns_add_packadge_td('height', packadge_count);
+        newtr = newtr + fns_add_packadge_td('length', packadge_count);
+        newtr = newtr + fns_add_packadge_td('width', packadge_count);
+        newtr = newtr + fns_add_packadge_td('packadge_insuranceamount', packadge_count);
+
+        var newdr='<td style=\'width: 10%;\'>';
+        newdr = newdr+'<button type="button" id="packadge_button_remove_'+packadge_count+'" class="btn btn-primary" onclick="fns_delete_packadge('+packadge_count+')">@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.Packages.Remove")</button>';
+        newdr = newdr+'</td>';
+        newtr = newtr + newdr;
+
+        newtr = newtr+'</tr>';
+        $('#packages_table tr:last').after(newtr);
+    }
+</script>
+<div class="card-body">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="CarrierService" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="CarrierService" asp-items="Model.AvailableCarrierServices" />
+                        <span asp-validation-for="CarrierService"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PackingType" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="input-group input-group-short float-left" style="width: 450px;">
+                            <nop-select asp-for="PackingType" asp-items="Model.AvaliablePackingTypes" />
+                            <span class="input-group-append">
+                                <button type="submit" name="recalculate" class="btn btn-info">
+                                    @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.PackingType.Button.Recalculate")
+                                </button>
+                            </span>
+                            <span asp-validation-for="PackingType"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PackagingType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="PackagingType" asp-items="Model.AvailablePackagingTypes" />
+                        <span asp-validation-for="PackagingType"></span>
+                    </div>
+                </div>
+                <div class="form-group row" @(Model.HideDutiable ? Html.Raw("style=\"display:none\"") : null)>
+                    <div class="col-md-3">
+                        <nop-label asp-for="IsDutiable" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="IsDutiable" />
+                        <span asp-validation-for="IsDutiable"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="InsurePackage" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="InsurePackage" />
+                        <span asp-validation-for="InsurePackage"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SaturdayDeliveryEnabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SaturdayDeliveryEnabled" />
+                        <span asp-validation-for="SaturdayDeliveryEnabled"></span>
+                    </div>
+                </div>
+                <div class="form-group row" @(isReturnLabel ? Html.Raw("style=\"display:none\"") : null)>
+                    <div class="col-md-3">
+                        <nop-label asp-for="EnableCashOnDelivery" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="EnableCashOnDelivery" />
+                        <span asp-validation-for="EnableCashOnDelivery"></span>
+                    </div>
+                </div>
+                <nop-nested-setting asp-for="EnableCashOnDelivery">
+                    <div class="form-group row" id="pnlCashOnDeliveryAmount" @(isReturnLabel ? Html.Raw("style=\"display:none\"") : null)>
+                        <div class="col-md-3">
+                            <nop-label asp-for="CashOnDeliveryAmount" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="CashOnDeliveryAmount" />
+                            <span asp-validation-for="CashOnDeliveryAmount"></span>
+                        </div>
+                    </div>
+                </nop-nested-setting>
+                @if (isReturnLabel)
+                {
+                    var modelReturn = (ReturnLabelModel)Model;
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="ReturnLabelType" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="ReturnLabelType" asp-items="Model.AvaliableReturnLabelTypes" />
+                        </div>
+                    </div>
+                }
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ShippingDescription" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ShippingDescription" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="card-header">
+                    @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.Packages.Caption")
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12" style="overflow-x: auto;">
+                        <table class="table table-hover table-bordered text-center" id="packages_table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 18%;">
+                                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Weight") (@(Model.BaseWeightIn))
+                                    </th>
+                                    <th style="width: 18%;">
+                                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Height") (@(Model.BaseDimensionIn))
+                                    </th>
+                                    <th style="width: 18%;">
+                                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Length") (@(Model.BaseDimensionIn))
+                                    </th>
+                                    <th style="width: 18%;">
+                                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.Width") (@(Model.BaseDimensionIn))
+                                    </th>
+                                    <th style="width: 18%;">
+                                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PackageModel.InsuranceAmount") (@(Model.PrimaryStoreCurrencyCode))
+                                    </th>
+                                    <th style="width: 10%;">
+                                    
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (var i = 0; i < Model.Packages.Count; i++)
+                                {
+                                    <tr id="packadge_@(i)">
+                                        <td style="width: 18%;">
+                                            <input id="packadge_weight_@(i)" name="packadge_weight_@(i)" type="number" value="@Model.Packages[i].Weight" class="form-control" />
+                                        </td>
+                                        <td style="width: 18%;">
+                                            <input id="packadge_height_@(i)" name="packadge_height_@(i)" type="number" value="@Model.Packages[i].Height" class="form-control" />
+                                        </td>
+                                        <td style="width: 18%;">
+                                            <input id="packadge_length_@(i)" name="packadge_length_@(i)" type="number" value="@Model.Packages[i].Length" class="form-control" />
+                                        </td>
+                                        <td style="width: 18%;">
+                                            <input id="packadge_width_@(i)" name="packadge_width_@(i)" type="number" value="@Model.Packages[i].Width" class="form-control" />
+                                        </td>
+                                        <td style="width: 18%;">
+                                            <input id="packadge_insuranceamount_@(i)" name="packadge_insuranceamount_@(i)" type="number" value="@Model.Packages[i].InsuranceAmount" class="form-control" />
+                                        </td>
+                                        <td style="width: 10%;">
+                                            <button type="button" id="packadge_button_remove_@(i)" class="btn btn-primary" onclick="fns_delete_packadge(@(i))">@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.Packages.Remove")</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="requirement-data-buttons">
+                            <button type="button" id="packadge_button_add" class="btn btn-primary" onclick="fns_add_packadge()">@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.Packages.New")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="card-header">
+                    @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.ShippingRates.Caption")
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-12" style="overflow-x: auto;">
+                        <table class="table table-hover table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th style="width: 500px;">
+                                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingRate.Name")
+                                    </th>
+                                    <th style="width: 60px">
+                                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingRate.Rate")
+                                    </th>
+                                    <th style="width: 120px">
+                                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingRate.TransitDays")
+                                    </th>
+                                    <th>
+                                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingRate.Description")
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var shippingRate in Model.ShippingRates)
+                                {
+                                    <tr>
+                                        <td style="width: 250px;">
+                                            @shippingRate.Name
+                                        </td>
+                                        <td style="width: 60px">
+                                            @shippingRate.Rate
+                                        </td>
+                                        <td style="width: 120px">
+                                            @shippingRate.TransitDays
+                                        </td>
+                                        <td>
+                                            @shippingRate.Description
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="requirement-data-buttons">
+                            <button type="submit" id="btnUpdateRates" name="btnUpdateRates" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Main.ShippingRate.Button.CalculateRates")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

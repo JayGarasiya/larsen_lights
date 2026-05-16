@@ -1,0 +1,196 @@
+﻿@model FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Models.AutoRegisterGuestSettingsModel
+@using FoxNetSoft.Plugin.Misc.AutoRegisterGuest
+@{
+    Layout = "_ConfigurePlugin";
+}
+@using FoxNetSoft.Plugin.Misc.AutoRegisterGuest.Models
+<form asp-controller="AutoRegisterGuestSettings" asp-action="Configure" method="post">
+    <script>
+        $(document).ready(function () {
+            $("#showDebugInfo").click(toggleshowDebugInfo);
+            $("#@Html.IdFor(model => model.AutoRegisterMode)").change(toggleSolicitationMessage);
+
+            toggleshowDebugInfo();
+            toggleSolicitationMessage();
+        });
+
+        function toggleshowDebugInfo() {
+            if ($('#showDebugInfo').is(':checked')) {
+                $('#pnlclearlogfile, #pnlgetlogfile').showElement();
+            }
+            else {
+                $('#pnlclearlogfile, #pnlgetlogfile').hideElement();
+            }
+        }
+        function toggleSolicitationMessage() {
+            var selectedAutoRegisterMode = $("#@Html.IdFor(model => model.AutoRegisterMode)").val();
+            if (selectedAutoRegisterMode == '@AutoRegisterMode.CustomerOnOrderCompletedPage.ToString()') {
+                $('#pnSolicitationMessage, #pnbAllowedTokens').showElement();
+                $('#pnbSendWelcomeMessage').hideElement();
+            }
+            else {
+                $('#pnSolicitationMessage, #pnbAllowedTokens').hideElement();
+                $('#pnbSendWelcomeMessage').showElement();
+            }
+        }
+    </script>
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                @if (Model.LicenseStatus == LicenseStatus.Registered)
+                {
+                    <p>
+                        @T("Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.IsRegisted")
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        @T("Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.IsNoRegisted")
+                        <br />
+                        <a href="https://www.foxnetsoft.com/nopautoregisterguest" target="blank">Buy It Now</a>
+                    </p>
+                }
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AutoRegisterMode" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="AutoRegisterMode" asp-items="Model.AvailableAutoRegisterModes" />
+                        <span asp-validation-for="AutoRegisterMode"></span>
+                    </div>
+                </div>
+                <div id="pnSolicitationMessage">
+                    @(await Html.LocalizedEditorAsync<AutoRegisterGuestSettingsModel, AutoRegisterGuestSettingsModel.AutoRegisterGuestSettingsLocalizedModel>("autoregisterguestsettings-localized",
+                                                @<div>
+                                                    <div class="form-group row">
+                                                        <div class="col-md-3">
+                                                            <nop-label asp-for="@Model.Locales[item].SolicitationMessage" />
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <nop-editor asp-for="@Model.Locales[item].SolicitationMessage" asp-template="RichEditor" />
+                                                            <span asp-validation-for="@Model.Locales[item].SolicitationMessage"></span>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" asp-for="@Model.Locales[item].LanguageId" />
+                                                </div>,
+                                                                                                                                                @<div>
+                                                                                                                                                    <div class="form-group row">
+                                                                                                                                                        <div class="col-md-3">
+                                                                                                                                                            <nop-label asp-for="SolicitationMessage" />
+                                                                                                                                                        </div>
+                                                                                                                                                        <div class="col-md-9">
+                                                                                                                                                            <nop-editor asp-for="SolicitationMessage" asp-template="RichEditor" />
+                                                                                                                                                            <span asp-validation-for="SolicitationMessage"></span>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                                                                                                                                     ))
+                </div>
+                    <div class="form-group row" id="pnbAllowedTokens">
+                        <script>
+                            function toggleLoadedAllowedTokens() {
+                                $('#pnlAllowedTokens').toggle();
+                                if ($('#pnlAllowedTokens').css('display') == 'none') {
+                                    $('#allowedTokensShowHide').html('@T("Admin.Common.Show")');
+                                } else {
+                                    $('#allowedTokensShowHide').html('@T("Admin.Common.Hide")');
+                                }
+                            }
+                        </script>
+                        <div class="col-md-3">
+                            <nop-label asp-for="AllowedTokens" />
+                        </div>
+                        <div class="col-md-9">
+                            <p>
+                                Use a new token <b>%Customer.URLForRegisterGuest%</b> in your message on order completed page. It's important.
+                            </p>
+                            <a id="allowedTokensShowHide" href="javascript:toggleLoadedAllowedTokens();">@T("Admin.Common.Show")</a>
+                            <div id="pnlAllowedTokens" style="display: none">
+                                <div class="form-text-row">@Model.AllowedTokens</div>
+                                <div class="form-text-row">@Model.OrderAllowedTokens</div>
+                                <div class="form-text-row">@Model.StoreAllowedTokens</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnbSendWelcomeMessage">
+                        <div class="col-md-3">
+                            <nop-label asp-for="SendWelcomeMessage" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="SendWelcomeMessage" />
+                            <span asp-validation-for="SendWelcomeMessage"></span>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <p>
+                    For sending e-mail plugin uses the message template with the name <b>@MessageTemplateAutoRegisterGuest.SystemName</b>
+                    <a href="@Url.Action("Edit","MessageTemplate", new {Id=Model.MessageId, area = "Admin"})">Edit</a>
+                    <br />
+                    Use a new token <b>%@MessageTemplateAutoRegisterGuest.Token%</b> in your message template. It's important.
+                </p>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="showDebugInfo" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="showDebugInfo" />
+                        <span asp-validation-for="showDebugInfo"></span>
+                        <div id="pnlclearlogfile">
+                            <a href="@Url.Action("ClearLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.ClearLogFile")</a>
+                        </div>
+                        <div id="pnlgetlogfile">
+                            <a href="@Url.Action("GetLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.GetLogFile")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StoreUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" id="StoreUrl" name="StoreUrl" value="@Model.StoreUrl" type="text" readonly="readonly">
+                        <span asp-validation-for="StoreUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SerialNumber" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SerialNumber" />
+                        <span asp-validation-for="SerialNumber"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 col-md-offset-3">
+                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+                <p>
+                    Installation and configuring plug-in at Youtube <a href="http://www.youtube.com/foxnetsoft" target="blank">www.youtube.com/foxnetsoft</a>
+                    <br />
+                    Installation and configuring plug-in at our site <a href="https://www.foxnetsoft.com/documentation-nopautoregisterguest" target="blank">https://www.foxnetsoft.com/documentation-nopautoregisterguest</a>
+                    <br />
+                    <a href="https://www.foxnetsoft.com" target="blank">www.foxnetsoft.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>

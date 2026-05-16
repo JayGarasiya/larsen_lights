@@ -1,0 +1,24 @@
+﻿
+.product-essential {
+	margin-bottom: 20px;
+}
+.full-description {
+	margin-bottom: 0;
+}
+.product-specs-box,
+.product-specs-box .data-table {
+	margin-bottom: 0;
+}
+.product-reviews {
+	margin-top: 0;
+}
+.product-review-list {
+	margin: 0 0 25px;
+}
+.product-review-item:first-of-type {
+	margin-top: 0;
+}
+.custom-tab ol,
+.custom-tab ul{
+    line-height: 20px;
+}

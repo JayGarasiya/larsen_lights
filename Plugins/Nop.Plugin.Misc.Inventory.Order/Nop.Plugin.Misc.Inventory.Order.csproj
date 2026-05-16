@@ -1,0 +1,111 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<OutputPath>$(SolutionDir)\Presentation\Nop.Web\Plugins\Inventory.Order</OutputPath>
+		<OutDir>$(OutputPath)</OutDir>
+		<!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your project.
+    You need to set this parameter to true if your plugin has a nuget package 
+    to ensure that the dlls copied from the NuGet cache to the output of your project-->
+		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Content\Css\fixedHeader.dataTables.min.css" />
+	  <None Remove="Content\Css\style.css" />
+	  <None Remove="Content\Scripts\Calculation.js" />
+	  <None Remove="Content\Scripts\dataTables.fixedHeader.min.js" />
+	  <None Remove="Content\Scripts\images.jfif" />
+	  <None Remove="logo.png" />
+	  <None Remove="plugin.json" />
+	  <None Remove="SqlScripts\ManageInventorySP.sql" />
+	  <None Remove="SqlScripts\ProductDimmessionInsertQuery.sql" />
+	  <None Remove="Views\Admin\JqGroupByTable\GroupByJqueryTable.cshtml" />
+	  <None Remove="Views\Admin\JqGroupByTable\_Jquery.Table.Definition.cshtml" />
+	  <None Remove="Views\Configure.cshtml" />
+	  <None Remove="Views\List.cshtml" />
+	  <None Remove="Views\ManagePoOrderItems.cshtml" />
+	  <None Remove="Views\PoOrderComment.cshtml" />
+	  <None Remove="Views\PoOrderItemEditPopup.cshtml" />
+	  <None Remove="Views\_CreateOrUpdate.PanelProductDimension.cshtml" />
+	  <None Remove="Views\_CreateOrUpdate.ProductDimension.cshtml" />
+	  <None Remove="Views\_ViewImports.cshtml" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)\Presentation\Nop.Web\Nop.Web.csproj" />
+    <ClearPluginAssemblies Include="$(SolutionDir)\Build\ClearPluginAssemblies.proj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\Css\fixedHeader.dataTables.min.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Css\style.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Scripts\Calculation.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Scripts\dataTables.fixedHeader.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Scripts\images.jfif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlScripts\ManageInventorySP.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlScripts\ProductDimmessionInsertQuery.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Admin\JqGroupByTable\GroupByJqueryTable.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Admin\JqGroupByTable\_Jquery.Table.Definition.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Configure.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\List.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\ManagePoOrderItems.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\PoOrderComment.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\PoOrderDetailsEditPopup.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\PoOrderItemEditPopup.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\ProductAvailabilityDetails.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_CreateOrUpdate.PanelProductDimension.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_CreateOrUpdate.ProductDimension.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\_ViewImports.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <!-- This target execute after "Build" target -->
+  <Target Name="NopTarget" AfterTargets="Build">
+    <!-- Delete unnecessary libraries from plugins path -->
+    <MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(OutDir)" Targets="NopClear" />
+  </Target>
+
+</Project>

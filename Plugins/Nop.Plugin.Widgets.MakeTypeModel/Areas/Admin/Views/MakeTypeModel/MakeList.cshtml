@@ -1,0 +1,205 @@
+@model MakeProductSearchModel
+
+@{
+    Layout = "_AdminLayout";
+
+    //page title
+    ViewBag.PageTitle = T("Plugins.Widgets.MakeTypeModel.MakeProducts").Text;
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName(MakeTypeModelDefaults.MakeProduct);
+}
+
+@{
+    const string hideSearchBlockAttributeName = "MakeProducts.HideSearchBlock";
+    var hideSearchBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideSearchBlockAttributeName);
+}
+
+<div class="content-header clearfix">
+    <h1 class="float-left">
+        @T("Plugins.Widgets.MakeTypeModel.MakeProducts")
+    </h1>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="form-horizontal">
+            <div class="cards-group">
+                <div class="card card-default card-search">
+                    <div class="card-body">
+                        <div class="row search-row @(!hideSearchBlock ? "opened" : "")" data-hideAttribute="@hideSearchBlockAttributeName">
+                            <div class="search-text">@T("Admin.Common.Search")</div>
+                            <div class="icon-search"><i class="fas fa-search" aria-hidden="true"></i></div>
+                            <div class="icon-collapse"><i class="far fa-angle-@(!hideSearchBlock ? "up" : "down")" aria-hidden="true"></i></div>
+                        </div>
+
+                        <div class="search-body @(hideSearchBlock ? "closed" : "")">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchName" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-editor asp-for="SearchName" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="text-center col-12">
+                                    <button type="button" id="search-makes" class="btn btn-primary btn-search"><i class="fas fa-search"></i>@T("Admin.Common.Search")</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-default">
+                    <div class="card-body">
+                        @await Html.PartialAsync("Table", new DataTablesModel
+                        {
+                            Name = "makes-product-grid",
+                            UrlRead = new DataUrl("MakeList", "MakeTypeModel", null),
+                            UrlDelete = new DataUrl("MakeDelete", "MakeTypeModel", null),
+                            UrlUpdate = new DataUrl("MakeUpdate", "MakeTypeModel", null),
+                            SearchButtonId = "search-makes",
+                            Length = Model.PageSize,
+                            LengthMenu = Model.AvailablePageSizes,
+                            Filters = new List<FilterParameter>
+                            {
+                                new FilterParameter(nameof(Model.SearchName))
+                            },
+                            ColumnCollection = new List<ColumnProperty>
+                            {
+                                new ColumnProperty(nameof(MakeProductModel.Name))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.MakeProduct.Fields.Name").Text,
+                                    Width = "500",
+                                    Editable = true,
+                                    EditType = EditType.String
+                                },
+                                new ColumnProperty(nameof(MakeProductModel.Published))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.MakeProduct.Fields.Published").Text,
+                                    Width = "50",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Render = new RenderBoolean(),
+                                    Editable = true,
+                                    EditType = EditType.Checkbox
+                                },
+                                new ColumnProperty(nameof(MakeProductModel.DisplayOrder))
+                                {
+                                    Title = T("Plugins.Widgets.MakeTypeModel.MakeProduct.Fields.DisplayOrder").Text,
+                                    Width = "50",
+                                    ClassName = NopColumnClassDefaults.CenterAll,
+                                    Editable = true,
+                                    EditType = EditType.Number
+                                },
+                                new ColumnProperty(nameof(MakeProductModel.Id))
+                                {
+                                    Title = T("Admin.Common.Edit").Text,
+                                    Width = "50",
+                                    ClassName =  NopColumnClassDefaults.Button,
+                                    Render = new RenderButtonsInlineEdit()
+                                },
+                                new ColumnProperty(nameof(MakeProductModel.Id))
+                                {
+                                    Title = T("Admin.Common.Delete").Text,
+                                    Width = "50",
+                                    Render = new RenderButtonRemove(T("Admin.Common.Delete").Text),
+                                    ClassName = NopColumnClassDefaults.Button
+                                }
+                            }
+                        })
+
+                        <div class="card card-default">
+                            <div class="card-header">
+                                @T("Admin.Common.AddNewRecord")
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="@Model.AddMakeProduct.Name" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="@Model.AddMakeProduct.Name" />
+                                        <span asp-validation-for="@Model.AddMakeProduct.Name"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="@Model.AddMakeProduct.Published" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="@Model.AddMakeProduct.Published" />
+                                        <span asp-validation-for="@Model.AddMakeProduct.Published"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-3">
+                                        <nop-label asp-for="@Model.AddMakeProduct.DisplayOrder" />
+                                    </div>
+                                    <div class="col-md-9">
+                                        <nop-editor asp-for="@Model.AddMakeProduct.DisplayOrder" />
+                                        <span asp-validation-for="@Model.AddMakeProduct.DisplayOrder"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-9 offset-md-3">
+                                        <button type="button" id="addMakeProduct" class="btn btn-primary">@T("Admin.Common.AddNewRecord")</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $('#addMakeProduct').click(function () {
+
+                                        var $btn = $(this);
+                                        $btn.prop('disabled', true);
+
+                                        var postData = {
+                                            Name: $("#@Html.IdFor(model => model.AddMakeProduct.Name)").val(),
+                                            Published: $("#@Html.IdFor(model => model.AddMakeProduct.Published)").is(":checked"),
+                                            DisplayOrder: $("#@Html.IdFor(model => model.AddMakeProduct.DisplayOrder)").data("kendoNumericTextBox").value()
+                                        };
+
+                                        addAntiForgeryToken(postData);
+
+                                        $.ajax({
+                                            cache: false,
+                                            type: "POST",
+                                            url: "@Url.Action("MakeAdd", "MakeTypeModel")",
+                                            data: postData,
+                                            success: function (data) {
+                                                if (data.Result) {
+
+                                                    var table = $('#makes-product-grid').DataTable();
+                                                    table.ajax.reload(null, false);
+
+                                                    $("#@Html.IdFor(model => model.AddMakeProduct.Name)").val('');
+                                                    $("#@Html.IdFor(model => model.AddMakeProduct.Published)").prop('checked', true);
+                                                    $("#@Html.IdFor(model => model.AddMakeProduct.DisplayOrder)")
+                                                        .data("kendoNumericTextBox")
+                                                        .value(0);
+                                                }
+                                                else {
+                                                    display_nop_error(data);
+                                                }
+                                            },
+                                            error: function () {
+                                                alert('Something went wrong while adding record.');
+                                            },
+                                            complete: function () {
+                                                $btn.prop('disabled', false);
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

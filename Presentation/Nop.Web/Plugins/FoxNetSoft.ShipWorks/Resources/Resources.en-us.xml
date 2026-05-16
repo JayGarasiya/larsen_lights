@@ -1,0 +1,95 @@
+﻿<Language Name="English" IsRightToLeft="false">
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.IsRegisted">
+    <Value>Registered version.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.IsNoRegisted">
+    <Value>Unregistered version is fully operational. Only 50 orders will be exported to ShipWorks.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.IsExpired">
+    <Value>Your license has expired, you should renew the license with a 50% discount.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.Enabled">
+    <Value>Enable plugin</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.Enabled.Hint">
+    <Value>Enable plugin.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.StoreUrl">
+    <Value>Website address (for registration)</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.StoreUrl.Hint">
+    <Value>Website address (for registration).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.showDebugInfo">
+    <Value>Enable Debugging</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.showDebugInfo.Hint">
+    <Value>Write debugging information to file in ~/App_Data/ folder.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.SerialNumber">
+    <Value>Serial number</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.SerialNumber.Hint">
+    <Value>Provide the serial number.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.ClearLogFile">
+    <Value>Clear the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.GetLogFile">
+    <Value>Download the log-file</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.UserName">
+    <Value>UserName</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.UserName.Hint">
+    <Value>Provide username.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.Password">
+    <Value>Password</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.Password.Hint">
+    <Value>Provide password.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.WebserviceUrl">
+    <Value>Webservice Url</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.WebserviceUrl.Hint">
+    <Value>This is the ShipWorks webservice URL.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.ChangeOrderStatusComplete">
+    <Value>Change the OrderStatus to 'Complete'</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.ChangeOrderStatusComplete.Hint">
+    <Value>Change the OrderStatus to 'Complete' after getting the tracking number.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.LoadingMode">
+    <Value>Loading mode</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.LoadingMode.Hint">
+    <Value>Plugin uploads only new paid orders to ShipWorks or all existing orders for the last XXX days (if you want to update order statuses).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.LastXXXDays">
+    <Value>Last xxx days</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.LastXXXDays.Hint">
+    <Value>Read all orders within the last xxx days (if you want to update order statuses).</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.OverWriteCarrier">
+    <Value>Read a carrier from ShipWorks</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.OverWriteCarrier.Hint">
+    <Value>The store owner can change the carrier in ShipWorks. The plugin will try to change shipment methods in NopCommerce.</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.DaysPastCustomerNotification">
+    <Value>Days Past Customer Notification</Value>
+  </LocaleResource>
+  <LocaleResource Name="Admin.FoxNetSoft.Plugin.Misc.ShipWorks.DaysPastCustomerNotification.Hint">
+    <Value>Customer notified of shipment within X days of order.</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.FoxNetSoft.Plugin.Misc.ShipWorks.Core.LoadingMode.OnlyNewOrders">
+    <Value>Only new paid orders</Value>
+  </LocaleResource>
+  <LocaleResource Name="enums.FoxNetSoft.Plugin.Misc.ShipWorks.Core.LoadingMode.LastXXXDays">
+    <Value>Reload all orders</Value>
+  </LocaleResource>
+</Language>

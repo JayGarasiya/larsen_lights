@@ -1,0 +1,15 @@
+
+.picture-thumbs .slick-prev {
+    right: 0;
+    left: auto;
+}
+.picture-thumbs .slick-next {
+    left: 0;
+    right: auto;
+}
+.picture-thumbs .slick-prev:after {
+    content: "\e915";
+}
+.picture-thumbs .slick-next:after {
+    content: "\e914";
+}

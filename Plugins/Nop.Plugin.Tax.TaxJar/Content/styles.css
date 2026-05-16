@@ -1,0 +1,55 @@
+﻿.mfp-ready .taxexempt-popup, .mfp-ready .taxjar-address-validation-popup {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.taxexempt-popup, .taxjar-address-validation-popup {
+    position: relative;
+    max-width: 800px;
+    margin: auto;
+    background-color: #fff;
+    padding: 25px;
+    transform: scale(.8);
+    transition: all .2s ease;
+    opacity: 0;
+}
+
+    .taxexempt-popup .taxexempt-title, .taxjar-address-validation-popup .address-title {
+        border-bottom: 1px dashed #e6e6e6;
+        padding: 0px 40px 18px;
+        text-align: center;
+    }
+
+        .taxexempt-popup .taxexempt-title h1, .taxjar-address-validation-popup .address-title h1 {
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #aaa;
+        }
+
+    .taxexempt-popup .taxexempt-body, .taxjar-address-validation-popup .address-body {
+        padding: 20px 10px 20px 20px;
+    }
+
+    .taxexempt-popup .taxexempt-options, .taxjar-address-validation-popup .address-options {
+        font-size: 16px;
+    }
+
+    .taxexempt-popup .apply-taxexempt-button {
+        text-align: center;
+    }
+
+    .taxexempt-popup .taxexempt-options span, .taxjar-address-validation-popup .address-options span {
+        margin: 10px 0;
+        display: inherit;
+        text-align: center;
+    }
+
+        .taxexempt-popup .taxexempt-options span.taxexempt-item, .taxjar-address-validation-popup .address-options span.address-item {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+    .taxexempt-popup .apply-taxexempt-button-container, .taxjar-address-validation-popup .apply-address-button-container {
+        text-align: center;
+    }

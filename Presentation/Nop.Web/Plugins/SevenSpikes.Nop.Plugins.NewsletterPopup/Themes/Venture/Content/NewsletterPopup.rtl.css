@@ -1,0 +1,28 @@
+﻿/*
+* Copyright 2016 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.newsletter .newsletter-subscribe-button {
+    background-position: 80% center;
+}
+.newsletter-subscribe-popup .close-popup {
+    right: auto;
+    left: 0;
+}
+
+.newsletter-subscribe-popup input[type='checkbox'] ~ label,
+.newsletter-subscribe-popup input[type='radio'] ~ label {
+    padding: 5px 25px 5px 5px;
+    text-align: right;
+}
+.newsletter-subscribe-popup input[type='checkbox'] ~ label:before,
+.newsletter-subscribe-popup input[type='radio'] ~ label:before {
+    right: 0;
+    left: auto;
+}
+.newsletter-subscribe-popup input[type='checkbox']:checked ~ label:after,
+.newsletter-subscribe-popup input[type='radio']:checked ~ label:after {
+    right: 3px;
+    left: auto;
+}

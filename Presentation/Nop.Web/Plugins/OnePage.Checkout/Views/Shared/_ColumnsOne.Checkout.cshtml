@@ -1,0 +1,35 @@
+﻿@using Nop.Plugin.OnePage.Checkout.Components;
+@{
+    Layout = "_Root.Head";
+}
+@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.BodyStartHtmlTagAfter })
+@await Html.PartialAsync("_Notifications")
+@await Html.PartialAsync("_JavaScriptDisabledWarning")
+
+<div class="master-wrapper-page">
+    @await Component.InvokeAsync(typeof(FlyoutHeaderViewComponent))
+    <div class="master-wrapper-content">
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ContentBefore })
+        <div class="master-column-wrapper">
+            <div class="checkout-header">
+                @await Html.PartialAsync("_ColumnsOne.Header")
+            </div>
+            <div class="center-1">
+                @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.MainColumnBefore })
+                @RenderBody()
+                @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.MainColumnAfter })
+            </div>
+            <div class="checkout-footer">
+                @await Component.InvokeAsync(typeof(FooterViewComponent))
+            </div>
+        </div>
+        <aside class="master-column-sidebar" role="complementary">
+            <div class="section order-summary">
+                @await Component.InvokeAsync(typeof(OrderSummaryViewComponent), new { prepareAndDisplayOrderReviewData = false })
+            </div>
+        </aside>
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ContentAfter })
+    </div>
+</div>
+@await Component.InvokeAsync(typeof(EuCookieLawViewComponent))
+@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.BodyEndHtmlTagBefore })

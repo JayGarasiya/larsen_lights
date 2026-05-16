@@ -1,0 +1,221 @@
+﻿@model ChartsAndTablesSearchModel
+@{
+    const string prefix = "vendordetailreportvendor-statistics";
+}
+
+<div class="chart" style="height: 300px;">
+    <canvas id="@(prefix)-chart" height="300"></canvas>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var osConfig = nopChart.Line('@T("Plugins.Reports.ChartsAndTables.Vendors.Detail.Vendor.TitleChart")');
+
+        function changeReportVendorDetailVendorStatistics() {
+            var osLabels = [];
+            var osDataSale = [];
+
+            var additionalData = {
+                IsChartReport: true,
+                VendorId: $('#@Html.IdFor(model => model.VendorId)').val(),
+                StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+                EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+                StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+                OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+                PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+                SearchGroupId: $('#@Html.IdFor(model => model.SearchGroupId)').val(),
+                CategoryId: $('#@Html.IdFor(model => model.CategoryId)').val(),
+                ManufacturerId: $('#@Html.IdFor(model => model.ManufacturerId)').val(),
+            };
+
+            addAntiForgeryToken(additionalData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: '@Url.Action("ReportVendorDetailVendorList", "ChartsAndTablesDetail")',
+                data: additionalData,
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        osLabels.push(data[i].Title);
+                        osDataSale.push(data[i].TotalSales);
+                    }
+
+                    if (!window.reportsVendorTabVendorStatistics) {
+                        osConfig.data.labels = osLabels;
+                        osConfig.data.datasets[0].data = osDataSale;
+                        osConfig.data.scales =
+                            window.reportsVendorTabVendorStatistics = new Chart(document.getElementById("@prefix-chart").getContext("2d"), osConfig);
+                    } else {
+                        window.reportsVendorTabVendorStatistics.config.data.labels = osLabels;
+                        window.reportsVendorTabVendorStatistics.data.datasets[0].data = osDataSale;
+                        window.reportsVendorTabVendorStatistics.update();
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to load statistics.');
+                }
+            });
+        }
+        changeReportVendorDetailVendorStatistics();
+
+        $('#btnGenerate').on('click', function () {
+            changeReportVendorDetailVendorStatistics();
+        });
+    });
+</script>
+
+@{
+    <div class="mb-1">
+        <div id="vendordetailreportvendor"></div>
+    </div>
+
+    var gridModel = new DataTablesModel
+    {
+        Name = "vendordetailreportvendor-grid",
+        UrlRead = new DataUrl("ReportVendorDetailVendorList", "ChartsAndTablesDetail", null),
+        SearchButtonId = "btnGenerate",
+        Length = Model.PageSize,
+        LengthMenu = Model.AvailablePageSizes,
+        FooterCallback = "vendordetailreportvendorfootercallback",
+        FooterColumns = 2,
+        DrawCallback = "vendordetailreportvendor",
+        Filters = new List<FilterParameter>
+        {
+            new FilterParameter(nameof(Model.StartDate), typeof(DateTime?)),
+            new FilterParameter(nameof(Model.EndDate), typeof(DateTime?)),
+            new FilterParameter(nameof(Model.VendorId)),
+            new FilterParameter(nameof(Model.StoreId)),
+            new FilterParameter(nameof(Model.OrderStatusId)),
+            new FilterParameter(nameof(Model.PaymentStatusId)),
+            new FilterParameter(nameof(Model.SearchGroupId)),
+            new FilterParameter(nameof(Model.CategoryId)),
+            new FilterParameter(nameof(Model.ManufacturerId))
+        },
+        ColumnCollection = new List<ColumnProperty>
+        {
+            new ColumnProperty(nameof(ChartsAndTablesDataModel.Title))
+            {
+                Title = T("Plugins.Reports.ChartsAndTables.Vendors.Detail.Vendor.Title").Text
+            },
+            new ColumnProperty(nameof(ChartsAndTablesDataModel.TotalSales))
+            {
+                Title = T("Plugins.Reports.ChartsAndTables.Vendors.Detail.Vendor.TotalSales").Text,
+                Width = "150",
+                ClassName =  NopColumnClassDefaults.CenterAll,
+            }
+        }
+    };
+
+    var reportTotalSaleSummaryColumnNumber = 1;
+}
+
+@await Html.PartialAsync("Table", gridModel)
+
+<script>
+        function vendordetailreportvendorfootercallback(tfoot, data, start, end, display) {
+        //update summary
+        var postData = {
+            VendorId: $('#@Html.IdFor(model => model.VendorId)').val(),
+            StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+            EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+            StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+            OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+            PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+            SearchGroupId: $('#@Html.IdFor(model => model.SearchGroupId)').val(),
+            CategoryId: $('#@Html.IdFor(model => model.CategoryId)').val(),
+            ManufacturerId: $('#@Html.IdFor(model => model.ManufacturerId)').val(),
+        };
+
+        addAntiForgeryToken(postData);
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("ReportVendorDetailVendorAggregates", "ChartsAndTablesDetail")',
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                if (data) {
+                    for (var key in data) {
+                        var reportTotalSaleSummary = '<div><strong>@T("Plugins.Reports.ChartsAndTables.Aggrerator.Summary").Text</strong></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.TotalSalesValue").Text: <span>' + data['TotalSalesValue'] + '</span></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.AverageSalesValue").Text: <span>' + data['AverageSalesValue'] + '</span></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MinSalesValue").Text: <span>' + data['MinSalesValue'] + '</span></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MaxSalesValue").Text: <span>' + data['MaxSalesValue'] + '</span></div>'
+                        var reportTotalSaleColumn = $('#vendordetailreportvendor-grid').DataTable().column(@(reportTotalSaleSummaryColumnNumber));
+                        $(reportTotalSaleColumn.footer()).html(reportTotalSaleSummary);
+                    }
+                }
+            }
+        });
+
+        if ($('#vendordetailreportvendor').html().length == 0) {
+            var reportTotalSaleColumn = $('#vendordetailreportvendor-grid').DataTable();
+            var button = new $.fn.dataTable.Buttons( reportTotalSaleColumn, {
+                buttons: [
+                    {
+                        extend:    'excelHtml5',
+                        text:      '<i class="far fa-file-excel"></i>@T("Admin.Common.ExportToExcel").Text',
+                        titleAttr: 'Excel',
+                        action: buttonsexport
+                    }
+                ]
+            });
+            button.container().appendTo($('#vendordetailreportvendor',
+                reportTotalSaleColumn.table().container()
+            ));
+        }
+    }
+</script>
+<script>
+    function vendordetailreportvendor(settings, json) {
+        const $container = $('#vendordetailreportvendor');
+
+        if ($container.children('button').length === 0) {
+            const reportTotalSaleColumn = $('#vendordetailreportvendor-grid').DataTable();
+            const pageTitle = document.title || 'Exported Report';
+
+            // Create buttons instance but do not auto-append the full container
+            const buttons = new $.fn.dataTable.Buttons(reportTotalSaleColumn, {
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: '@T("Admin.Common.ExportToExcel").Text',
+                        title: pageTitle,
+                        filename: pageTitle,
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                        columns: ':visible',
+                        format: {
+                            header: function (data, columnIdx) {
+                                const columnHeaders = [];
+                                $('#vendordetailreportvendor-grid thead th').each(function () {
+                                    columnHeaders.push($(this).text().trim());
+                                });
+                                return columnHeaders[columnIdx] || data;
+                            },
+                            body: function (data, row, column) {
+                                const num = parseFloat(data);
+                                return !isNaN(num) && isFinite(num) ? num.toFixed(2) : data;
+                            },
+                            footer: function (data, row, column) {
+                                return null;
+                            }
+                            }
+                        }
+                    }
+                ]
+            });
+
+            // Get the button element only (not the wrapping div)
+            const $button = buttons.container().find('button');
+            $container.append($button);
+
+            // Register the button to DataTable
+            reportTotalSaleColumn.buttons().container(); // activate the buttons internally
+        }
+    }
+</script>

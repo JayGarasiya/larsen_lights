@@ -1,0 +1,5 @@
+﻿@model CustomerNavigationModel
+
+<li class="product-viewads  @(Model.SelectedTab == 160 ? "active" : "inactive")">
+    <a href="@Url.RouteUrl(EvanceDefaults.CustomerVaultRoute)">@T("Plugins.Payments.Evance.CustomerVault.Title")</a>
+</li>

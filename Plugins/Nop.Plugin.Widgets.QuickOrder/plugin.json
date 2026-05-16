@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Quick Order",
+  "SystemName": "Widgets.QuickOrder",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.QuickOrder.dll",
+  "Description": "This plugin allow store owner to use the 'Quick Order extension' feature in your store."
+}

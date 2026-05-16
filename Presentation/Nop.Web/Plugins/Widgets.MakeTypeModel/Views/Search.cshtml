@@ -1,0 +1,162 @@
+﻿@model Nop.Plugin.Widgets.MakeTypeModel.Models.SearchModel
+
+@{
+    Layout = "_ColumnsTwo";
+
+    //title
+    NopHtml.AddTitleParts(T("PageTitle.Search").Text);
+    //page class
+    NopHtml.AppendPageCssClassParts("html-search-page");
+
+    NopHtml.AppendCssFileParts("~/Plugins/Widgets.MakeTypeModel/Content/styles.css");
+}
+
+@section CatalogFilters {
+    @await Html.PartialAsync("~/Views/Catalog/_CatalogFilters.cshtml", Model.CatalogProductsModel)
+}
+
+<div class="page search-page">
+    <div class="page-title">
+        <h1>@T("Search")</h1>
+    </div>
+    <div class="page-body">
+        <div class="search-input">
+            <form asp-route="ProductSearch" method="get">
+                <div class="fieldset">
+                    <div class="form-fields">
+                        <div class="basic-search">
+                            @if (!string.IsNullOrEmpty(Model.q))
+                            {
+                                <input asp-for="q" type="hidden" />
+                            }
+                            <select asp-for="make_" asp-items="Model.AvailableMake" type="required"></select>
+                            <select asp-for="type_" asp-items="Model.AvailableType"></select>
+                            <select asp-for="model_" asp-items="Model.AvailableModel"></select>
+                            <select asp-for="cid" asp-items="Model.AvailableCategories"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button type="submit" class="button-1 search-button">@T("Search.Button")</button>
+                    <span id="data-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait")</span>
+                </div>
+                <script asp-location="Footer">
+                    $(document).ready(function () {
+                        @if(Model.AvailableType.Count < 2)
+                        {
+                            <text>$("#@Html.IdFor(model => model.type_)").prop('disabled', true);</text>
+                        }
+
+                        @if(Model.AvailableModel.Count < 2)
+                        {
+                            <text>$("#@Html.IdFor(model => model.model_)").prop('disabled', true);</text>
+                        }
+
+                        $("#@Html.IdFor(model => model.make_)").change(function () {
+                            $('.search-page #data-loading-progress').show();
+                            var selectedItem = $(this).val();
+                            var ddlTypes = $("#@Html.IdFor(model => model.type_)");
+                            $.ajax({
+                                cache: false,
+                                type: "GET",
+                                url: "@(Url.Action("GetTypesByMake", "FindParts"))",
+                                data: {
+                                    "make": selectedItem
+                                },
+                                success: function (data, textStatus, jqXHR) {
+                                    ddlTypes.html('');
+                                    $.each(data,
+                                        function (id, option) {
+                                            ddlTypes.append($('<option></option>').val(option.Value).html(option.Text));
+                                        });
+                                    $('#@Html.IdFor(model => model.type_) option:nth-child(1)').prop('selected', true);
+                                    $('#@Html.IdFor(model => model.type_) option:nth-child(1)').prop('disabled', true);
+                                    ddlTypes.prop('disabled', false);
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    alert('Failed to retrieve equipment types.');
+                                },
+                                complete: function (jqXHR, textStatus) {
+                                    $('.search-page #data-loading-progress').hide();
+                                }
+                            });
+                        });
+
+                        $("#@Html.IdFor(model => model.type_)").change(function () {
+                            $('.search-page #data-loading-progress').show();
+                            var selectedMake = $("#@Html.IdFor(model => model.make_)").val();
+                            var selectedItem = $(this).val();
+                            var ddlModels = $("#@Html.IdFor(model => model.model_)");
+                            $.ajax({
+                                cache: false,
+                                type: "GET",
+                                url: "@(Url.Action("GetModelsByMakeType", "FindParts"))",
+                                data: {
+                                    "make": selectedMake,
+                                    "type": selectedItem
+                                },
+                                success: function (data, textStatus, jqXHR) {
+                                    ddlModels.html('');
+                                    $.each(data,
+                                        function (id, option) {
+                                            ddlModels.append($('<option></option>').val(option.Value).html(option.Text));
+                                        });
+                                    $('#@Html.IdFor(model => model.model_) option:nth-child(1)').prop('selected', true);
+                                    $('#@Html.IdFor(model => model.model_) option:nth-child(1)').prop('disabled', true);
+                                    ddlModels.prop('disabled', false);
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    alert('Failed to retrieve equipment types.');
+                                },
+                                complete: function (jqXHR, textStatus) {
+                                    $('.search-page #data-loading-progress').hide();
+                                }
+                            });
+                        });
+                    });
+                </script>
+            </form>
+        </div>
+
+        @await Html.PartialAsync("~/Themes/Pacific/Views/Catalog/_CatalogSelectors.cshtml", Model.CatalogProductsModel)
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductSearchPageBeforeResults })
+        <div class="search-results">
+            @{
+                var catalogProductsViewData = new ViewDataDictionary(ViewData);
+                catalogProductsViewData["fetchUrl"] = Html.Raw(Url.Action("SearchProducts", "Catalog"));
+            }
+            @await Html.PartialAsync("~/Plugins/Widgets.MakeTypeModel/Views/_CatalogProducts.cshtml", Model.CatalogProductsModel, catalogProductsViewData)
+            <script asp-location="Footer">
+                $(document).ready(function () {
+                    $(CatalogProducts).on('before', function (e) {
+                        if (typeof $('#@Html.IdFor(model => model.q)').val() !== 'undefined') {
+                            e.payload.urlBuilder
+                                .addParameter('q', $('#@Html.IdFor(model => model.q)').val());
+                        }
+
+                        if ($('#@Html.IdFor(model => model.make_)').val() !== null) {
+                            e.payload.urlBuilder
+                                .addParameter('make_', $('#@Html.IdFor(model => model.make_)').val());
+                        }
+
+                        if ($('#@Html.IdFor(model => model.type_)').val() !== null) {
+                            e.payload.urlBuilder
+                                .addParameter('type_', $('#@Html.IdFor(model => model.type_)').val());
+                        }
+
+                        if ($('#@Html.IdFor(model => model.model_)').val() !== null) {
+                            e.payload.urlBuilder
+                                .addParameter('model_', $('#@Html.IdFor(model => model.model_)').val());
+                        }
+
+                        if ($('#@Html.IdFor(model => model.cid)').val() !== "0") {
+                            e.payload.urlBuilder
+                                .addParameter('cid', $('#@Html.IdFor(model => model.cid)').val());
+                        }
+                    });
+                });
+            </script>
+        </div>
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductSearchPageAfterResults })
+    </div>
+</div>

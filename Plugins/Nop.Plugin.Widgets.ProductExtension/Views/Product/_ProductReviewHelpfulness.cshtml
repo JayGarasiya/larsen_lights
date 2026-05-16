@@ -1,0 +1,14 @@
+﻿@model ProductReviewHelpfulnessModel
+<div class="product-review-helpfulness"
+     data-productReviewId="@(Model.ProductReviewId)"
+     data-productReviewVoteUrl="@Url.RouteUrl(NopRouteNames.Ajax.SET_PRODUCT_REVIEW_HELPFULNESS)">
+    <span class="question">@T("Reviews.Helpfulness.WasHelpful?")</span>
+    <span class="vote-options">
+        <span id="vote-yes-@(Model.ProductReviewId)" class="vote vote-yes">@T("Common.Yes")</span>
+        <span id="vote-no-@(Model.ProductReviewId)" class="vote vote-no">@T("Common.No")</span>
+    </span>
+    <span class="vote-stats">
+        (<span id="helpfulness-vote-yes-@(Model.ProductReviewId)">@(Model.HelpfulYesTotal)</span>/<span id="helpfulness-vote-no-@(Model.ProductReviewId)">@(Model.HelpfulNoTotal)</span>)
+    </span>
+    <span id="helpfulness-vote-result-@(Model.ProductReviewId)" class="result"></span>
+</div>

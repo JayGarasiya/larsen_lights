@@ -1,0 +1,176 @@
+﻿@model FoxNetSoft.Plugin.Shipping.UPSConnector.Models.UPSMenuModel
+@{
+    Layout = "";
+}
+@*shipping labels for selected (Pdf). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="UPSConnectorAdmin" asp-action="RePrintShippingLabel" method="post" id="ups-reprint-shippinglabels-pdf-form">
+    <nop-antiforgery-token />
+    <input type="hidden" id="shipmentId" name="shipmentId" value="@Model.ShipmentId" />
+    <input type="hidden" id="orderId" name="orderId" value="@Model.OrderId" />
+</form>
+<form asp-controller="UPSConnectorAdmin" asp-action="RePrintReturnLabel" method="post" id="ups-reprint-returnlabels-pdf-form">
+    <nop-antiforgery-token />
+    <input type="hidden" id="shipmentId" name="shipmentId" value="@Model.ShipmentId" />
+    <input type="hidden" id="orderId" name="orderId" value="@Model.OrderId" />
+</form>
+
+<div class="btn-group" id="upsexpressbuttongroup">
+    <button type="button" class="btn bg-purple">
+        <i class="fa fa-file-pdf-o"></i>
+        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.NameButtonGroup")
+    </button>
+    <button type="button" class="btn bg-purple dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span class="caret"></span>
+        <span class="sr-only">&nbsp;</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        @if (Model.AllowCreatingLabel)
+        {
+            <text>
+                <li>
+                    <button onclick="fnsupscreatelabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.GenerateLabel")
+                    </button>
+                </li>
+            </text>
+        }
+        @if (Model.AllowPeprintShippingLabel)
+        {
+            <text>
+                <li>
+                <button onclick="fnsupsreprintlabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.RePrintLabel")
+                    </button>
+                </li>
+            </text>
+        }
+        @if (Model.AllowCheckDeliveryConfirmation)
+        {
+            <text>
+                <li>
+                <button onclick="fnsupscheckdeliveryconfirmation();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.CheckDeliveryConfirmation")
+                    </button>
+                </li>
+            </text>
+        }
+        @if (Model.AllowVoidLabel)
+        {
+            <text>
+                <li>
+                <button onclick="fnsupsvoidlabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.VoidLabel")
+                    </button>
+                </li>
+            </text>
+        }
+        @if (Model.AllowReturnLabel)
+        {
+            <text>
+            <li>
+                <button onclick="fnsupsreturnlabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.ReturnLabel")
+                </button>
+            </li>
+            </text>
+        }
+        @if (Model.AllowPeprintReturnLabel)
+        {
+            <text>
+            <li>
+                <button onclick="fnsupsreprintreturnlabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Menu.RePrintReturnLabel")
+                </button>
+            </li>
+            </text>
+        }
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#upsexpressbuttongroup').prependTo($('.content-header').find('.float-right'));
+    });
+
+    function fnsupscreatelabel() {
+        location.href = '@Html.Raw(Url.Action("ShippingLabel", "UPSConnectorAdmin", new { orderId = Model.OrderId, shipmentId = Model.ShipmentId }))';
+        return false;
+    }
+
+    function fnsupsreturnlabel() {
+        location.href = '@Html.Raw(Url.Action("ReturnLabel", "UPSConnectorAdmin", new { orderId = Model.OrderId, shipmentId = Model.ShipmentId }))';
+    }
+
+    function fnsupsreprintlabel() {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Question2")'))
+            return;
+        $('#ups-reprint-shippinglabels-pdf-form').submit();
+    }
+
+    function fnsupsreprintreturnlabel() {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Question5")'))
+            return;
+        $('#ups-reprint-returnlabels-pdf-form').submit();
+    }
+    function fnsupscheckdeliveryconfirmation() {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Question3")'))
+            return;
+        var postData = {
+            orderId: @(Model.OrderId),
+            shipmentId: @(Model.ShipmentId)
+        };
+        addAntiForgeryToken(postData);
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: '@Url.Action("CheckDeliveryConfirmation", "UPSConnectorAdmin")',
+            data: postData,
+            dataType: 'json',
+            success: function (data) {
+                if (data.message.length>0){
+                    alert(data.message);
+                }
+                location.reload(true);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to check delivery confirmation.');
+            }
+        });
+    }
+
+    function fnsupsvoidlabel()
+    {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Question4")'))
+            return;
+        var postData = {
+            orderId: @(Model.OrderId),
+            shipmentId: @(Model.ShipmentId)
+        };
+        addAntiForgeryToken(postData);
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: '@Url.Action("VoidLabel", "UPSConnectorAdmin")',
+            data: postData,
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    //alert('Good');
+                    //return false;
+                }
+                if (data.message.length>0){
+                    alert(data.message);
+                }
+                if (data.url.length>0){
+                    location=data.url;
+                }
+                else {
+                    location.reload(true);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to void indicium.');
+            }
+        });
+    }
+</script> 

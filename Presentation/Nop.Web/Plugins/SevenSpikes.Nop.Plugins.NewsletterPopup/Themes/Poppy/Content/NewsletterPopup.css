@@ -1,0 +1,108 @@
+﻿/*
+* Copyright 2016 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.newsletter-subscribe-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1072;
+    background: rgba(0,0,0,0.5);
+}
+.newsletter-subscribe-popup {
+    display: flex;
+    flex-flow: column;
+    row-gap: 15px;
+    position: fixed;
+    top: 50%;
+	left: 50%;
+    z-index: 1110;
+    max-width: 95%;
+    width: 675px;
+    margin: auto;
+    box-shadow: 0 0 9px rgba(0,0,0,.15);
+    background-color: #fff;
+    padding: 15px 15px;
+    text-align: center;
+    transform: translate(-50%,-50%);
+}
+.newsletter-subscribe-popup-content {
+    flex-grow: 1;
+    position: relative;
+    min-height: 430px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 45px 8%;
+}
+.newsletter-subscribe-popup .close-popup {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    display: block;
+    width: 15px;
+    height: 15px;
+    background: none;
+    font-size: 0;
+}
+.newsletter-subscribe-popup .close-popup:before {
+    content: 't';
+    font-family: icons;
+    font-size: 16px;
+    color: #727272;
+}
+.newsletter-subscribe-popup-title {
+    font-size: 22px;
+    color: #6f6f6f;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+.newsletter-subscribe-description-wrapper {
+    font-size: 16px;
+    margin: 20px auto 0;
+    font-weight: 300;
+    line-height: 24px;
+    max-width: 500px;
+}
+.newsletter-subscribe-popup form {
+    margin: 20px 0 0;
+}
+.newsletter-subscribe.newsletter-subscribe-block {
+    display: block !important;
+}
+.newsletter-subscribe-popup .options {
+    margin: 0 -25px;
+}
+.newsletter-subscribe-popup .captcha-box {
+    margin: 15px 0;
+}
+.newsletter-subscribe-popup .consent-error {
+	display: none;
+    margin: 10px 0 0;
+}
+.newsletter-subscribe-options {
+    display: flex;
+    flex-flow: column;
+    row-gap: 5px;
+    padding: 5px 0;
+    text-align: center;
+}
+.newsletter-gdpr-checkbox-content,
+.newsletter-subscribe-checkbox-content {
+    max-width: 100%;
+}
+.newsletter-subscribe-checkbox-content:only-child {
+    margin: 0 0 5px;
+}
+.newsletter-subscribe-options label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px !important;
+}

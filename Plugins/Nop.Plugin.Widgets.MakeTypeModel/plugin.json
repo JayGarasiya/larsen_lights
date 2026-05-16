@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Make / Type / Model",
+  "SystemName": "Widgets.MakeTypeModel",
+  "Version": "1.13",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.MakeTypeModel.dll",
+  "Description": "This plugin allow customers to search using the 'Make / Type / Model' feature in your store"
+}

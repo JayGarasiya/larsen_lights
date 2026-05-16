@@ -1,0 +1,85 @@
+/*
+* Copyright 2016 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+@media (min-width:1800px) {
+    .gallery {
+        width: 550px; /* default percentage width results in incorrect slick slider thumbs width*/
+    }
+}
+.picture-thumbs.in-carousel {
+    display: block; /*reset css grid*/
+    overflow: hidden;
+    border-radius: 6px;
+    text-align: center;
+}
+.in-carousel .picture-thumbs-list {
+    margin: 0 -5px;
+}
+.in-carousel .picture-thumbs-item {
+    display: none; /*hide thumbs until slick slider is loaded*/
+    padding: 0 5px;
+}
+.picture-thumbs-item.slick-slide {
+    display: block; /*show thumbs after slick slider is loaded*/
+}
+
+/* navigation */
+
+.picture-thumbs .slick-prev,
+.picture-thumbs .slick-next {
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    z-index: 1;
+    width: 30px;
+    border-radius: 6px;
+    background: rgba(255,255,255,.5);
+    font-size: 0;
+    color: #333;
+	cursor: pointer;
+}
+.picture-thumbs .slick-prev {
+    left: 5px;
+    border-left: 1px solid #eee;
+}
+.picture-thumbs .slick-next {
+    right: 5px;
+    border-right: 1px solid #eee;
+}
+.picture-thumbs .slick-prev:after,
+.picture-thumbs .slick-next:after {
+}
+.picture-thumbs .slick-prev:after {
+    content: "\e90b";
+    font-size: 14px;
+}
+.picture-thumbs .slick-next:after {
+    content: "\e90c";
+    font-size: 14px;
+}
+.picture-thumbs .slick-prev.slick-disabled,
+.picture-thumbs .slick-next.slick-disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.picture-thumbs .slick-dots {
+    display: flex;
+	justify-content: center;
+    column-gap: 6px;
+    padding: 20px 0 10px;
+}
+.picture-thumbs .slick-dots button {
+    display: block;
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+    background-color: #ddd;
+	font-size: 0;
+}
+.picture-thumbs .slick-active button {
+    width: 20px;
+	background-color: #4e30a4;
+}

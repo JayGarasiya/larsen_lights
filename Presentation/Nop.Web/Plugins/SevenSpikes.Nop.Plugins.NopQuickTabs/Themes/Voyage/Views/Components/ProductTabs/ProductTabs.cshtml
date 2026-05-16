@@ -1,0 +1,143 @@
+﻿@using Nop.Core;
+@using Nop.Services.Configuration;
+
+@model TabUIModel
+
+@inject TabSettings settings
+@inject IWorkContext workContext
+@inject ISettingService settingService
+@inject IStoreContext storeContext
+
+@{
+    var themeFolder = await ThemeHelper.GetPluginThemeAsync(Plugin.FolderName);
+    var storeId = (await storeContext.GetCurrentStoreAsync()).Id;
+
+    var attachmentPluginEnabled = await settingService.GetSettingByKeyAsync("AttachmentsSettings.Enable", false, storeId, true);
+
+    if (attachmentPluginEnabled != false && settings.EnableProductAttachmentsTab && settings.EnableAjax)
+    {
+        var attachmentsThemeFolder = await ThemeHelper.GetPluginThemeAsync("SevenSpikes.Nop.Plugins.Attachments");
+        var attachmentsCssFilePath = "~/Plugins/SevenSpikes.Nop.Plugins.Attachments/Themes/" + attachmentsThemeFolder + "/Content/Attachments.css";
+
+        <link rel="stylesheet" href="~/Plugins/SevenSpikes.Nop.Plugins.Attachments/Styles/common.css" />
+        <link rel="stylesheet" href="@attachmentsCssFilePath" />
+    }
+
+    if (Model.Tabs.Count == 0)
+    {
+        return;
+    }
+
+    var quickTabsCssFilePath = $"~/Plugins/{Plugin.FolderName}/Themes/{themeFolder}/Content/QuickTabs.css";
+
+    <link rel="stylesheet" href="@quickTabsCssFilePath" />
+
+    //TODO 4.5: jquery-ui.min.js was added with AppendScriptParts, check if this is ok.
+    <script src="~/lib_npm/jquery-ui-dist/jquery-ui.min.js" asp-location="Footer"></script>
+    <script src="~/Plugins/SevenSpikes.Nop.Plugins.NopQuickTabs/Scripts/ProductTabs.min.js" asp-location="Footer"></script>
+
+    var supportRtl = (await workContext.GetWorkingLanguageAsync()).Rtl;
+    if (supportRtl)
+    {
+        var quickTabsRtlCssFilePath = $"~/Plugins/{Plugin.FolderName}/Themes/{themeFolder}/Content/QuickTabs.rtl.css";
+        
+        <link rel="stylesheet" href="@quickTabsRtlCssFilePath" />
+    }
+
+    var additionalClass = "";
+    if (Model.Tabs.Any(x => x.TabKey == "picture"))
+    {
+        additionalClass = "withPicture";
+    }
+
+    var productTabsPartialViewName = settings.EnableAjax ? Views.WithAjaxPartial : Views.WithoutAjaxPartial;
+    string productTabsPartialView = $"~/Plugins/{Plugin.FolderName}/Themes/Voyage/Views/Components/ProductTabs/{productTabsPartialViewName}.cshtml";
+
+    var productPageLayout = await settingService.GetSettingByKeyAsync("VoyageThemeSettings.ProductPageLayout", "standard-gallery", storeId, true);
+    var isExtendedGallery = productPageLayout.Equals("extended-gallery");
+
+    ViewData.Add("IsGroupedProduct", Model.ProductModel.ProductType == Nop.Core.Domain.Catalog.ProductType.GroupedProduct);
+    var isGroupedProduct = false;
+    if (ViewData.ContainsKey("IsGroupedProduct"))
+    {
+        isGroupedProduct = (bool)ViewData["IsGroupedProduct"];
+    }
+
+    var layoutClass = "";
+    if (isExtendedGallery || isGroupedProduct)
+    {
+        layoutClass = "accordion";
+    }
+
+    <div id="quickTabs" class="productTabs @additionalClass @layoutClass"
+         data-ajaxEnabled="@settings.EnableAjax.ToString().ToLowerInvariant()"
+         data-productReviewsAddNewUrl="@Url.Action("ProductReviewsTabAddNew", "ProductTab", new { id = Model.ProductId})"
+         data-productContactUsUrl="@Url.Action("ProductContactUsTabAddNew", "ProductTab", new { id = Model.ProductId})"
+         data-couldNotLoadTabErrorMessage="@T("SevenSpikes.NopQuickTabs.Client.Tabs.CouldNotLoadTabErrorMessage").ToString()">
+        @{ await Html.RenderPartialAsync(productTabsPartialView);} 
+    </div>
+
+    <script asp-location="Footer">
+        $(document).ready(function () {
+
+            // set Accordion functionality (vertical tabs only)
+
+            var tabElement = $('#quickTabs.accordion .productTabs-tab');
+            tabElement.first().children('.ui-tab-body').hide();
+
+            tabElement.children('.ui-tab-title').on('click', function () {
+
+                var tabContent = $(this).siblings('.ui-tab-body');
+
+                if (!tabContent.hasClass('active')) {
+                    tabContent.slideDown().addClass('active');
+                }
+                else {
+                    tabContent.slideUp().removeClass('active');
+                }
+                $(this).parent().siblings().find('.ui-tab-body').slideUp().removeClass('active');
+            });
+
+            $('.product-review-links a, .product-no-reviews a').on('click', function () {
+                if (tabElement.length > 0) {
+                    if (!$('#reviews-tab').next().hasClass('active')) {
+                        $('#reviews-tab').children().click();
+                    }
+                    $('html, body').stop().animate({
+                        scrollTop: $('#reviews-tab').offset().top
+                    }, 500);
+                }
+            });
+
+            // handle Ajax tabs population (vertical tabs only)
+
+            var clickedTabTitle;
+
+            $('#quickTabs .visible-title').on('click', function (e) {
+                e.preventDefault();
+                clickedTabTitle = $(this);
+
+                var tabContent = clickedTabTitle.parent().siblings('.ui-tab-body');
+
+                if (!tabContent.hasClass('active')) {
+                    tabContent.show().addClass('active');
+                }
+                else {
+                    tabContent.hide().removeClass('active');
+                }
+                clickedTabTitle.closest('.productTabs-tab').siblings().find('.ui-tab-body').hide().removeClass('active');
+
+                var href = $(this).attr('href');
+                $('#quickTabs a.hidden-title[href="' + href + '"').click();
+
+                return false;
+            });
+
+            $('#quickTabs.accordion').on('tabsload', function (event, ui) {
+                if (clickedTabTitle) {
+                    $(ui.panel).detach().appendTo(clickedTabTitle.parent().siblings());
+                }
+            });
+        });
+    </script>
+}

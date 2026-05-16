@@ -1,0 +1,181 @@
+﻿@model ConfigurationModel
+
+@{
+    var plugin = pluginService.FindPluginByTypeInAssembly((this.ViewContext.ActionDescriptor as ControllerActionDescriptor).ControllerTypeInfo);
+    
+    //friendly name
+    var friendlyName = plugin?.PluginDescriptor.FriendlyName;
+
+    var activeMenuSystemName = string.Empty;
+    var configureLocale = string.Empty;
+    var backToLocale = string.Empty;
+    var listActionMethodName = string.Empty;
+    var listControllerName = string.Empty;
+
+    if (plugin is IWidgetPlugin widget && !widget.HideInWidgetList)
+    {
+        //widgets
+        activeMenuSystemName = "Widgets";
+        configureLocale = "Admin.ContentManagement.Widgets.Configure";
+        backToLocale = "Admin.ContentManagement.Widgets.BackToList";
+        listActionMethodName = "List";
+        listControllerName = "Widget";
+    }
+
+    //IAdminMenuPlugin can set own active menu item
+    if (plugin is IAdminMenuPlugin && NopHtml.GetActiveMenuItemSystemName() is string menuItem && !string.IsNullOrEmpty(menuItem))
+        activeMenuSystemName = menuItem;
+
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.PageTitle = T(configureLocale).Text + " - " + friendlyName;
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName(activeMenuSystemName);
+}
+
+<form asp-controller="Fulfillment" asp-action="Configure" method="post">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T(configureLocale) - @friendlyName
+            <small>
+                <i class="fas fa-arrow-circle-left"></i>
+                <a asp-action="@listActionMethodName" asp-controller="@listControllerName">@T(backToLocale)</a>
+            </small>
+        </h1>
+        <div class="float-right">
+            <button type="submit" name="save" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+            <a asp-controller="Fulfillment" asp-action="ThreePlShippingMethods" class="btn bg-olive">
+                <i class="fa fa-truck"></i>
+                @T("Plugins.Widgets.Fulfillment.Fields.ManageCarriers")
+            </a>
+            <a asp-controller="Fulfillment" asp-action="ThreePlRecords" class="btn bg-olive">
+                <i class="fa fa-history"></i>
+                @T("Plugins.Widgets.Fulfillment.Fields.ManageLogs")
+            </a>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div class="cards-group">
+                    <div class="card card-default">
+                        <div class="card-body">
+                            @Html.Raw(T("Plugins.Widgets.Fulfillment.Fields.Instructions").Text)
+                            <div class="card card-default">
+                                <div class="card-header">
+                                    @T("Plugins.Widgets.Fulfillment.Fields.Settings.Common.BlockTitle")
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <div class="col-md-3">
+                                            <nop-label asp-for="ThreePlEnable" />
+                                        </div>
+                                        <div class="col-md-9">
+                                            <nop-editor asp-for="ThreePlEnable" />
+                                            <span asp-validation-for="ThreePlEnable"></span>
+                                        </div>
+                                    </div>
+                                    <nop-nested-setting asp-for="ThreePlEnable">
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="ClientId" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-editor asp-for="ClientId" />
+                                                <span asp-validation-for="ClientId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="ClientSecret" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-editor asp-for="ClientSecret" />
+                                                <span asp-validation-for="ClientSecret"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="ThreePlKey" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-editor asp-for="ThreePlKey" />
+                                                <span asp-validation-for="ThreePlKey"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="UserId" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-editor asp-for="UserId" />
+                                                <span asp-validation-for="UserId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="CustomerId" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-editor asp-for="CustomerId" />
+                                                <span asp-validation-for="CustomerId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="FacilityId" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-editor asp-for="FacilityId" />
+                                                <span asp-validation-for="FacilityId"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="SendOrderHoursInterval" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-editor asp-for="SendOrderHoursInterval" asp-postfix="Hour" />
+                                                <span asp-validation-for="SendOrderHoursInterval"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="MultiPackageForCountries" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-select asp-for="MultiPackageForCountries" asp-items="Model.AvailableCountries" asp-multiple="true" />
+                                                <span asp-validation-for="MultiPackageForCountries"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="MultiPackageOrderAmountOver" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-editor asp-for="MultiPackageOrderAmountOver" asp-postfix="@Model.PrimaryStoreCurrencyCode" />
+                                                <span asp-validation-for="MultiPackageOrderAmountOver"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <nop-label asp-for="NoSplitAmountLess" />
+                                            </div>
+                                            <div class="col-md-9">
+                                                <nop-editor asp-for="NoSplitAmountLess" asp-postfix="@Model.PrimaryStoreCurrencyCode" />
+                                                <span asp-validation-for="NoSplitAmountLess"></span>
+                                            </div>
+                                        </div>
+                                    </nop-nested-setting>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

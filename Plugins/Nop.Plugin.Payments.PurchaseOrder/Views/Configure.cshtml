@@ -1,0 +1,88 @@
+﻿@model ConfigurationModel
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+
+<form asp-controller="PaymentPurchaseOrder" asp-action="Configure" method="post">
+    <div class="card-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="AdditionalFee_OverrideForStore" asp-input="AdditionalFee" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="AdditionalFee" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalFee" />
+                        <span asp-validation-for="AdditionalFee"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="AdditionalFeePercentage_OverrideForStore" asp-input="AdditionalFeePercentage" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="AdditionalFeePercentage" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalFeePercentage" />
+                        <span asp-validation-for="AdditionalFeePercentage"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ShippableProductRequired_OverrideForStore" asp-input="ShippableProductRequired" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ShippableProductRequired" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ShippableProductRequired" />
+                        <span asp-validation-for="ShippableProductRequired"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ShowImpersonated_OverrideForStore" asp-input="ShowImpersonated" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ShowImpersonated" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ShowImpersonated" />
+                        <span asp-validation-for="ShowImpersonated"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="SelectedCustomerRoleIds_OverrideForStore" asp-input="SelectedCustomerRoleIds" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="SelectedCustomerRoleIds" />
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <nop-select asp-for="SelectedCustomerRoleIds" asp-items="Model.AvailableCustomerRoles" asp-multiple="true" />
+                                <script>
+                                    $(function() {
+                                        var rolesIdsInput =
+                                            $('#@Html.IdFor(model => model.SelectedCustomerRoleIds)').select2({
+                                                closeOnSelect: false,
+                                                @if (!Model.AvailableCustomerRoles.Any())
+                                                {
+                                                    <text>
+                                                    disabled: true,
+                                                    placeholder: '@T("Admin.Catalog.Products.CustomerRoles.NoCustomerRolesAvailable")',
+                                                    </text>
+                                                }
+                                            });
+                                    });
+                                </script>
+                            </div>                           
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

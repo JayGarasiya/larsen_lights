@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Product Extension",
+  "SystemName": "Widgets.ProductExtension",
+  "Version": "2.06",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.ProductExtension.dll",
+  "Description": "This plugin provide features as kit product price calculation and product note."
+}

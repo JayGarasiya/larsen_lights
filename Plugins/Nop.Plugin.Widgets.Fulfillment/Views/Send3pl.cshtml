@@ -1,0 +1,58 @@
+﻿@model OrderModel
+
+@if (!Model.CustomProperties.ContainsKey("Synced"))
+{
+    <button type="button" id="send-3pl" class="btn btn-success">
+        <i class="fas fa-upload"></i>
+        @T("Plugins.Widgets.Fulfillment.Fields.SendTo3PL")
+    </button>
+
+    <script>
+        $(document).ready(function () {
+            $('#send-3pl').attr("data-toggle", "modal").attr("data-target", "#send-3pl-action-alert");
+            $('#send-to-3pl').click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: "GET",
+                    url: "@Html.Raw(Url.Action("SyncThreePlRecord", "Fulfillment", new { id = Model.Id }))",
+                    success: function (response) {
+                        if (response.success) {
+                            $('#send-3pl-action-alert').modal('hide');
+                        }
+                        location.reload(true);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <div id="send-3pl-action-alert" class="modal fade" tabindex="-1" aria-labelledby="send-3pl-action-alert-title" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="send-3pl-action-alert-title">@T("Admin.Common.Alert")</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="additional-text" id="send-3pl-info">@string.Format(T("Plugins.Widgets.Fulfillment.Fields.SendTo3PLInfo").Text, Model.Id)</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" name="save-services-configure" class="btn btn-primary" id="send-to-3pl">@T("Plugins.Widgets.Fulfillment.Fields.SendTo3PL")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <button type="button" class="btn btn-success">
+        <i class="fas fa-check"></i>
+        @T("Plugins.Widgets.Fulfillment.Fields.AlreadySendTo3PL")
+    </button>
+}

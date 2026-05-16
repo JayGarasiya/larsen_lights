@@ -1,0 +1,58 @@
+﻿
+.ui-tabs.productTabs {
+    clear: both;
+    margin: 0 0 20px;
+}
+.ui-tabs .full-description {
+	margin-bottom: 0;
+}
+.product-collateral > div,
+.product-specs-box .data-table,
+.product-specs-box .table-wrapper {
+	margin-bottom: 0;
+}
+.ui-tabs .product-review-list {
+    border: none;
+    padding: 0;
+}
+.ui-tabs .product-review-item {
+    margin: 0 0 40px;
+    border-bottom: 1px solid #eee;
+    padding: 0 0 30px;
+}
+.ui-tabs .write-review,
+.ui-tabs .contact-page {
+    max-width: 500px;
+    margin: auto;
+    border: none;
+    padding: 0;
+}
+.ui-tabs .form-fields {
+    margin: 0 0 20px;
+    padding: 0;
+}
+.ui-tabs .captcha-box {
+    padding: 5px 0;
+}
+.ui-tabs .buttons {
+    border: none;
+    padding: 0;
+}
+.ui-tabs .button-1 {
+    max-width: none;
+}
+
+
+@media all and (min-width: 1000px) {
+
+    .product-page-layout-one .gallery-wrapper,
+    .product-page-layout-one .overview-wrapper {
+        margin-bottom: 50px;
+    }
+    .product-page-layout-one .ui-tabs.productTabs {
+        margin-bottom: 50px;
+    }
+    .product-page-layout-two .ui-tabs.productTabs {
+        margin-bottom: 35px;
+    }
+}

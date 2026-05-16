@@ -1,0 +1,50 @@
+﻿@model ConfigurationModel
+
+<div class="card-body">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="EnableDHLMethod" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="EnableDHLMethod" />
+            <span asp-validation-for="EnableDHLMethod"></span>
+        </div>
+    </div>
+    <nop-nested-setting asp-for="EnableDHLMethod">
+        <div class="form-group row" id="pnlDHLTrackingApiUrl">
+            <div class="col-md-3">
+                <nop-label asp-for="DHLTrackingApiUrl" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="DHLTrackingApiUrl" />
+                <span asp-validation-for="DHLTrackingApiUrl"></span>
+            </div>
+        </div>
+        <div class="form-group row" id="pnlDHLConsumerKey">
+            <div class="col-md-3">
+                <nop-label asp-for="DHLConsumerKey" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="DHLConsumerKey" />
+                <span asp-validation-for="DHLConsumerKey"></span>
+            </div>
+        </div>
+    </nop-nested-setting>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.EnableDHLMethod)").click(toggleDHLMethods);
+
+        toggleDHLMethods();
+    });
+
+    function toggleDHLMethods() {
+        if ($('#@Html.IdFor(model => model.EnableDHLMethod)').is(':checked')) {
+            $('#pnlDHLTrackingApiUrl').showElement();
+            $('#pnlDHLConsumerKey').showElement();
+        } else {
+            $('#pnlDHLTrackingApiUrl').hideElement();
+            $('#pnlDHLConsumerKey').hideElement();
+        }
+    }
+</script>

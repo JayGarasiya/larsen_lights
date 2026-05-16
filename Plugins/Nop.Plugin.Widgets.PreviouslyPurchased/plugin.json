@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Previously purchased products",
+  "SystemName": "Widgets.PreviouslyPurchased",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.PreviouslyPurchased.dll",
+  "Description": "This plugin allow customers to use the 'Previously purchased products' feature in your store."
+}

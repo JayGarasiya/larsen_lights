@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Order Qty",
+  "SystemName": "Inventory.Order",
+  "Version": "1.02",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommerce plus",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.Inventory.Order.dll",
+  "Description": "This plugin allows to integrate with Order Qty service"
+}

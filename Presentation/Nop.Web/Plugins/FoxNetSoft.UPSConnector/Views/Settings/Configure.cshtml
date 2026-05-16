@@ -1,0 +1,361 @@
+﻿@model FoxNetSoft.Plugin.Shipping.UPSConnector.Models.ConfigureModel
+@using FoxNetSoft.Plugin.Shipping.UPSConnector.Domain
+@using FoxNetSoft.Plugin.Shipping.UPSConnector.Models
+@using FoxNetSoft.Plugin.Shipping.UPSConnector.Logger
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+<form asp-controller="UPSConnectorSettings" asp-action="Configure" method="post">
+    <script>
+        $(document).ready(function () {
+            $("#PackingType").change(togglePackingType);
+            $("#showDebugInfo").click(toggleshowDebugInfo);
+
+            toggleshowDebugInfo();
+            togglePackingType();
+        });
+
+        function togglePackingType() {
+            var selectedPackingTypeId = $("#PackingType").val();
+            if (selectedPackingTypeId == @((int)PackingType.PackByDimensions)) {
+                $('#pnlPassDimensions').showElement();
+                $('#pnlPackingPackageVolume').hideElement();
+            }
+            else if (selectedPackingTypeId == @((int)PackingType.PackByOneItemPerPackage)) {
+                $('#pnlPassDimensions').hideElement();
+                $('#pnlPackingPackageVolume').hideElement();
+            }
+            else if (selectedPackingTypeId == @((int)PackingType.PackByVolume)) {
+                $('#pnlPassDimensions').hideElement();
+                $('#pnlPackingPackageVolume').showElement();
+            }
+        }
+
+        function toggleshowDebugInfo() {
+            if ($('#showDebugInfo').is(':checked')) {
+                $('#pnlclearlogfile, #pnlgetlogfile').showElement();
+            }
+            else {
+                $('#pnlclearlogfile, #pnlgetlogfile').hideElement();
+            }
+        }
+    </script>
+
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <p>
+                    @if (Model.LicenseStatus == LicenseStatus.Registered)
+                    {
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.IsRegisted")
+                    }
+                    else
+                    {
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.IsNoRegisted")
+                        <br />
+                        <a href="https://www.foxnetsoft.com/nopupsconnector" target="blank">Buy It Now</a>
+                    }
+                </p>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                @if (Model.ErrorShippingOriginAddress)
+                {
+                    <p style="color:red;">
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.WrongShippingOriginAddress")
+                        <br />
+                        <a href="/Admin/Setting/Shipping" target="blank">@T("Admin.Configuration.Settings.Shipping")</a>
+                    </p>
+                }
+                else
+                {
+                    <p style="color:red;">
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.CheckShippingOriginAddress")
+                        <br />
+                        <a href="/Admin/Setting/Shipping" target="blank">@T("Admin.Configuration.Settings.Shipping")</a>
+                    </p>
+                }
+                @if (Model.ErrorEstimateShippingCity)
+                {
+                    <p style="color:red;">
+                        @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Error.ShippingCityNameRequired")
+                        <br />
+                        <a href="/Admin/Setting/Shipping" target="blank">@T("Admin.Configuration.Settings.Shipping")</a>
+                    </p>
+                }
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <p>
+                    Create UPS account <a href="https://developer.ups.com/api/" target="blank">https://developer.ups.com/api/</a> and get credentials.
+                </p>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="UseSandbox" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UseSandbox" />
+                        <span asp-validation-for="UseSandbox"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ClientId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ClientId" />
+                        <span asp-validation-for="ClientId"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ClientSecret" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ClientSecret" />
+                        <span asp-validation-for="ClientSecret"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AccountNumber" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AccountNumber" />
+                        <span asp-validation-for="AccountNumber"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="CustomerClassification" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="CustomerClassification" asp-items="Model.AvailableCustomerClassifications" />
+                        <span asp-validation-for="CustomerClassification"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PickupType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="PickupType" asp-items="Model.AvailablePickupTypes" />
+                        <span asp-validation-for="PickupType"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PackagingType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="PackagingType" asp-items="Model.AvailablePackagingTypes" />
+                        <span asp-validation-for="PackagingType"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="InsurePackage" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="InsurePackage" />
+                        <span asp-validation-for="InsurePackage"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AdditionalHandlingCharge" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalHandlingCharge" />
+                        <span asp-validation-for="AdditionalHandlingCharge"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AdditionalHandlingChargePercentage" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AdditionalHandlingChargePercentage" />
+                        <span asp-validation-for="AdditionalHandlingChargePercentage"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AvailableCarrierServices" />
+                    </div>
+                    <div class="col-md-9">
+                        @foreach (var service in Model.AvailableCarrierServices)
+                        {
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="@(nameof(Model.CarrierServices))" value="@(service.Value)" checked="@(service.Selected)" />
+                                    @(service.Text)
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SurePostRatesEnabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SurePostRatesEnabled" />
+                        <span asp-validation-for="SurePostRatesEnabled"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SaturdayDeliveryEnabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SaturdayDeliveryEnabled" />
+                        <span asp-validation-for="SaturdayDeliveryEnabled"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PackingType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="PackingType" asp-items="Model.AvaliablePackingTypes" />
+                        <span asp-validation-for="PackingType"></span>
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlPassDimensions">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PassDimensions" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PassDimensions" />
+                        <span asp-validation-for="PassDimensions"></span>
+                    </div>
+                </div>
+                <div class="form-group row" id="pnlPackingPackageVolume">
+                    <div class="col-md-3">
+                        <nop-label asp-for="PackingPackageVolume" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="PackingPackageVolume" />
+                        <span asp-validation-for="PackingPackageVolume"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="WeightType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="WeightType" asp-items="Model.AvaliableWeightTypes" />
+                        <span asp-validation-for="WeightType"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="DimensionsType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="DimensionsType" asp-items="Model.AvaliableDimensionsTypes" />
+                        <span asp-validation-for="DimensionsType"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="card-header">
+                    @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabels")
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="UseSandboxForLabel" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UseSandboxForLabel" />
+                        <span asp-validation-for="UseSandboxForLabel"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="LabelImageFormat" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="LabelImageFormat" asp-items="Model.AvaliableLabelImageFormats" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="LabelSize" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="LabelSize" asp-items="Model.AvaliableLabelSizes" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="ReturnLabelType" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="ReturnLabelType" asp-items="Model.AvaliableReturnLabelTypes" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="showDebugInfo" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="showDebugInfo" />
+                        <span asp-validation-for="showDebugInfo"></span>
+                        <div id="pnlclearlogfile">
+                            <a href="@Url.Action("ClearLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ClearLogFile")</a>
+                        </div>
+                        <div id="pnlgetlogfile">
+                            <a href="@Url.Action("GetLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.GetLogFile")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StoreUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" id="StoreUrl" name="StoreUrl" value="@Model.StoreUrl" type="text" readonly="readonly">
+                        <span asp-validation-for="StoreUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SerialNumber" />
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" id="SerialNumber" name="SerialNumber" value="@Model.SerialNumber" autocomplete="off">
+                        <span asp-validation-for="SerialNumber"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+                <p>
+                    Installation and configuring plug-in at Youtube <a href="https://www.youtube.com/foxnetsoft" target="blank">www.youtube.com/foxnetsoft</a>
+                    <br />
+                    Installation and configuring plug-in at our site <a href="https://www.foxnetsoft.com/documentation-nopupsconnector" target="blank">https://www.foxnetsoft.com/documentation-nopupsconnector</a>
+                    <br />
+                    <a href="https://www.foxnetsoft.com" target="blank">www.foxnetsoft.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>

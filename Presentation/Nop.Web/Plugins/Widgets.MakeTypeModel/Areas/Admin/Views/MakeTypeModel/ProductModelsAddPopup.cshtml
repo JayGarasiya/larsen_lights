@@ -1,0 +1,167 @@
+﻿@model ModelProductSearchModel
+
+@{
+    Layout = "_AdminPopupLayout";
+
+    //page title
+    ViewBag.PageTitle = T("Plugins.Widgets.MakeTypeModel.ModelProduct.AddNew").Text;
+}
+
+@if (ViewBag.RefreshPage == true)
+{
+    <script>
+        try {window.opener.document.forms['@(Context.Request.Query["formId"])'].@(Context.Request.Query["btnId"]).click();}
+        catch (e){}
+        window.close();
+    </script>
+}
+else
+{
+    <form asp-controller="MakeTypeModel" asp-action="ProductModelsAddPopup"
+          asp-route-productId="@Context.Request.Query["productId"]"
+          asp-route-btnId="@Context.Request.Query["btnId"]"
+          asp-route-formId="@Context.Request.Query["formId"]">
+        <div class="content-header clearfix">
+            <h1 class="float-left">
+                @T("Plugins.Widgets.MakeTypeModel.ModelProduct.AddNew")
+            </h1>
+            <div class="float-right">
+                &nbsp;
+            </div>
+        </div>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="form-horizontal">
+                    <div class="cards-group">
+                        <div class="card card-default card-search card-popup">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-5">
+                                                <nop-label asp-for="SearchName" />
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <nop-editor asp-for="SearchName" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-5">
+                                                <nop-label asp-for="SearchInDescription" />
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <nop-editor asp-for="SearchInDescription" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="SearchMakeName" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-select asp-for="SearchMakeName" asp-items="Model.AvailableMakes" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">
+                                                <nop-label asp-for="SearchTypeName" />
+                                            </div>
+                                            <div class="col-md-8">
+                                                <nop-select asp-for="SearchTypeName" asp-items="Model.AvailableTypes" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" id="search-model-products" class="btn btn-primary btn-search">
+                                            <i class="fas fa-search"></i>
+                                            @T("Admin.Common.Search")
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card card-default">
+                            <div class="card-body">
+                                @await Html.PartialAsync("Table", new DataTablesModel
+                                {
+                                    Name = "model-products",
+                                    UrlRead = new DataUrl("ProductModelsAddPopupList", "MakeTypeModel", null),
+                                    SearchButtonId = "search-model-products",
+                                    Length = Model.PageSize,
+                                    LengthMenu = Model.AvailablePageSizes,
+                                    Filters = new List<FilterParameter>
+                                    {
+                                        new FilterParameter(nameof(Model.SearchName)),
+                                        new FilterParameter(nameof(Model.SearchInDescription), typeof(bool)),
+                                        new FilterParameter(nameof(Model.SearchMakeName)),
+                                        new FilterParameter(nameof(Model.SearchTypeName))
+                                    },
+                                    ColumnCollection = new List<ColumnProperty>
+                                    {
+                                        new ColumnProperty(nameof(ModelProductModel.Id))
+                                        {
+                                            IsMasterCheckBox = true,
+                                            Render = new RenderCheckBox(nameof(AddModelProductToProductModel.SelectedModelProductIds)),
+                                            ClassName = NopColumnClassDefaults.CenterAll,
+                                            Width = "50"
+                                        },
+                                        new ColumnProperty(nameof(ModelProductModel.Name))
+                                        {
+                                            Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.Name").Text,
+                                            Width = "300"
+                                        },
+                                        new ColumnProperty(nameof(ModelProductModel.Description))
+                                        {
+                                            Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.Description").Text,
+                                            Width = "300"
+                                        },
+                                        new ColumnProperty(nameof(ModelProductModel.MakeName))
+                                        {
+                                            Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.MakeName").Text,
+                                            Width = "300"
+                                        },
+                                        new ColumnProperty(nameof(ModelProductModel.TypeName))
+                                        {
+                                            Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.TypeName").Text,
+                                            Width = "300"
+                                        },
+                                        new ColumnProperty(nameof(ModelProductModel.Published))
+                                        {
+                                            Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.Published").Text,
+                                            Width = "100",
+                                            ClassName = NopColumnClassDefaults.CenterAll,
+                                            Render = new RenderBoolean()
+                                        },
+                                        new ColumnProperty(nameof(ModelProductModel.DisplayOrder))
+                                        {
+                                            Title = T("Plugins.Widgets.MakeTypeModel.ModelProduct.Fields.DisplayOrder").Text,
+                                            Width = "100",
+                                            ClassName = NopColumnClassDefaults.CenterAll,
+                                        },
+                                        new ColumnProperty(nameof(ModelProductModel.Id))
+                                        {
+                                            Title = T("Admin.Common.Edit").Text,
+                                            Width = "200",
+                                            ClassName =  NopColumnClassDefaults.Button,
+                                            Render = new RenderButtonEdit(new DataUrl("Edit"))
+                                        }
+                                    }
+                                })
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" name="save" class="btn btn-primary">
+                                    <i class="far fa-save"></i>
+                                    @T("Admin.Common.Save")
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+}

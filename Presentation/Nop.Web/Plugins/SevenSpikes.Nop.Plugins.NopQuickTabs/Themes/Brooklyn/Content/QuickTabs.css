@@ -1,0 +1,17 @@
+﻿
+.product-essential {
+	margin-bottom: 80px;
+}
+.product-name {
+	margin-bottom: 40px !important;
+}
+.full-description,
+.product-specs-box,
+.write-review .button-1,
+.contact-page .button-1,
+.product-specs-box .data-table {
+	margin-bottom: 0;
+}
+.write-review:only-child {
+	margin-bottom: 0;
+}

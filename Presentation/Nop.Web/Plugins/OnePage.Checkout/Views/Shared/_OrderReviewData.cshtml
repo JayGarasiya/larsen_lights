@@ -1,0 +1,157 @@
+﻿@model ShoppingCartModel.OrderReviewDataModel
+@if (Model.Display && (Model.BillingAddress != null || !string.IsNullOrEmpty(Model.PaymentMethod) || Model.ShippingAddress != null || !string.IsNullOrEmpty(Model.ShippingMethod)))
+{
+    <div class="review-data">
+        @if (Model.BillingAddress != null)
+        {
+            <div class="review-block">
+                <div class="review-info-wrap">
+                    <div class="title">@T("Plugins.OnePage.Checkout.BillTo")</div>
+                    <div class="review-info">
+                        @{ 
+                            var addressLine = "";
+                            addressLine += Model.BillingAddress.FirstName;
+                            addressLine += " " + Model.BillingAddress.LastName;
+                            if (Model.BillingAddress.StreetAddressEnabled && !string.IsNullOrEmpty(Model.BillingAddress.Address1))
+                            {
+                                addressLine += ", " + Model.BillingAddress.Address1;
+                            }
+                            if (Model.BillingAddress.CityEnabled && !string.IsNullOrEmpty(Model.BillingAddress.City))
+                            {
+                                addressLine += ", " + Model.BillingAddress.City;
+                            }
+                            if (Model.BillingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.BillingAddress.County))
+                            {
+                                addressLine += ", " + Model.BillingAddress.County;
+                            }
+                            if (Model.BillingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.BillingAddress.StateProvinceName))
+                            {
+                                addressLine += ", " + Model.BillingAddress.StateProvinceName;
+                            }
+                            if (Model.BillingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.BillingAddress.ZipPostalCode))
+                            {
+                                addressLine += " " + Model.BillingAddress.ZipPostalCode;
+                            }
+                            if (Model.BillingAddress.CountryEnabled && !string.IsNullOrWhiteSpace(Model.BillingAddress.CountryName))
+                            {
+                                addressLine += ", " + Model.BillingAddress.CountryName;
+                            }
+                        }
+                        @addressLine
+                    </div>
+                </div>
+                <div class="review-link-wrap">
+                    <a href="#" onclick="Accordion.openSection('#opc-billing');" class="button-2 edit-address-button">@T("Plugins.OnePage.Checkout.Change")</a>
+                </div>
+            </div>
+        }
+
+        @if (Model.IsShippable)
+        {
+            if (Model.ShippingAddress != null)
+            {
+                <div class="review-block">
+                    <div class="review-info-wrap">
+                        <div class="title">@(Model.SelectedPickupInStore ? T("Plugins.OnePage.Checkout.Pickup") : T("Plugins.OnePage.Checkout.ShipTo"))</div>
+                        <div class="review-info">
+                            @if (!Model.SelectedPickupInStore)
+                            {
+                                var addressLine = "";
+                                addressLine += Model.ShippingAddress.FirstName;
+                                addressLine += " " + Model.ShippingAddress.LastName;
+                                if (Model.ShippingAddress.StreetAddressEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.Address1))
+                                {
+                                    addressLine += ", " + Model.ShippingAddress.Address1;
+                                }
+                                if (Model.ShippingAddress.CityEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.City))
+                                {
+                                    addressLine += ", " + Model.ShippingAddress.City;
+                                }
+                                if (Model.ShippingAddress.CountyEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.County))
+                                {
+                                    addressLine += ", " + Model.ShippingAddress.County;
+                                }
+                                if (Model.ShippingAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.StateProvinceName))
+                                {
+                                    addressLine += ", " + Model.ShippingAddress.StateProvinceName;
+                                }
+                                if (Model.ShippingAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.ZipPostalCode))
+                                {
+                                    addressLine += " " + Model.ShippingAddress.ZipPostalCode;
+                                }
+                                if (Model.ShippingAddress.CountryEnabled && !string.IsNullOrWhiteSpace(Model.ShippingAddress.CountryName))
+                                {
+                                    addressLine += ", " + Model.ShippingAddress.CountryName;
+                                }
+                                @addressLine
+                            }
+                            else
+                            {
+                                var addressLine = "";
+                                addressLine += Model.PickupAddress.FirstName;
+                                addressLine += " " + Model.PickupAddress.LastName;
+                                if (Model.PickupAddress.StreetAddressEnabled && !string.IsNullOrEmpty(Model.PickupAddress.Address1))
+                                {
+                                    addressLine += ", " + Model.PickupAddress.Address1;
+                                }
+                                if (Model.PickupAddress.CityEnabled && !string.IsNullOrEmpty(Model.PickupAddress.City))
+                                {
+                                    addressLine += ", " + Model.PickupAddress.City;
+                                }
+                                if (Model.PickupAddress.CountyEnabled && !string.IsNullOrEmpty(Model.PickupAddress.County))
+                                {
+                                    addressLine += ", " + Model.PickupAddress.County;
+                                }
+                                if (Model.PickupAddress.StateProvinceEnabled && !string.IsNullOrEmpty(Model.PickupAddress.StateProvinceName))
+                                {
+                                    addressLine += ", " + Model.PickupAddress.StateProvinceName;
+                                }
+                                if (Model.PickupAddress.ZipPostalCodeEnabled && !string.IsNullOrEmpty(Model.PickupAddress.ZipPostalCode))
+                                {
+                                    addressLine += " " + Model.PickupAddress.ZipPostalCode;
+                                }
+                                if (Model.PickupAddress.CountryEnabled && !string.IsNullOrWhiteSpace(Model.PickupAddress.CountryName))
+                                {
+                                    addressLine += ", " + Model.PickupAddress.CountryName;
+                                }
+                                @addressLine
+                            }
+                        </div>
+                    </div>
+                    <div class="review-link-wrap">
+                        <a href="#" onclick="Accordion.openSection('#opc-shipping');" class="button-2 edit-address-button">@T("Plugins.OnePage.Checkout.Change")</a>
+                    </div>
+                </div>
+            }
+            if (!string.IsNullOrEmpty(Model.ShippingMethod))
+            {
+                <div class="review-block">
+                    <div class="review-info-wrap">
+                        <div class="title">@T("Plugins.OnePage.Checkout.Shipping")</div>
+                        <div class="review-info">
+                            @Model.ShippingMethod
+                        </div>
+                    </div>
+                    <div class="review-link-wrap">
+                        <a href="#" onclick="Accordion.openSection('#opc-shipping_method');" class="button-2 edit-address-button">@T("Plugins.OnePage.Checkout.Change")</a>
+                    </div>
+                </div>
+            }
+        }
+
+        @if (!string.IsNullOrEmpty(Model.PaymentMethod))
+        {
+            <div class="review-block">
+                <div class="review-info-wrap">
+                    <div class="title">@T("Plugins.OnePage.Checkout.Payment")</div>
+                    <div class="review-info">
+                        @Model.PaymentMethod
+                    </div>
+                </div>
+                <div class="review-link-wrap">
+                    <a href="#" onclick="Accordion.openSection('#opc-payment_method');" class="button-2 edit-address-button">@T("Plugins.OnePage.Checkout.Change")</a>
+                </div>
+            </div>
+        }
+    </div>
+}

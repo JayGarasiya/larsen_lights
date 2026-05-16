@@ -1,0 +1,1173 @@
+﻿@model PaymentInfoModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script asp-location="Head">
+
+        // Store existing values before removing the form
+        var cardholderName = $("#CardholderName").val();
+        var customerName = "@Html.Raw(Model.CardholderName)";
+
+        var allowSaveACHToggle = @Model.AllowSaveACH.ToString().ToLower();
+        var allowSaveCard = @Model.AllowSaveCard.ToString().ToLower();
+        var warningTextACH = '@T("Plugins.Payments.Evance.Payment.Warning.ACH")';
+        var checkNameLabel = '@T("Plugins.Payments.Evance.Payment.CheckName")';
+        var accountNumberLabel = '@T("Plugins.Payments.Evance.Payment.AccountNumber")';
+        var routingNumberLabel = '@T("Plugins.Payments.Evance.Payment.RoutingNumber")';
+        var saveACHLabel = '@T("Plugins.Payments.Evance.Payment.SaveACH")';
+        var saveCardLabel = '@T("Plugins.Payments.Evance.Payment.SaveCard")';
+
+        function getSaveAchHtml() {
+            if (!allowSaveACHToggle) return '';
+
+            return `
+                <tr class="input-tr">
+                    <td class="input-title">
+                        <label for="saveACH" id="saveACH" class="save-card">${saveACHLabel}</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="allowSaveACH" />
+                    </td>
+                </tr>
+            `;
+        }
+
+        function getAchFormHtml() {
+            var saveACH = getSaveAchHtml();
+            var achWarning = ``;
+            if (document.querySelector('.warning-text') === null) {
+                achWarning = `
+                <div class="card-title" style="text-align: center; padding-bottom: 10px;">
+                    <label class="warning-text" style="color: red;">
+                        ${warningTextACH}
+                    </label>
+                </div>
+                `;
+            }
+
+            return `
+                <form id="ach-form">
+                   ${achWarning}
+                    <table>
+                        <tr class="input-tr">
+                            <td class="input-title"><label>${checkNameLabel}</label></td>
+                            <td><div id="checkname" class="input-field"></div></td>
+                        </tr>
+                        <tr><td><div id="checkname-error" class="error-message"></div></td></tr>
+
+                        <tr class="input-tr">
+                            <td class="input-title"><label>${accountNumberLabel}</label></td>
+                            <td><div id="checkaccount" class="input-field"></div></td>
+                        </tr>
+                        <tr><td><div id="checkaccount-error" class="error-message"></div></td></tr>
+
+                        <tr class="input-tr">
+                            <td class="input-title"><label>${routingNumberLabel}</label></td>
+                            <td><div id="checkaba" class="input-field"></div></td>
+                        </tr>
+                        <tr><td><div id="checkaba-error" class="error-message"></div></td></tr>
+
+                        ${saveACH}
+                    </table>
+                </form>
+            `;
+        }
+
+        function getSaveCardHtml() {
+            if (!allowSaveCard) return '';
+
+            return `
+               <tr class="input-tr">
+                  <td class="input-title">
+                      <label for="saveCard" id="saveCard" class="save-card">${saveCardLabel}</label>
+                  </td>
+                  <td>
+                      <input type="checkbox" name="allowSaveCard" />
+                  </td>
+              </tr>
+            `;
+        }
+
+        function getCardFormHtml() {
+            var saveCard = getSaveCardHtml();
+
+            return `
+                <form id="card-form">
+                           <table>
+                               <tr class="input-tr">
+                                   <td class="input-title">
+                                       <label>@T("Payment.CardholderName")</label>
+                                   </td>
+                                   <td>
+                                       <div>
+                                           <input type="text" value="${cardholderName || customerName}" id="CardholderName" autocomplete="off" />
+                                       </div>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td><div id="cardholder-error" class="error-message"></div></td>
+                               </tr>
+                               <tr class="input-tr">
+                                   <td class="input-title">
+                                       <label>@T("Payment.CardNumber")</label>
+                                   </td>
+                                   <td>
+                                       <div class="card-section">
+                                           <div id="ccnumber" class="input-field"></div>
+                                       </div>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td><div id="ccnumber-error" class="error-message"></div></td>
+                               </tr>
+                               <tr class="input-tr">
+                                   <td class="input-title">
+                                       <label>@T("Payment.ExpirationDate")</label>
+                                   </td>
+                                   <td>
+                                       <div class="card-section">
+                                           <div id="ccexp" class="input-field"></div>
+                                       </div>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td><div id="ccexp-error" class="error-message"></div></td>
+                               </tr>
+                               <tr class="input-tr">
+                                   <td class="input-title">
+                                       <label>@T("Payment.CardCode")</label>
+                                   </td>
+                                   <td>
+                                       <div class="card-section">
+                                           <div id="cvv" class="input-field"></div>
+                                       </div>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td><div id="cvv-error" class="error-message"></div></td>
+                               </tr>
+                               ${saveCard}
+                           </table>
+                       </form>
+            `;
+        }
+
+        var radioButtons = document.querySelectorAll('input[name="selectedCard"]');
+        var saveCvvError = $("#savedCvvError");
+        var continueButton = $(".payment-info-next-step-button");
+
+        // Select the first radio button by default and add CVV input
+        if (radioButtons.length > 0) {
+            radioButtons[0].checked = true;
+            addCVVInput(radioButtons[0]);
+        }
+
+        // Attach event listeners to all radio buttons
+        radioButtons.forEach(radio => {
+            radio.addEventListener("change", function () {
+                addCVVInput(this);
+            });
+        });
+
+         function addCVVInput(selectedRadio) {
+             document.querySelectorAll('.cvv-container').forEach(el => el.remove()); // Remove existing CVV inputs
+
+             // Create CVV input container
+             var cvvContainer = document.createElement("div");
+             cvvContainer.className = "cvv-container";
+
+             cvvContainer.innerHTML = `<input type="password" id="savedCvv" placeholder="Cvv" class="saved-card-cvv" maxlength="4" name="cvvBox" required="" tabindex="1" >`;
+
+             // Append CVV input to the selected card's .card-information div
+             var cardInfoDiv = selectedRadio.closest('.card-information');
+             if (cardInfoDiv) {
+                 cardInfoDiv.appendChild(cvvContainer);
+             }
+
+         }
+         function updateButtonState() {
+                continueButton.removeAttr("onclick");
+         }
+
+         $('.save-account-number:first').addClass('apend-active-number');
+
+        function togglePaymentForm(formId) {
+            // Hide all payment forms
+            document.querySelectorAll(".payment-form").forEach(form => {
+                form.style.display = "none";
+            });
+
+            // Remove "active" class from all accordion items
+            document.querySelectorAll(".accordion-item").forEach(item => {
+                item.classList.remove("active");
+            });
+
+            var selectedForm = document.getElementById(formId); // Show the selected payment form
+            if (selectedForm) {
+
+                selectedForm.style.display = "block";
+
+                // Add "active" class to the selected accordion item
+                var accordionItem = selectedForm.closest(".accordion-item");
+                if (accordionItem) {
+                    accordionItem.classList.add("active");
+                }
+            }
+
+            var paymentContainer = document.getElementById(formId); // Locate the correct payment form container
+
+            if (!paymentContainer) return;
+
+            paymentContainer.innerHTML = ""; // Clear the selected form before appending new content
+            var formHtml = '';
+
+            if (formId === "cardpayment-form") {
+                var cardForm = '';
+
+                cardForm = getCardFormHtml();
+
+                var saveCardInformation = '';
+
+                if(@Model.CardInformation.Count() > 0){
+                    saveCardInformation = `
+                        <div class="save-cards-main">
+                           <div class="card-title">
+                               <label>@T("Plugins.Payments.Evance.SavedCard.Title")</label>
+                            </div>
+        @for (int i = 0; i < Model.CardInformation.Count; i++)
+        {
+                                                 <div class="save-card" id="exist-card">
+                                                    <div class="card-information">
+                                                        <input type="radio" id="customerCard" name="selectedCard" value="@Model.CardInformation[i].CustomerCardNumber" />
+                                                        <div class="card-logo">
+                                                            <img src="@Url.Content($"~/Plugins/Payments.Evance/Content/Images/{Model.CardInformation[i].CardType}.png")" />
+                                                        </div>
+                                                        <div class="card-number">
+                        @Model.CardInformation[i].CustomerCardNumber
+                                                        </div>
+                                                        <div class="card-exp-date">
+                        @Model.CardInformation[i].CustomerExpirationDate
+                                                        </div>
+                                                        <input type="hidden" id="vaultId" name="vaultId" value="@Model.CardInformation[i].CustomerVaultId" />
+                                                     </div>
+
+                                                 </div>
+
+        }
+
+                          <div id="savedCvvError"></div>
+                             <div class="save-card">
+                                 <input type="radio" class="add-card" id="savedCard" name="selectedCard" />
+                                 <label>@T("Plugins.Payments.Evance.Payment.Different.Card")</label>
+                             </div>
+                        </div>
+                    `;
+
+                    formHtml = `${saveCardInformation}`;
+                }
+                else{
+                    formHtml = `${cardForm}`;
+                }
+            }
+
+            if (formId === "achpayment-form") {
+                 var saveAccountInformation = '';
+                 var achForm = '';
+
+                 var achWarning = `
+                 <div class="card-title" style="text-align: center; padding-bottom: 10px;">
+                     <label class="warning-text" style="color: red;">
+                          ${warningTextACH}
+                     </label>
+                 </div>
+                 `;
+
+                 achForm = getAchFormHtml();
+
+                 if(@Model.ACHInformation.Count() > 0)
+                 {
+                      saveAccountInformation = `
+
+                          <div class="card-title">
+                              <label>@T("Plugins.Payments.Evance.SavedACH.Title")</label>
+                          </div>
+                          <div class="save-account-main">
+        @for (int i = 0; i < Model.ACHInformation.Count; i++)
+        {
+                                               <div class="save-account-number" id="exist-account-number">
+                                                   <input type="radio" id="account_" name="selectedAccount" value="@Model.ACHInformation[i].CustomerAccountNumber" />
+                                                   <label for="account_number_@i">@Model.ACHInformation[i].CustomerAccountNumber</label>
+                                                       <input type="hidden" id="ACHvaultId" name="ACHVaultId" value="@Model.ACHInformation[i].CustomerVaultId" />
+                                               </div>
+        }
+                            <div class="save-account-number" id="saveAccountNumber">
+                                <input type="radio" class="add-account" id="addAccount" name="selectedAccount" />
+                                <label for="test">@T("Plugins.Payments.Evance.Payment.Different.BankAccount")</label>
+                            </div>
+                          </div>
+                      `;
+
+                      formHtml = `
+                          ${achWarning}
+                          ${saveAccountInformation}`;
+                 }else{
+                     formHtml = `${achForm}`;
+                 }
+            }
+            if (formId === "googlepay-form"){
+                 formHtml = `
+                    <form>
+                       <div id="googlepaybutton"></div>
+                    </form>
+                 `;
+            }
+
+            if (formId === "applepay-form"){
+                 formHtml = `
+                    <form>
+                       <div id="applepaybutton"></div>
+                    </form>`;
+            }
+
+            paymentContainer.innerHTML = formHtml; // Append form to the correct container
+            initializePaymentScripts();
+            if(formId === "cardpayment-form"){
+                var radioButtons = document.querySelectorAll('input[name="selectedCard"]');
+
+                 if (radioButtons.length > 0) {
+                     radioButtons[0].checked = true;
+                     addCVVInput(radioButtons[0]);
+                 }
+
+                 radioButtons.forEach(radio => {
+                     radio.addEventListener("change", function () {
+                         addCVVInput(this);
+                     });
+                 });
+
+                $('.save-card:first').addClass('apend-active-card');
+            }
+            $('input[name="selectedCard"]').on('change', function () {
+                updateButtonState();
+                $('.save-card').removeClass('apend-active-card');
+                $(this).closest('.save-card').addClass('apend-active-card');
+                $("#card-form").remove(); // Remove existing card payment form if it exists
+            });
+
+            initializePaymentScripts();
+
+            $("#savedCard").unbind().change(function (event){
+                updateButtonState();
+                saveCvvError.hide();
+                $('.save-card').removeClass('apend-active-card');
+                $(this).closest('.save-card').addClass('apend-active-card');
+                event.preventDefault();
+                $("#card-form").remove(); // Remove existing card payment form if it exists
+
+                var cardFormHtml = '';
+                cardFormHtml = getCardFormHtml; // Create the form dynamically
+
+                $("#cardpayment-form").append(cardFormHtml);
+
+                initializePaymentScripts();
+            });
+            if(formId === "achpayment-form"){
+                var radioButtonsACH = document.querySelectorAll('input[name="selectedAccount"]');
+
+                // Select the first radio button by default and add CVV input
+                 if (radioButtonsACH.length > 0) {
+                     radioButtonsACH[0].checked = true;
+                     addCVVInput(radioButtonsACH[0]);
+                 }
+
+                 // Attach event listeners to all radio buttons
+                 radioButtonsACH.forEach(radio => {
+                     radio.addEventListener("change", function () {
+                         addCVVInput(this);
+                     });
+                 });
+            }
+            $('.save-account-number:first').addClass('apend-active-number');
+            $('input[name="selectedAccount"]').on('change', function () {
+                 updateButtonState();
+
+                $('.save-account-number').removeClass('apend-active-number');
+                $(this).closest('.save-account-number').addClass('apend-active-number');
+
+                $("#ach-form").remove(); // Remove existing ach payment form if it exists
+            });
+
+             initializePaymentScripts();
+
+            $("#addAccount").unbind().change(function (event){
+                updateButtonState();
+                $('.save-account-number').removeClass('apend-active-number');
+                $(this).closest('.save-account-number').addClass('apend-active-number');
+                event.preventDefault();
+                $("#ach-form").remove(); // Remove existing ach payment form if it exists
+                var aCHFormHtml = '';
+
+                aCHFormHtml = getAchFormHtml();
+
+                $("#achpayment-form").append(aCHFormHtml);
+                initializePaymentScripts();
+            });
+        }
+
+        $(document).ready(function () {
+
+            var firstRadioButton = document.querySelector('input[name="selectedCard"]');
+            if (firstRadioButton) {
+                firstRadioButton.checked = true;
+            }
+            $('.save-card:first').addClass('apend-active-card');
+            updateButtonState();
+
+            $('input[name="selectedCard"]').on('change', function () {
+                updateButtonState();
+
+                $('.save-card').removeClass('apend-active-card');
+                $(this).closest('.save-card').addClass('apend-active-card');
+
+                saveCvvError.text("");
+                $("#card-form").remove();
+            });
+
+            $('.save-account-number:first').addClass('apend-active-number');
+
+            initializePaymentScripts();
+
+            $("#savedCard").unbind().change(function (event){
+                updateButtonState();
+                saveCvvError.hide();
+                $('.save-card').removeClass('apend-active-card');
+                $(this).closest('.save-card').addClass('apend-active-card');
+                event.preventDefault();
+                $("#card-form").remove(); // Remove existing card payment form if it exists
+
+                var cardFormHtml = '';
+                cardFormHtml =  getCardFormHtml(); // Create the form dynamically
+                $("#cardpayment-form").append(cardFormHtml);
+
+                initializePaymentScripts();
+            });
+
+            $(".payment-info-next-step-button").unbind().click(function (event) {
+                var selectedMethod = $(".accordion-item.active .payment-name").text();
+                $("#paymentType").val(selectedMethod);
+                var cardCvv = $("#savedCvv").val();
+                var isSelected;
+                var isAdd;
+
+                var cvv = document.querySelector("input[name='cvvBox']");
+                if (cvv && cvv.value !== "null" && selectedMethod === "Card Payment") {
+                    if ($("#savedCvv")[0] || cvv.value.trim() === "") {
+                        if($("#savedCvv")[0].value < 3 || cvv.value.trim() === ""){
+                            saveCvvError.text("CVV must be at least 3 digits.").show(); // Display error message
+                            return;
+                        }
+                        else{
+                            var vaultId = $("#savedCvv").closest(".apend-active-card").find("input[name='vaultId']").val();
+                            $("#customerVaultId").val(vaultId);
+                            PaymentInfo.save();
+                            continueButton.attr("onclick", "PaymentInfo.save()");
+                        }
+                    }
+                }
+                else{
+                   var selectedAccount = document.querySelector("input[name='selectedAccount']:checked");
+                   var addAccount = document.querySelector("input[id='addAccount']:checked");
+                   if(selectedAccount != "null" && (selectedAccount)){
+                       isSelected = selectedAccount.checked;
+                   }
+                   if(addAccount != "null" && (addAccount)){
+                       isAdd = addAccount.checked;
+                   }
+                   if(isSelected && !isAdd){
+                        PaymentInfo.save();
+                        continueButton.attr("onclick", "PaymentInfo.save()");
+                   }
+                   else{
+                       var cardholderElement = document.getElementById('CardholderName');
+                       var errorElement = document.getElementById('cardholder-error');
+                       if (cardholderElement && cardholderElement.value.trim().length == 0) {
+                           errorElement.textContent = "@T("Payment.CardholderName.Required")";
+                           return false;
+                       }
+
+                       if (typeof CollectJS !== "undefined" && CollectJS.startPaymentRequest) {
+                           CollectJS.startPaymentRequest();
+                       } else {
+                           alert("Error: Payment system is not available. Please refresh and try again.");
+                       }
+
+                       setTimeout(function() {
+
+                            if (selectedMethod === "Card Payment"){
+                                var cNumberErrorElement = $("#ccnumber-error");
+                                var cNumberError = document.getElementById('ccnumber-error')
+                                var validCardNumber = document.querySelector("#ccnumber .CollectJSValid") !== null;
+
+                                var cExpErrorElement = $("#ccexp-error");
+                                var cExpError = document.getElementById('ccexp-error');
+                                var validCExp = document.querySelector("#ccexp .CollectJSValid") !== null;
+
+                                var cvvErrorElement = $("#cvv-error");
+                                var cvvError = document.getElementById('cvv-error');
+                                var validCvv = document.querySelector("#cvv .CollectJSValid") !== null;
+                                var invalidCvv = document.querySelector("#cvv .CollectJSInvalid") !== null;
+                                var blankOrUnsavedCvv = !validCvv && !invalidCvv;
+
+                                if(!validCardNumber){
+
+                                    if (cNumberError && cNumberError.innerHTML.trim() === "") {
+                                       cNumberErrorElement[0].innerText = "Field is empty";
+                                       cNumberErrorElement[0].style.color = "red";
+                                       cNumberErrorElement[0].style.fontSize = "13px";
+                                       cNumberErrorElement[0].style.textAlign = "center";
+                                    }
+                                }
+
+                                if(!validCExp){
+                                    if(cExpError && cExpError.innerHTML.trim() == ""){
+                                      cExpErrorElement[0].innerText = "Field is empty";
+                                      cExpErrorElement[0].style.color = "red";
+                                      cExpErrorElement[0].style.fontSize = "13px";
+                                      cExpErrorElement[0].style.textAlign = "center";
+                                    }
+                                }
+
+                                if(blankOrUnsavedCvv){
+                                    if(cvvError && cvvError.innerHTML.trim() == ""){
+                                       cvvErrorElement[0].innerText = "Field is empty";
+                                       cvvErrorElement[0].style.color = "red";
+                                       cvvErrorElement[0].style.fontSize = "13px";
+                                       cvvErrorElement[0].style.textAlign = "center";
+                                    }
+                                }
+
+                                // If any one of the error messages is NOT empty, execute the IF block
+                               if (
+                                    cExpErrorElement[0] && cExpErrorElement[0].innerText !== '' &&
+                                    cNumberErrorElement[0] && cNumberErrorElement[0].innerText !== '' &&
+                                    cvvErrorElement[0] && cvvErrorElement[0].innerText !== ''
+                                ) {
+                                    return; // Stops execution
+                                }
+                            }
+
+                           if (selectedMethod === "ACH"){
+                                var cNameErrorElement = $("#checkname-error");
+                                var cNameError = document.getElementById('checkname-error')
+                                var validCheckName = document.querySelector("#checkname .CollectJSValid") !== null;
+
+                                var cAccountErrorElement = $("#checkaccount-error");
+                                var cAccountError = document.getElementById('checkaccount-error');
+                                var validCAccount = document.querySelector("#checkaccount .CollectJSValid") !== null;
+
+                                var cAbaErrorElement = $("#checkaba-error");
+                                var cAbaError = document.getElementById('checkaba-error');
+                                var validAba = document.querySelector("#checkaba .CollectJSValid") !== null;
+
+                                if(!validCheckName){
+                                    if(cNameError.innerHTML.trim() == ""){
+                                       cNameErrorElement[0].innerText = "Field is empty";
+                                       cNameErrorElement[0].style.color = "red";
+                                       cNameErrorElement[0].style.fontSize = "13px";
+                                       cNameErrorElement[0].style.textAlign = "center";
+                                    }
+                                }
+
+                                if(!validCAccount){
+                                     if(cAccountError.innerHTML.trim() == ""){
+                                       cAccountErrorElement[0].innerText = "Field is empty";
+                                       cAccountErrorElement[0].style.color = "red";
+                                       cAccountErrorElement[0].style.fontSize = "13px";
+                                       cAccountErrorElement[0].style.textAlign = "center";
+                                    }
+                                }
+
+                                if(!validAba){
+                                     if(cAbaError.innerHTML.trim() == ""){
+                                       cAbaErrorElement[0].innerText = "Field is empty";
+                                       cAbaErrorElement[0].style.color = "red";
+                                       cAbaErrorElement[0].style.fontSize = "13px";
+                                       cAbaErrorElement[0].style.textAlign = "center";
+                                    }
+                                }
+
+                                // If any one of the error messages is NOT empty, execute the IF block
+                                if (cNameErrorElement[0].innerText !== '' && cAccountErrorElement[0].innerText !== '' && cAbaErrorElement[0].innerText !== '') {
+                                    return; // Stops execution
+                                }
+                           }
+                       }, 1000);
+                   }
+
+                }
+
+                if(!cardCvv && !isSelected){
+                    var $button = $(".button-1.confirm-order-next-step-button"); // If no errors, continue with payment processing
+                    $button.prop("disabled", true).css({
+                        "background": "#fff url('../Themes/DefaultClean/Content/images/ajax-loader-small.gif') right center no-repeat",
+                        "pointer-events": "none",
+                        "opacity": "0.7"
+                    });
+                }
+            });
+
+            var defaultFormId = "cardpayment-form"; // Default payment method to show on page load
+            var defaultForm = document.getElementById(defaultFormId);
+
+            if (defaultForm) {
+                defaultForm.style.display = "block";
+                var accordionItem = defaultForm.closest(".accordion-item"); // Find parent accordion-body and expand it
+
+                if (accordionItem) {
+                    accordionItem.classList.add("active");
+                }
+            }
+
+            $('#confirm-order-buttons-container').on('click', '.back-link', function (e) {
+               location.reload();
+            });
+
+            $('#payment-info-buttons-container').on('click', '.back-link', function (e) {
+               location.reload();
+            });
+        });
+
+        $("#CardholderName").change(function(){
+            if (document.getElementById('CardholderName').value.trim().length == 0) {
+                var errorElement = document.getElementById('cardholder-error');
+                errorElement.textContent = "@T("Payment.CardholderName.Required")";
+                return false;
+            }
+            else {
+                var errorElement = document.getElementById('cardholder-error');
+                errorElement.textContent = "";
+            }
+        });
+
+        function setLoader(){
+               $('.payment-info-next-step-button').attr("disabled", true);
+               $('.payment-info .info').addClass("rotating");
+               $('.payment-info .info .accordion-container').css("opacity", "0.3");
+               $('.payment-info .info #cardpayment-form').css("opacity", "0.3");
+        };
+        function removeLoader() {
+                $('.payment-info-next-step-button').attr("disabled", false);
+                $('.payment-info .info').removeClass("rotating");
+                $('.payment-info .info .accordion-container').css("opacity", "1");
+                $('.payment-info .info #cardpayment-form').css("opacity", "1");
+        }
+
+        var gateway = Gateway.create('@Model.CollectCheckoutKey');
+        var threeDS = gateway.get3DSecure();
+
+        function initializePaymentScripts() {
+
+            loadCollectJS(function () {
+                if (typeof CollectJS !== "undefined") {
+                    CollectJS.configure({
+                        variant: "inline",
+                        callback: function (response) {
+                           var saveCardElement = $("#saveCard");
+                            if (saveCardElement) {
+                                var allowSaveCard = document.querySelector("input[name='allowSaveCard']");
+                                if(allowSaveCard){
+                                    $("#CheckSaveCard").val(allowSaveCard.checked);
+                                }
+                            }
+
+                            var saveACHElement = $("#saveACH");
+                            if (saveACHElement.length) {
+                                var allowSaveACH = document.querySelector("input[name='allowSaveACH']");
+                                if(allowSaveACH){
+                                    $("#CheckSaveACH").val(allowSaveACH.checked);
+                                }
+                            }
+
+                            var options = {
+                                paymentToken: response.token,
+                                currency: '@Model.CurrencyCode',
+                                amount: '@Model.Amount',
+                                email: '@Model.Email',
+                                phone: '@Model.BillingPhoneNumber',
+                                city: '@Model.BillingCity',
+                                state: '@Model.BillingStateAbbreviation',
+                                address1: '@Model.BillingAddress1',
+                                country: '@Model.BillingCountryCode',
+                                firstName: '@Model.BillingFirstName',
+                                lastName: '@Model.BillingLastName',
+                                postalCode: '@Model.BillingZip',
+                            };
+                            var $paymentButton = $(".payment-info-next-step-button");
+                            $paymentButton.prop("disabled", true).css({
+                                    "background": "#fff url('../Themes/DefaultClean/Content/images/ajax-loader-small.gif') right center no-repeat",
+                                    "pointer-events": "none",
+                                    "opacity": "0.7"
+                            });
+
+                            setTimeout(function () {
+                                $paymentButton.prop("disabled", false).css({
+                                    "background": "",
+                                    "pointer-events": "",
+                                    "opacity": ""
+                                });
+                            }, 10000);
+                            if (response.check.account != null) {
+                                if (response.token) {
+                                    $("#payment_token").val(response.token);
+                                    $("#checkName").val(response.check.name || "");
+                                    $("#checkRouting").val(response.check.aba || "");
+                                    $("#checkAccount").val(response.check.account || "");
+                                    PaymentInfo.save();
+
+                                    var $button = $(".button-1.confirm-order-next-step-button");
+
+                                    $button.prop("disabled", false).css({
+                                        "background": "",
+                                        "pointer-events": "",
+                                        "opacity": ""
+                                    }).text("Confirm");
+
+                                    $paymentButton.prop("disabled", false).css({
+                                        "background": "",
+                                        "pointer-events": "",
+                                        "opacity": ""
+                                    }).text("Continue");
+                                } else {
+                                    alert("Payment token generation failed. Please try again.");
+                                }
+                            } else if ('@Model.ThreedSJSEnable?.ToLower()' === 'true') {
+
+                                var threeDSecureInterface = threeDS.createUI(options);
+                                threeDSecureInterface.start('#threeDSMountPoint');
+
+                                threeDSecureInterface.on('challenge', function(response) {
+                                    showThreeDSModal();
+                                    $("#challengeRequired").val("true");
+                                });
+
+                                threeDSecureInterface.on('error', function(response) {
+                                    if ((response.token || !response.token) && response.message) {
+                                        if (response.message === "Payer Authentication Error - Blocked due to Failed Authentication rule") {
+                                            $("#threeDSError").text("@T("Plugins.Payments.Evance.Payment.ThreeDS.Error.Authentication")").show();
+                                        } else if (response.message === "Authentication/Account Verification Could Not Be Performed; Technical or other problem") {
+                                            $("#threeDSError").text("@T("Plugins.Payments.Evance.Payment.ThreeDS.Error.Authentication.NotPerformed")").show();
+                                        } else if (response.message === "Invalid Formatted Message Invalid Formatted Message") {
+                                            $("#threeDSError").text("@T("Plugins.Payments.Evance.Payment.ThreeDS.Error.InvalidFormatted")").show();
+                                        } else if (response.message === "Transaction Timed Out") {
+                                            $("#threeDSError").text("@T("Plugins.Payments.Evance.Payment.ThreeDS.Error.TimeOut")").show();
+                                        } else if (response.message === "Not Authenticated/Account Not Verified; Transaction denied") {
+                                            $("#threeDSError").text("@T("Plugins.Payments.Evance.Payment.ThreeDS.Error.NotVerified")").show();
+                                        } else if (response.message === "A 3DS error occurred: Error Processing PARes") {
+                                            $("#threeDSError").text("@T("Plugins.Payments.Evance.Payment.ThreeDS.Error")").show();
+                                        } else if(response.message === "You may not start another 3DS instance. You must unmount the existing instance before starting a new one"){
+                                            $("#threeDSError").text("@T("Plugins.Payments.Evance.Payment.ThreeDS.Error.AnotherInstance")").show();
+                                        }else {
+                                            $("#threeDSError").text("@T("Plugins.Payments.Evance.Payment.ThreeDS.Error.Common")").show();
+                                        }
+                                        // $("#threeDSError").text(response.message).show();
+                                        $paymentButton.prop("disabled", false).css({
+                                            "background": "",
+                                            "pointer-events": "",
+                                            "opacity": ""
+                                        }).text("Continue");
+                                    }else{
+                                        alert("An unknown error occurred.");
+                                    }
+                                });
+
+                                threeDSecureInterface.on('complete', function(e) {
+                                $("#cardHolderAuth").val(e.cardHolderAuth || "");
+                                $("#cavv").val(e.cavv);
+                                $("#directoryServerId").val(e.directoryServerId || "");
+                                $("#threeDsVersion").val(e.threeDsVersion || "");
+
+                                if (response.token) {
+                                    $("#payment_token").val(response.token);
+                                    PaymentInfo.save();
+
+                                    var $button = $(".button-1.confirm-order-next-step-button");
+
+                                    $button.prop("disabled", false).css({
+                                        "background": "",
+                                        "pointer-events": "",
+                                        "opacity": ""
+                                    }).text("Confirm");
+
+                                     $paymentButton.prop("disabled", false).css({
+                                        "background": "",
+                                        "pointer-events": "",
+                                        "opacity": ""
+                                    }).text("Continue");
+
+                                } else {
+                                    alert("Payment token generation failed. Please try again.");
+                                }
+                            });
+
+                                threeDSecureInterface.on('failure', function(response) {
+                                    location.reload();
+                                });
+
+                            } else {
+                                if (response.token) {
+                                    $("#payment_token").val(response.token);
+                                    PaymentInfo.save();
+
+                                    var $button = $(".button-1.confirm-order-next-step-button");
+
+                                    $button.prop("disabled", false).css({
+                                        "background": "",
+                                        "pointer-events": "",
+                                        "opacity": ""
+                                    }).text("Confirm");
+
+                                    $paymentButton.prop("disabled", false).css({
+                                        "background": "",
+                                        "pointer-events": "",
+                                        "opacity": ""
+                                    }).text("Continue");
+
+                                } else {
+                                    alert("Payment token generation failed. Please try again.");
+                                }
+                            }
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+        function loadCollectJS(callback) {
+            if (typeof CollectJS !== "undefined") {
+                callback();
+                return;
+            }
+
+            // Load a loader
+            setLoader();
+
+            var script = document.createElement("script");
+            script.src= "https://evanceprocessing.transactiongateway.com/token/Collect.js";
+            script.setAttribute("data-tokenization-key", "m623BU-6PderT-tEs8nV-3AHPH7");
+            script.setAttribute("data-variant", "inline");
+            script.setAttribute("data-field-ccnumber-placeholder", "0000 0000 0000 0000");
+            script.setAttribute("data-field-ccnumber-selector", "#ccnumber");
+            script.setAttribute("data-field-ccexp-placeholder", "MM / YY");
+            script.setAttribute("data-field-cvv-placeholder", "***");
+            script.setAttribute("data-style-sniffer", "true");
+            script.setAttribute("data-country", '@Model.BillingCountryCode');
+            script.setAttribute("data-price", '@Model.Amount');
+            script.setAttribute("data-currency", '@Model.CurrencyCode');
+            script.setAttribute("data-field-google-pay-selector", "#googlepaybutton");
+            script.setAttribute("data-field-google-pay-button-type", "pay");
+            script.setAttribute("data-field-google-pay-billing-address-parameters-format", "MIN");
+            script.setAttribute("data-field-google-pay-billing-address-required", "true");
+            script.setAttribute("data-field-google-pay-billing-address-parameters-phone-number-required", "true");
+            script.setAttribute("data-field-apple-pay-style-height", "38px");
+            script.setAttribute("data-field-checkaccount-placeholder", "000000000000");
+            script.setAttribute("data-field-checkaba-placeholder", "000000000");
+            script.setAttribute("data-field-checktransit-placeholder", "00000");
+            script.setAttribute("data-field-checkinstitution-placeholder", "000");
+            script.setAttribute("data-field-google-pay-button-type", "pay");
+
+            script.setAttribute("data-validation-callback", `(function (field, valid, message) {
+                var errorElement = document.getElementById(field + '-error');
+                var nextStepButton = document.querySelector('.payment-info-next-step-button');
+
+                if (!valid) {
+
+                    if (errorElement) {
+                        errorElement.innerText = message;
+                        errorElement.style.color = 'red';
+                        errorElement.style.fontSize = '13px';
+                        errorElement.style.textAlign = 'center';
+                    }
+
+                    if (nextStepButton)
+                        return;
+
+                } else {
+                    if (errorElement) {
+                        errorElement.innerText = '';
+                    }
+                }
+            })`);
+
+            script.onload = function () {
+                if (typeof CollectJS !== "undefined") {
+                    callback();
+                    removeLoader();
+                } else {
+                    alert("Error: Payment system failed to load.");
+                }
+            };
+
+            document.head.appendChild(script);
+
+            script.onerror = function () {
+                removeLoader(); // Remove loader even if script fails
+                alert("Payment system error: Unable to load secure payment scripts.");
+            };
+
+        }
+
+        function showThreeDSModal() {
+            var modal = document.getElementById("threeDSModal");
+            modal.style.display = "block";
+
+            // Close modal only when clicking the close button
+            document.querySelector(".close-modal").addEventListener("click", function() {
+                location.reload();
+            });
+        }
+
+    </script>
+</head>
+<body>
+
+    <div id="threeDSModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="threeDSMountPoint"></div>
+        </div>
+    </div>
+
+    @if (Model.IsPaymentOptions)
+    {
+        <div class="accordion-container">
+            @foreach (var paymentMethod in Model.PaymentMethods)
+            {
+                string formId = paymentMethod.Name.Replace(" ", "").ToLower() + "-form";
+                bool isDefault = paymentMethod.Name == "Card Payment";
+
+                <div class="accordion-item @(isDefault ? "active" : "")">
+                    <div class="accordion-header" onclick="togglePaymentForm('@formId')">
+                        <div class="header-content">
+                            <img src="@paymentMethod.LogoUrl" alt="@paymentMethod.Name" class="payment-logo-small" />
+                            <span class="payment-name">@paymentMethod.Name</span>
+                        </div>
+                        <span class="accordion-arrow"></span>
+                    </div>
+                    <div class="accordion-body">
+
+                        <div id="@formId" class="payment-form" style="display: @(isDefault ? "block" : "none")">
+                            @if (paymentMethod.Name == "Card Payment")
+                            {
+                                @if (Model.CardInformation.Count() > 0)
+                                {
+                                    <div class="save-cards-main">
+                                        <div class="card-title">
+                                            <label>@T("Plugins.Payments.Evance.SavedCard.Title")</label>
+                                        </div>
+
+                                        @for (int i = 0; i < Model.CardInformation.Count; i++)
+                                        {
+                                            <div class="save-card" id="exist-card">
+                                                <div class="card-information">
+                                                    <input type="radio" id="customerCard" name="selectedCard" value="@Model.CardInformation[i].CustomerCardNumber" />
+                                                    <div class="card-logo">
+                                                        <img src="@Url.Content($"~/Plugins/Payments.Evance/Content/Images/{Model.CardInformation[i].CardType}.png")" />
+                                                    </div>
+                                                    <div class="card-number">
+                                                        @Model.CardInformation[i].CustomerCardNumber
+                                                    </div>
+                                                    <div class="card-exp-date">
+                                                        @Model.CardInformation[i].CustomerExpirationDate
+                                                    </div>
+                                                    <input type="hidden" id="vaultId" name="vaultId" value="@Model.CardInformation[i].CustomerVaultId" />
+                                                </div>
+
+                                            </div>
+                                        }
+                                        <div id="savedCvvError"></div>
+                                        <div class="save-card">
+                                            <input type="radio" class="add-card" id="savedCard" name="selectedCard" />
+                                            <label>@T("Plugins.Payments.Evance.Payment.Different.Card")</label>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form>
+                                        <table>
+                                            <tr class="input-tr">
+                                                <td class="input-title">
+                                                    <label>@T("Payment.CardholderName")</label>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <input type="text" asp-for="CardholderName" autocomplete="off" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><div id="cardholder-error" class="error-message"></div></td>
+                                            </tr>
+                                            <tr class="input-tr">
+                                                <td class="input-title">
+                                                    <label><span>@T("Payment.CardNumber")</span></label>
+                                                </td>
+                                                <td>
+                                                    <div class="card-section">
+                                                        <div id="ccnumber" class="input-field"></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><div id="ccnumber-error" class="error-message"></div></td>
+                                            </tr>
+                                            <tr class="input-tr">
+                                                <td class="input-title">
+                                                    <label>@T("Payment.ExpirationDate")</label>
+                                                </td>
+                                                <td>
+                                                    <div class="card-section">
+                                                        <div id="ccexp" class="input-field"></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><div id="ccexp-error" class="error-message"></div></td>
+                                            </tr>
+                                            <tr class="input-tr">
+                                                <td class="input-title">
+                                                    <label>@T("Payment.CardCode")</label>
+                                                </td>
+                                                <td>
+                                                    <div class="card-section">
+                                                        <div id="cvv" class="input-field"></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><div id="cvv-error" class="error-message"></div></td>
+                                            </tr>
+                                            @if (Model.AllowSaveCard)
+                                            {
+                                                <tr class="input-tr">
+                                                    <td class="input-title">
+                                                        <label for="saveCard" id="saveCard" class="save-card">@T("Plugins.Payments.Evance.Payment.SaveCard")</label>
+                                                    </td>
+                                                    <td>
+                                                        <input type="checkbox" name="allowSaveCard" />
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </table>
+                                    </form>
+                                }
+                            }
+                            else if (paymentMethod.Name == "Google Pay")
+                            {
+                                <form>
+                                    <div id="googlepaybutton"></div>
+                                </form>
+                            }
+                            else if (paymentMethod.Name == "Apple Pay")
+                            {
+                                <form>
+                                    <div id="applepaybutton"></div>
+                                </form>
+                            }
+                            else if (paymentMethod.Name == "ACH")
+                            {
+                                <div class="card-title" style="text-align: center; padding-bottom: 10px;">
+                                    <label class="warning-text" style="color: red;">
+                                        @T("Plugins.Payments.Evance.Payment.Warning.ACH")
+                                    </label>
+                                </div>
+                                @if (Model.ACHInformation.Count > 0)
+                                {
+                                    <div class="card-title">
+                                        <label>@T("Plugins.Payments.Evance.SavedACH.Title")</label>
+                                    </div>
+                                    <div class="save-account-main">
+                                        @for (int i = 0; i < Model.ACHInformation.Count; i++)
+                                        {
+                                            <div class="save-account-number" id="exist-account-number">
+                                                <input type="radio" id="account_" name="selectedAccount" value="@Model.ACHInformation[i].CustomerAccountNumber" />
+                                                <label for="account_number_@i">@Model.ACHInformation[i].CustomerAccountNumber</label>
+                                                <input type="hidden" id="vaultId" name="ACHVaultId" value="@Model.ACHInformation[i].CustomerVaultId" />
+                                            </div>
+                                        }
+                                        <div class="save-account-number">
+                                            <input type="radio" class="add-account" id="addAccount" name="selectedAccount" />
+                                            <label for="test">@T("Plugins.Payments.Evance.Payment.Different.BankAccount")</label>
+                                        </div>
+                                    </div>
+                                }
+                                <form>
+                                    <table>
+                                        <tr class="input-tr">
+                                            <td class="input-title">
+                                                <label>@T("Plugins.Payments.Evance.Payment.CheckName")</label>
+                                            </td>
+                                            <td>
+                                                <div id="checkname" class="input-field"></div>
+                                            </td>
+                                        </tr>
+                                        <tr><td><div id="checkname-error" class="error-message"></div></td></tr>
+
+                                        <tr class="input-tr">
+                                            <td class="input-title">
+                                                <label>@T("Plugins.Payments.Evance.Payment.AccountNumber")</label>
+                                            </td>
+                                            <td><div id="checkaccount" class="input-field"></div></td>
+                                        </tr>
+                                        <tr><td><div id="checkaccount-error" class="error-message"></div></td></tr>
+
+                                        <tr class="input-tr">
+                                            <td class="input-title">
+                                                <label>@T("Plugins.Payments.Evance.Payment.RoutingNumber")</label>
+                                            </td>
+                                            <td><div id="checkaba" class="input-field"></div></td>
+                                        </tr>
+                                        <tr><td><div id="checkaba-error" class="error-message"></div></td></tr>
+                                        @if (Model.AllowSaveACH)
+                                        {
+                                            <tr class="input-tr">
+                                                <td class="input-title">
+                                                    <label for="saveACH" id="saveACH" class="save-card">@T("Plugins.Payments.Evance.Payment.SaveACH")</label>
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" name="allowSaveACH" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    <div id="threeDSError" style="color: red; display: none;"></div>
+    <input type="hidden" id="paymentType" name="paymentType" />
+    <input type="hidden" id="payment_token" name="payment_token">
+    <input type="hidden" id="cavv" name="cavv" />
+    <input type="hidden" id="cardHolderAuth" name="cardHolderAuth" />
+    <input type="hidden" id="threeDsVersion" name="threeDsVersion" />
+    <input type="hidden" id="directoryServerId" name="directoryServerId" />
+    <input type="hidden" id="challengeRequired" name="challengeRequired" />
+    <input type="hidden" id="checkName" name="checkName" />
+    <input type="hidden" id="checkRouting" name="checkRouting" />
+    <input type="hidden" id="checkAccount" name="checkAccount" />
+    <input type="hidden" id="CheckSaveCard" name="checkSaveCard" />
+    <input type="hidden" id="CheckSaveACH" name="checkSaveACH" />
+    <input type="hidden" id="cvv" name="cvv" />
+    <input type="hidden" id="customerVaultId" name="customerVaultId" />
+
+</body>
+
+</html>

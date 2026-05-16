@@ -1,0 +1,129 @@
+﻿@model PoOrderModel
+
+<div id="poorder-window" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="poorder-window-title">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="poorder-window-title">@(Model.Id > 0 ? string.Format(T("Plugins.InventoryOrder.Fields.PoOrder.Edit").Text, Model.PONumber) : T("Plugins.Misc.OrderQty.AddNew"))</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <form id="poorderform" enctype="multipart/form-data">
+                <div class="form-horizontal">
+                    <div class="modal-body" style="border-bottom:1px solid rgba(0,0,0,0.1); margin-bottom:10px;">
+                        <div class="form-group row">
+                            <div class="col-sm-3">
+                                <nop-label asp-for="Comment" />
+                            </div>
+                            <div class="col-sm-9">
+                                <nop-textarea asp-for="Comment" />
+                            </div>
+                            <div id="prcentage" style="display:none">
+                                <nop-editor asp-for="PercentAdjusted" />
+                            </div>
+                        </div>
+                        @if (Model.Id == 0)
+                        {
+                            <div class="form-group row">
+                                <div class="col-sm-3">
+                                    <nop-label asp-for="AvailableDateOnUTC" />
+                                </div>
+                                <div class="col-sm-9">
+                                    <nop-editor asp-for="AvailableDateOnUTC" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="float-right">
+                        <button type="button" name="save" id="save" class="btn btn-primary" style="margin:0px 20px 20px 0px; ">
+                            <i class="far fa-save"></i>
+                            @T("Admin.Common.Save")
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+
+        $("#save").bind("click", function () {
+            var totalCartoon = [];
+            $('input:checkbox[name=checkbox_InventoryOrder]:checked').each(function () {
+                totalCartoon.push($(this).attr("totalCartoon"));
+            });
+            var checkboxValues = [];
+            $('input[name=checkbox_InventoryOrder]:checked').map(function () {
+                checkboxValues.push($(this).val());
+            });
+
+            var comment = $("#@Html.IdFor(model => model.Comment)").val();
+            var percentAdjusted = $("#@Html.IdFor(model => model.PercentAdjusted)").val();
+            var availableDateOnUTC = $('#@Html.IdFor(model => model.AvailableDateOnUTC)').val();
+            var totalVolume = $("#lblTotalVolume").text();
+
+    @if (Model.Id > 0)
+    {
+        <text>
+                                    var postData = {
+                    id: @(Model.Id),
+                    comment: comment,
+                    selectedIds: checkboxValues,
+                    selectedCartoon: totalCartoon,
+                    totalVolume: totalVolume,
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("AddSelectedPoOrderItems", "InventoryOrder"))",
+                    data: postData,
+                    traditional: true,
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#deleteSelectedFailed-info').text(errorThrown);
+                        $("#deleteSelectedFailed").click();
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        window.location.href = '@(Url.Action("ManagePoOrder", "InventoryOrder"))';
+                    }
+                });
+        </text>
+    }
+    else
+    {
+        <text>
+                                    var postData = {
+                    comment: comment,
+                    percentAdjusted: percentAdjusted,
+                    selectedIds: checkboxValues,
+                    selectedCartoon: totalCartoon,
+                    totalVolume: totalVolume,
+                    availableDateOnUTC: availableDateOnUTC,
+                };
+                addAntiForgeryToken(postData);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("CreatePoOrderPopup", "InventoryOrder"))",
+                    data: postData,
+                    traditional: true,
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#deleteSelectedFailed-info').text(errorThrown);
+                        $("#deleteSelectedFailed").click();
+                    },
+                    complete: function (jqXHR, textStatus) {
+                        $('#poorder-window').modal('hide');
+                        alert("PO Order is generated.");
+                        updateTable('#create-po-order-grid');
+                        $("#lblTotalVolume").text("0.00")
+                        array = [];
+                    }
+                });
+        </text>
+    }
+
+                    return false;
+        });
+    });
+</script>

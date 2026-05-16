@@ -1,0 +1,49 @@
+﻿@{
+    var storeName = (await storeContext.GetCurrentStoreAsync()).Name;
+    Layout = "_Root.Head";
+}
+@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.BodyStartHtmlTagAfter })
+@await Html.PartialAsync("_Notifications")
+@await Html.PartialAsync("_JavaScriptDisabledWarning")
+<div class="master-wrapper-page">
+    <div class="header">
+        <div class="responsive-strip">
+            <div class="responsive-logo-wrapper">
+                @await Component.InvokeAsync(typeof(LogoViewComponent))
+            </div>
+        </div>
+    </div>
+    @await Component.InvokeAsync(typeof(FlyoutHeaderViewComponent))
+    <div class="master-wrapper-content">
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ContentBefore })
+        <div class="master-column-wrapper">
+            <div class="checkout-header">
+                @await Html.PartialAsync("_ColumnsOne.Header")
+            </div>
+            <div class="center-1">
+                @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.MainColumnBefore })
+                @RenderBody()
+                @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.MainColumnAfter })
+            </div>
+            <div class="checkout-footer">
+                <div class="footer">
+                    <div class="footer-lower">
+                        <div class="footer-lower-right">
+                            <div class="footer-disclaimer">
+                                @T("Content.CopyrightNotice", DateTime.Now.Year, storeName)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <aside class="master-column-sidebar" role="complementary">
+            <div class="order-summary order-summary-is-collapsed" data-order-summary>
+                @await Component.InvokeAsync(typeof(OrderSummaryViewComponent), new { prepareAndDisplayOrderReviewData = false })
+            </div>
+        </aside>
+        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ContentAfter })
+    </div>
+</div>
+@await Component.InvokeAsync(typeof(EuCookieLawViewComponent))
+@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.BodyEndHtmlTagBefore })

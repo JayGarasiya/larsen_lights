@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Invoice PDF",
+  "SystemName": "Misc.InvoicePDF",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.InvoicePDF.dll",
+  "Description": "This plugin allows to invoice pdf related changes"
+}

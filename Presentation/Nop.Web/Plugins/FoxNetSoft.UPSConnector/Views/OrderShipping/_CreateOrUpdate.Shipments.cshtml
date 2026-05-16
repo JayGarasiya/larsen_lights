@@ -1,0 +1,156 @@
+﻿@model FoxNetSoft.Plugin.Shipping.UPSConnector.Models.OrderShippingModel
+
+<div class="cards-group">
+    <div class="card card-default">
+        <div class="card-body">
+            @await Html.PartialAsync("Table", new DataTablesModel
+       {
+           Name = "shipments-grid",
+           UrlRead = new DataUrl("ShipmentsByOrder", "UPSConnectorAdmin", new RouteValueDictionary { [nameof(OrderShipmentSearchModel.OrderId)] = Model.OrderId }),
+           PrimaryKeyColumn = nameof(ShipmentModel.Id),
+           Length = Model.OrderShipmentSearchModel.PageSize,
+           LengthMenu = Model.OrderShipmentSearchModel.AvailablePageSizes,
+           ColumnCollection = new List<ColumnProperty>
+            {
+            new ColumnProperty(null)
+            {
+            Render = new RenderChildCaret(),
+            Width = "5",
+            Searchable = false,
+            ClassName =  NopColumnClassDefaults.ChildControl
+            },
+            new ColumnProperty(nameof(ShipmentModel.Id))
+            {
+            Title = T("Admin.Orders.Shipments.ID").Text,
+            Width = "50"
+            },
+            new ColumnProperty(nameof(ShipmentModel.CustomOrderNumber))
+            {
+            Title = T("Admin.Orders.Shipments.CustomOrderNumber").Text,
+            Width = "100"
+            },
+            new ColumnProperty(nameof(ShipmentModel.TrackingNumber))
+            {
+            Title = T("Admin.Orders.Shipments.TrackingNumber").Text,
+            Width = "100"
+            },new ColumnProperty(nameof(ShipmentModel.TotalWeight))
+            {
+            Title = T("Admin.Orders.Shipments.TotalWeight").Text,
+            Width = "100"
+            },
+            new ColumnProperty(nameof(ShipmentModel.ShippedDate))
+            {
+            Title = T("Admin.Orders.Shipments.ShippedDate").Text,
+            Width = "100"
+            },
+            new ColumnProperty(nameof(ShipmentModel.DeliveryDate))
+            {
+            Title = T("Admin.Orders.Shipments.DeliveryDate").Text,
+            Width = "100"
+            },
+            new ColumnProperty(nameof(ShipmentModel.Id))
+            {
+            Title = "",
+            Width = "50",
+            ClassName = NopColumnClassDefaults.Button,
+            Render = new RenderCustom("renderColumnEdit")
+            }
+            },
+           ChildTable = new DataTablesModel
+           {
+               Name = "shipment-items-grid",
+               UrlRead = new DataUrl("ShipmentsItemsByShipmentId", "Order", null),
+               IsChildTable = true,
+               Length = Model.OrderShipmentSearchModel.PageSize,
+               LengthMenu = Model.OrderShipmentSearchModel.AvailablePageSizes,
+               Filters = new List<FilterParameter>
+            {
+            new FilterParameter(nameof(ShipmentItemSearchModel.ShipmentId), nameof(ShipmentModel.Id), true)
+            },
+               ColumnCollection = new List<ColumnProperty>
+            {
+            new ColumnProperty(nameof(ShipmentItemModel.ProductName))
+            {
+            Title = T("Admin.Orders.Shipments.Products.ProductName").Text,
+            Width = "400"
+            },
+            new ColumnProperty(nameof(ShipmentItemModel.ShippedFromWarehouse))
+            {
+            Title = T("Admin.Orders.Shipments.Products.Warehouse").Text,
+            Width = "150"
+            },
+            new ColumnProperty(nameof(ShipmentItemModel.QuantityInThisShipment))
+            {
+            Title = T("Admin.Orders.Shipments.Products.QtyShipped").Text,
+            Width = "150"
+            },
+            new ColumnProperty(nameof(ShipmentItemModel.ItemWeight))
+            {
+            Title = T("Admin.Orders.Shipments.Products.ItemWeight").Text,
+            Width = "150"
+            },
+            new ColumnProperty(nameof(ShipmentItemModel.ItemDimensions))
+            {
+            Title = T("Admin.Orders.Shipments.Products.ItemDimensions").Text,
+            Width = "150"
+            }
+            }
+           }
+       })
+
+            <script>
+                function renderColumnEdit(data, type, row, meta) {
+                    if (row.DeliveryDate !== "Not yet")
+                    {
+                        //create return label
+                        return '<a href="@Url.Content("~/Admin/UPSConnectorAdmin/ReturnLabel/")?shipmentId=' + data + '&orderId=@(Model.OrderId)" class="btn btn-default"><i class="fas fa-pencil-alt"></i>@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Shipments.ReturnLabel").Text</a>';
+                    }
+                    if (row.TrackingNumber===null || row.TrackingNumber === "")
+                    {
+                        //create the label
+                        return '<a href="@Url.Content("~/Admin/UPSConnectorAdmin/ShippingLabel/")?shipmentId=' + data + '&orderId=@(Model.OrderId)" class="btn btn-default"><i class="fas fa-pencil-alt"></i>@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Shipments.CreateLabel").Text</a>';
+                    }
+                    //void
+                    return '<a href="#" onclick=\"fnsvoidlabel(@(Model.OrderId), ' + data + '); return false;\" class="btn btn-default"><i class="fas fa-pencil-alt"></i>@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.OrderShipping.Shipments.VoidLabel").Text</a>';
+                }
+
+                function fnsvoidlabel(orderId, shipmentId)
+                {
+                    if (!confirm('@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.Question4")'))
+                        return;
+                    var postData = {
+                        orderId: orderId,
+                        shipmentId: shipmentId
+                    };
+                    addAntiForgeryToken(postData);
+                    $.ajax({
+                        cache: false,
+                        type: 'POST',
+                        url: '@Url.Action("VoidLabel", "UPSConnectorAdmin")',
+                        data: postData,
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.success) {
+                                //alert('Good');
+                                //return false;
+                            }
+                            if (data.message.length>0){
+                                alert(data.message);
+                            }
+                            if (data.url.length>0){
+                                location=data.url;
+                            }
+                            else {
+                                location.reload(true);
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('Failed to void indicium.');
+                        }
+                    });
+                }
+            </script>
+        </div>
+    </div>
+</div>
+

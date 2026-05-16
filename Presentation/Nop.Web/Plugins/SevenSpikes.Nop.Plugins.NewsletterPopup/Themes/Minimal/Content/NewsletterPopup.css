@@ -1,0 +1,131 @@
+﻿/*
+* Copyright 2018 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.newsletter-popup-overlay {
+    display: none !important; /* disable the theme Newsletter popup */
+}
+.newsletter .newsletter-email {
+    margin: 10px 0 15px;
+}
+.newsletter .newsletter-email:before,
+.newsletter .newsletter-email:after {
+    display: none;
+}
+.newsletter .newsletter-subscribe-button {
+    position: static;
+}
+.newsletter input[type="text"],
+.newsletter  div.options,
+.newsletter .captcha-box {
+    display: none;
+}
+
+.newsletter-subscribe-popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1070;
+	background: rgba(0,0,0,0.5);
+}
+.newsletter-subscribe-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+	z-index: 1110;
+    width: 90%;
+	max-width: 500px;
+    min-height: 300px;
+    margin: auto;
+	background-color: #f8f8f8;
+    padding: 30px;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    transform: translate(-50%,-50%);  
+}
+.newsletter-subscribe-popup .close-popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    background: #fff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMBAMAAACkW0HUAAAAElBMVEUAAAB5eXl1dXV3d3d8fHxxcXH0B6SbAAAAAXRSTlMAQObYZgAAADZJREFUCNdjcGAAAkYGFhBlwMAgwMDABGSxglhAoABkAAEziAOUMQBTAcxgDkSJAogF1Q41DABRlwIDxJY5xgAAAABJRU5ErkJggg==') no-repeat center;
+    font-size: 0;
+}
+
+.newsletter-subscribe-popup-title {
+	margin: 0 0 20px;
+	font-size: 28px;
+	line-height: 1.2em;
+	font-family: "Playfair Display", Times New Roman, serif;
+	font-weight: normal;
+	color: #000;
+}
+.newsletter-subscribe-description-wrapper {
+    margin: 0 0 20px;
+	font-size: 15px;
+}
+.newsletter-subscribe-description-wrapper p {
+	line-height: 22px;
+}
+.newsletter-subscribe-popup .newsletter-email {
+    display: inline-block;
+    margin-bottom: 0;
+    max-width: 100%;
+}
+.newsletter-subscribe-popup button.button-1 {
+    position: static;
+	width: auto;
+	margin: 20px 0 0;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.newsletter-subscribe-popup div.options {
+    display: none;
+	margin: 20px 0 0;
+}
+.newsletter-subscribe-popup .consent-error {
+	display: none;
+    margin: 15px 0 0;
+}
+.newsletter-subscribe-popup .newsletter-validation,
+.newsletter-subscribe-popup .newsletter-result {
+    margin: 20px 0 0;
+	line-height: normal;
+}
+.newsletter-subscribe-popup .newsletter-subscribe-options {
+    margin: 20px 0 0;
+}
+.newsletter-subscribe-popup input + label {
+    margin-left: 3px;
+}
+
+
+@media (min-width: 769px) {
+
+    .newsletter-subscribe-popup {
+	    max-width: 700px;
+        padding: 50px;
+    }
+    .newsletter-subscribe-popup:after {
+	    content: "";
+	    position: absolute;
+	    top: 15px;
+	    right: 15px;
+	    bottom: 15px;
+	    left: 15px;
+	    z-index: -1;
+	    margin: auto;
+	    border: 3px solid #000;
+    }
+    .newsletter-subscribe-popup .close-popup {
+        top: 18px;
+        right: 18px;
+    }
+}

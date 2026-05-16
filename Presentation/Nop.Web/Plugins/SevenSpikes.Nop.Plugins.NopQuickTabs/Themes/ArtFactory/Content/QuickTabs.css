@@ -1,0 +1,14 @@
+﻿
+.product-essential {
+	margin-bottom: 20px;
+}
+.full-description {
+	margin-bottom: 0;
+}
+.product-specs-box,
+.product-specs-box .data-table {
+	margin-bottom: 0;
+}
+.write-review {
+	margin: 0; /*?*/
+}

@@ -1,0 +1,21 @@
+﻿/*
+* Copyright 2014 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/ 
+
+@media all and (min-width: 1025px) {
+
+	.drop-menu .sublist > li > span {
+		padding: 8px 20px 8px 15px;
+	}
+	.mega-menu .dropdown {
+		right: 0;
+		left: unset;
+	}
+	.drop-menu .dropdown {
+		right: 100%;
+		left: unset;
+		padding-right: 2px;
+		padding-left: unset;
+	}
+}

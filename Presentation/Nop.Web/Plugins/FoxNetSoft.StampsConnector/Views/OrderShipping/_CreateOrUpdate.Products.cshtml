@@ -1,0 +1,81 @@
+﻿@model FoxNetSoft.Plugin.Misc.StampsConnector.Models.OrderShippingModel
+
+<div class="cards-group">
+    <div class="card card-default">
+        <div class="card-body">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @T("Admin.Orders.Shipments.Products.ProductName")
+                        </th>
+                        <th>
+                            @T("Admin.Orders.Shipments.Products.SKU")
+                        </th>
+                        <th>
+                            @T("Admin.Orders.Shipments.Products.Warehouse")
+                        </th>
+                        <th>
+                            @T("Admin.Orders.Shipments.Products.ItemWeight")
+                        </th>
+                        <th>
+                            @T("Admin.Orders.Shipments.Products.ItemDimensions")
+                        </th>
+                        <th>
+                            @T("Admin.Orders.Shipments.Products.QtyToShip")
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.UnshippedItems)
+                    {
+                        <tr>
+                            <td style="width: 40%;" class="text-left">
+                                <div>
+                                    <em><a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId">@item.ProductName</a></em>
+                                    @if (!string.IsNullOrEmpty(item.AttributeInfo))
+                                    {
+                                        <p>
+                                            @Html.Raw(item.AttributeInfo)
+                                        </p>
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.RentalInfo))
+                                    {
+                                        <p>
+                                            @Html.Raw(item.RentalInfo)
+                                        </p>
+                                    }
+                                </div>
+                            </td>
+                            <td style="width: 15%;" class="text-center">
+                                <div>
+                                    @item.Sku
+                                </div>
+                            </td>
+                            <td style="width: 15%;" class="text-center">
+                                <div>
+                                    @item.ShippedFromWarehouse
+                                </div>
+                            </td>
+                            <td style="width: 10%;" class="text-center">
+                                @item.ItemWeight
+                            </td>
+                            <td style="width: 10%;" class="text-center">
+                                @item.ItemDimensions
+                            </td>
+                            <td style="width: 10%;" class="text-center">
+                                @item.QuantityToAdd
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <button type="submit" id="btnAddNewShipment" name="btnAddNewShipment" onclick="javascript:setLocation('@(Url.Action("ShippingLabel", "StampsAdmin", new { orderId = Model.OrderId, shipmentId = 0, useUnshippedItems = true }))'); return false;" class="btn btn-primary">
+                @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.OrderShipping.Products.Ship")
+            </button>
+        </div>
+    </div>
+</div>
+

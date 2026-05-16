@@ -1,0 +1,61 @@
+﻿@model FoxNetSoft.Plugin.Shipping.UPSConnector.Models.CommonLabelModel
+
+<div class="card-body">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                @if (Model.EnablePaperLessTrade)
+                {
+                    <p>
+                        <em>@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.PaperLessTrade")</em>
+                    </p>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="ImageType1" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="ImageType1" asp-items="Model.ImageTypeValues" />
+                        </div>
+                    </div>
+                    <p>
+                        <input type="file" id="documentfile1" name="documentfile1" class="form-control" accept="image/gif, image/jpeg, image/png, image/tiff, .tif, application/pdf" />
+                    </p>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="ImageType2" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="ImageType2" asp-items="Model.ImageTypeValues" />
+                        </div>
+                    </div>
+                    <p>
+                        <input type="file" id="documentfile2" name="documentfile2" class="form-control" accept="image/gif, image/jpeg, image/png, image/tiff, .tif, application/pdf" />
+                    </p>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="ImageType3" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="ImageType3" asp-items="Model.ImageTypeValues" />
+                        </div>
+                    </div>
+                    <p>
+                        <input type="file" id="documentfile3" name="documentfile3" class="form-control" accept="image/gif, image/jpeg, image/png, image/tiff, .tif, application/pdf" />
+                    </p>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="ImageType4" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="ImageType4" asp-items="Model.ImageTypeValues" />
+                        </div>
+                    </div>
+                    <p>
+                        <input type="file" id="documentfile4" name="documentfile4" class="form-control" accept="image/gif, image/jpeg, image/png, image/tiff, .tif, application/pdf" />
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

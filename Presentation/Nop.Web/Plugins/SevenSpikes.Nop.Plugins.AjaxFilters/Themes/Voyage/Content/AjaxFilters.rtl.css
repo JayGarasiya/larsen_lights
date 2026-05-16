@@ -1,0 +1,38 @@
+﻿
+.filter-block .clearFilterOptions,
+.filter-block .clearPriceRangeFilter {
+    left: 20px;
+    right: auto;
+}
+.selected-options-list .option:after {
+    margin-right: 7px;
+    margin-left: 0;
+}
+.filtersGroupPanel .checkbox-item input {
+    left: 1px;
+    right: auto;
+}
+.filtersGroupPanel .checkbox-item label {
+    padding: 3px 25px 2px 0;
+}
+.number-of-returned-products {
+    margin-right: auto;
+    margin-left: 0;
+}
+.ajaxFilters .k-window-titlebar .k-button {
+    left: 0;
+    right: auto;
+}
+
+@media all and (max-width: 1260px) {
+
+    .nopAjaxFilters7Spikes {
+        right: 0; left: auto;
+	    -webkit-transform: translate(320px);
+	    transform: translate(320px);
+    }
+    .filters-button {
+        left: -41px;
+        right: auto;
+    }
+}

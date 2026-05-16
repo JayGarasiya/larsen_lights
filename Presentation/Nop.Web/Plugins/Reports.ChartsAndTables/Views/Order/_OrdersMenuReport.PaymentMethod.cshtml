@@ -1,0 +1,263 @@
+﻿@model ChartsAndTablesSearchModel
+@{
+    const string prefix = "ordersmenureportpaymentmethod-statistics";
+}
+
+<div class="card-body">
+    <div class="chart" style="height: 300px;">
+        <canvas id="@(prefix)-chart" height="300"></canvas>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var osConfig = nopChart.DoublePie('@T("Plugins.Reports.ChartsAndTables.Orders.Menu.PaymentMethod.TitleChart")',
+            '@T("Plugins.Reports.ChartsAndTables.Orders.Menu.PaymentMethod.Quantity")',
+            '@T("Plugins.Reports.ChartsAndTables.Orders.Menu.PaymentMethod.Totalsales")');
+
+        function changeReportOrderMenuPaymentMethodStatistics() {
+            var osLabels = [];
+            var osDataQue = [];
+            var osDataSale = [];
+            var backgroundColor = [];
+            var borderColor = [];
+            var backgroundColorQ = [];
+            var borderColorQ = [];
+
+            var additionalData = {
+                IsChartReport: true,
+                StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+                EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+                ShippingMethod: $('#@Html.IdFor(model => model.ShippingMethod)').val(),
+                PaymentMethod: $('#@Html.IdFor(model => model.PaymentMethod)').val(),
+                StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+                OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+                PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+                CountryId: $('#@Html.IdFor(model => model.CountryId)').val(),
+                VendorId: $('#@Html.IdFor(model => model.VendorId)').val(),
+            };
+
+            addAntiForgeryToken(additionalData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: '@Url.Action("ReportOrderMenuPaymentMethodList", "ChartsAndTablesMenu")',
+                data: additionalData,
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        osLabels.push(data[i].Title);
+                        osDataSale.push(data[i].TotalSales);
+                        osDataQue.push(data[i].Quantity);
+                        var bcolour = colour("0.2");
+                        var bcolourq = colour("0.2");
+                        borderColor.push(bcolour.withoutgrade);
+                        backgroundColor.push(bcolour.withgrade);
+                        borderColorQ.push(bcolourq.withoutgrade);
+                        backgroundColorQ.push(bcolourq.withgrade);
+                    }
+
+                    if (!window.reportsOrdersTabPaymentMethodStatistics) {
+                        osConfig.data.datasets[0].backgroundColor = backgroundColor;
+                        osConfig.data.datasets[0].borderColor = borderColor;
+                        osConfig.data.datasets[1].backgroundColor = backgroundColorQ;
+                        osConfig.data.datasets[1].borderColor = borderColorQ;
+                        osConfig.data.labels = osLabels;
+                        osConfig.data.datasets[1].data = osDataSale;
+                        osConfig.data.datasets[0].data = osDataQue;
+                        osConfig.data.scales =
+                            window.reportsOrdersTabPaymentMethodStatistics = new Chart(document.getElementById("@prefix-chart").getContext("2d"), osConfig);
+                    } else {
+                        window.reportsOrdersTabPaymentMethodStatistics.config.data.datasets[0].backgroundColor = backgroundColor;
+                        window.reportsOrdersTabPaymentMethodStatistics.config.data.datasets[0].borderColor = borderColor;
+                        window.reportsOrdersTabPaymentMethodStatistics.config.data.datasets[1].backgroundColor = backgroundColorQ;
+                        window.reportsOrdersTabPaymentMethodStatistics.config.data.datasets[1].borderColor = borderColorQ;
+                        window.reportsOrdersTabPaymentMethodStatistics.config.data.labels = osLabels;
+                        window.reportsOrdersTabPaymentMethodStatistics.data.datasets[1].data = osDataSale;
+                        window.reportsOrdersTabPaymentMethodStatistics.config.data.datasets[0].data = osDataQue;
+                        window.reportsOrdersTabPaymentMethodStatistics.update();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to load statistics.');
+                }
+            });
+        }
+        changeReportOrderMenuPaymentMethodStatistics();
+
+        $('#btnGenerate').on('click', function () {
+            changeReportOrderMenuPaymentMethodStatistics();
+        });
+    });
+</script>
+
+<div class="card-body">
+    @{
+        <div class="mb-1">
+            <div id="ordersmenureportpaymentmethod"></div>
+        </div>
+        var gridModel = new DataTablesModel
+        {
+            Name = "ordersmenureportpaymentmethod-grid",
+            UrlRead = new DataUrl("ReportOrderMenuPaymentMethodList", "ChartsAndTablesMenu", null),
+            SearchButtonId = "btnGenerate",
+            Length = Model.PageSize,
+            LengthMenu = Model.AvailablePageSizes,
+            FooterCallback = "ordersmenureportpaymentmethodfootercallback",
+            FooterColumns = 3,
+            DrawCallback = "ordersmenureportpaymentmethod",
+            Filters = new List<FilterParameter>
+        {
+        new FilterParameter(nameof(Model.StartDate), typeof(DateTime?)),
+        new FilterParameter(nameof(Model.EndDate), typeof(DateTime?)),
+        new FilterParameter(nameof(Model.SearchGroupId)),
+        new FilterParameter(nameof(Model.ShippingMethod)),
+        new FilterParameter(nameof(Model.PaymentMethod)),
+        new FilterParameter(nameof(Model.StoreId)),
+        new FilterParameter(nameof(Model.OrderStatusId)),
+        new FilterParameter(nameof(Model.PaymentStatusId)),
+        new FilterParameter(nameof(Model.CountryId)),
+        new FilterParameter(nameof(Model.VendorId))
+        },
+            ColumnCollection = new List<ColumnProperty>
+        {
+        new ColumnProperty(nameof(ChartsAndTablesDataModel.Title))
+        {
+        Title = T("Plugins.Reports.ChartsAndTables.Orders.Menu.PaymentMethod.Title").Text
+        },
+        new ColumnProperty(nameof(ChartsAndTablesDataModel.TotalSales))
+        {
+        Title = T("Plugins.Reports.ChartsAndTables.Orders.Menu.PaymentMethod.TotalSales").Text,
+        Width = "150",
+        ClassName =  NopColumnClassDefaults.CenterAll,
+        },
+        new ColumnProperty(nameof(ChartsAndTablesDataModel.Quantity))
+        {
+        Title = T("Plugins.Reports.ChartsAndTables.Orders.Menu.PaymentMethod.Quantity").Text,
+        Width = "150",
+        ClassName =  NopColumnClassDefaults.CenterAll
+        }
+        }
+        };
+
+        var reportTotalSaleSummaryColumnNumber = 1;
+        var reportQuantitySummaryColumnNumber = 2;
+    }
+
+    @await Html.PartialAsync("Table", gridModel)
+
+    <script>
+            function ordersmenureportpaymentmethodfootercallback(tfoot, data, start, end, display) {
+            //update summary
+            var postData = {
+                StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+                EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+                ShippingMethod: $('#@Html.IdFor(model => model.ShippingMethod)').val(),
+                PaymentMethod: $('#@Html.IdFor(model => model.PaymentMethod)').val(),
+                StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+                OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+                PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+                CountryId: $('#@Html.IdFor(model => model.CountryId)').val(),
+                VendorId: $('#@Html.IdFor(model => model.VendorId)').val(),
+            };
+
+            addAntiForgeryToken(postData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: '@Url.Action("ReportOrderMenuPaymentMethodAggregates", "ChartsAndTablesMenu")',
+                data: postData,
+                success: function (data, textStatus, jqXHR) {
+                    if (data) {
+                        for (var key in data) {
+                            var reportTotalSaleSummary = '<div><strong>@T("Plugins.Reports.ChartsAndTables.Aggrerator.Summary").Text</strong></div>' +
+                                '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.TotalSalesValue").Text: <span>' + data['TotalSalesValue'] + '</span></div>' +
+                                '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.AverageSalesValue").Text: <span>' + data['AverageSalesValue'] + '</span></div>' +
+                                '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MinSalesValue").Text: <span>' + data['MinSalesValue'] + '</span></div>' +
+                                '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MaxSalesValue").Text: <span>' + data['MaxSalesValue'] + '</span></div>'
+                            var reportTotalSaleColumn = $('#ordersmenureportpaymentmethod-grid').DataTable().column(@(reportTotalSaleSummaryColumnNumber));
+                            $(reportTotalSaleColumn.footer()).html(reportTotalSaleSummary);
+
+                            var reportQuantitySummary = '<div><strong>@T("Plugins.Reports.ChartsAndTables.Aggrerator.Summary").Text</strong></div>' +
+                                '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.TotalQuantity").Text: <span>' + data['TotalQuantity'] + '</span></div>' +
+                                '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.AverageQuantity").Text: <span>' + data['AverageQuantity'] + '</span></div>' +
+                                '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MinQuantity").Text: <span>' + data['MinQuantity'] + '</span></div>' +
+                                '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MaxQuantity").Text: <span>' + data['MaxQuantity'] + '</span></div>'
+                            var reportQuantityColumn = $('#ordersmenureportpaymentmethod-grid').DataTable().column(@(reportQuantitySummaryColumnNumber));
+                            $(reportQuantityColumn.footer()).html(reportQuantitySummary);
+                        }
+                    }
+                }
+            });
+
+            if ($('#ordersmenureportpaymentmethod').html().length == 0) {
+                var reportTotalSaleColumn = $('#ordersmenureportpaymentmethod-grid').DataTable();
+                var button = new $.fn.dataTable.Buttons( reportTotalSaleColumn, {
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: '<i class="far fa-file-excel"></i>@T("Admin.Common.ExportToExcel").Text',
+                            titleAttr: 'Excel',
+                            action: buttonsexport
+                        }
+                    ]
+                });
+                button.container().appendTo($('#ordersmenureportpaymentmethod',
+                    reportTotalSaleColumn.table().container()
+                ));
+            }
+        }
+    </script>
+    <script>
+        function ordersmenureportpaymentmethod(settings, json) {
+            const $container = $('#ordersmenureportpaymentmethod');
+
+            if ($container.children('button').length === 0) {
+                const reportTotalSaleColumn = $('#ordersmenureportpaymentmethod-grid').DataTable();
+                const pageTitle = document.title || 'Exported Report';
+
+                // Create buttons instance but do not auto-append the full container
+                const buttons = new $.fn.dataTable.Buttons(reportTotalSaleColumn, {
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: '@T("Admin.Common.ExportToExcel").Text',
+                            title: pageTitle,
+                            filename: pageTitle,
+                            className: 'btn btn-secondary',
+                            exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                header: function (data, columnIdx) {
+                                    const columnHeaders = [];
+                                    $('#ordersmenureportpaymentmethod-grid thead th').each(function () {
+                                        columnHeaders.push($(this).text().trim());
+                                    });
+                                    return columnHeaders[columnIdx] || data;
+                                },
+                                body: function (data, row, column) {
+                                    const num = parseFloat(data);
+                                    return !isNaN(num) && isFinite(num) ? num.toFixed(2) : data;
+                                },
+                                footer: function (data, row, column) {
+                                    return null;
+                                }
+                                }
+                            }
+                        }
+                    ]
+                });
+
+                // Get the button element only (not the wrapping div)
+                const $button = buttons.container().find('button');
+                $container.append($button);
+
+                // Register the button to DataTable
+                reportTotalSaleColumn.buttons().container(); // activate the buttons internally
+            }
+        }
+    </script>
+</div>

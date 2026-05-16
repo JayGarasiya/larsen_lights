@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Bulk Edit",
+  "SystemName": "Misc.BulkEdit",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "nopCommercePlus(Forefront Infotech)",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Misc.BulkEdit.dll",
+  "Description": "This plugin allows to bulk edit products."
+}

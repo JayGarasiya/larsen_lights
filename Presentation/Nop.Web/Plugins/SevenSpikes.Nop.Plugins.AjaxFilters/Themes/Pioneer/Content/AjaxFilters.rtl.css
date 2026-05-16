@@ -1,0 +1,18 @@
+﻿/*
+* Copyright 2015 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.clearFilterOptions,
+.clearPriceRangeFilter {
+	right: unset;
+	left: 0;
+}
+.selected-options-list .option:after {
+	margin-right: 7px;
+	margin-left: unset;
+}
+.ajaxFilters .k-window-titlebar .k-button {
+	right: unset;
+	left: 10px;
+}

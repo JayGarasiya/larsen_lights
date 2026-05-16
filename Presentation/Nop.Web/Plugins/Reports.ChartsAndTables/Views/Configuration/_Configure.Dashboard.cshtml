@@ -1,0 +1,193 @@
+@model ConfigurationModel
+
+<div class="card-body">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardTopNChart_OverrideForStore" asp-input="DashboardTopNChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardTopNChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardTopNChart" />
+            <span asp-validation-for="DashboardTopNChart"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardWidgetZone_OverrideForStore" asp-input="DashboardWidgetZone" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardWidgetZone" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="DashboardWidgetZone" asp-items="Model.AvailableWidgetZones" />
+            <span asp-validation-for="DashboardWidgetZone"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardCurrentStoreOnly_OverrideForStore" asp-input="DashboardCurrentStoreOnly" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardCurrentStoreOnly" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardCurrentStoreOnly" />
+            <span asp-validation-for="DashboardCurrentStoreOnly"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardWeekChart_OverrideForStore" asp-input="DashboardWeekChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardWeekChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardWeekChart" />
+            <span asp-validation-for="DashboardWeekChart"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardMonthChart_OverrideForStore" asp-input="DashboardMonthChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardMonthChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardMonthChart" />
+            <span asp-validation-for="DashboardMonthChart"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardYearChart_OverrideForStore" asp-input="DashboardYearChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardYearChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardYearChart" />
+            <span asp-validation-for="DashboardYearChart"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardMonthYearChart_OverrideForStore" asp-input="DashboardMonthYearChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardMonthYearChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardMonthYearChart" />
+            <span asp-validation-for="DashboardMonthYearChart"></span>
+        </div>
+    </div>
+    <nop-nested-setting asp-for="DashboardMonthYearChart">
+        <div id="pnlLastNYear" class="form-group row">
+            <div class="col-md-3">
+                <nop-override-store-checkbox asp-for="DashboardMonthYearLastNYear_OverrideForStore" asp-input="DashboardMonthYearLastNYear" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                <nop-label asp-for="DashboardMonthYearLastNYear" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="DashboardMonthYearLastNYear" />
+                <span asp-validation-for="DashboardMonthYearLastNYear"></span>
+            </div>
+        </div>
+    </nop-nested-setting>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardBestSellerProductYearChart_OverrideForStore" asp-input="DashboardBestSellerProductYearChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardBestSellerProductYearChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardBestSellerProductYearChart" />
+            <span asp-validation-for="DashboardBestSellerProductYearChart"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardBestSellerProductMonthChart_OverrideForStore" asp-input="DashboardBestSellerProductMonthChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardBestSellerProductMonthChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardBestSellerProductMonthChart" />
+            <span asp-validation-for="DashboardBestSellerProductMonthChart"></span>
+        </div>
+    </div>
+    <nop-nested-setting asp-for="DashboardBestSellerProductMonthChart">
+        <div id="pnlLastNMonth" class="form-group row">
+            <div class="col-md-3">
+                <nop-override-store-checkbox asp-for="DashboardBestSellerProductLastNMonth_OverrideForStore" asp-input="DashboardBestSellerProductLastNMonth" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                <nop-label asp-for="DashboardBestSellerProductLastNMonth" />
+            </div>
+            <div class="col-md-9">
+                <nop-editor asp-for="DashboardBestSellerProductLastNMonth" />
+                <span asp-validation-for="DashboardBestSellerProductLastNMonth"></span>
+            </div>
+        </div>
+    </nop-nested-setting>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardBestSellerCategoryYearChart_OverrideForStore" asp-input="DashboardBestSellerCategoryYearChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardBestSellerCategoryYearChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardBestSellerCategoryYearChart" />
+            <span asp-validation-for="DashboardBestSellerCategoryYearChart"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardBestSellerManufacturerYearChart_OverrideForStore" asp-input="DashboardBestSellerManufacturerYearChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardBestSellerManufacturerYearChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardBestSellerManufacturerYearChart" />
+            <span asp-validation-for="DashboardBestSellerManufacturerYearChart"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardBestSellerVendorYearChart_OverrideForStore" asp-input="DashboardBestSellerVendorYearChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardBestSellerVendorYearChart" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DashboardBestSellerVendorYearChart" />
+            <span asp-validation-for="DashboardBestSellerVendorYearChart"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardReportsOrderStatus_OverrideForStore" asp-input="DashboardReportsOrderStatus" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardReportsOrderStatus" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="DashboardReportsOrderStatus" asp-items="Model.AvailableOrderStatuses" />
+            <span asp-validation-for="DashboardReportsOrderStatus"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-override-store-checkbox asp-for="DashboardReportsPaymentStatus_OverrideForStore" asp-input="DashboardReportsPaymentStatus" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="DashboardReportsPaymentStatus" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="DashboardReportsPaymentStatus" asp-items="Model.AvailablePaymentStatuses" />
+            <span asp-validation-for="DashboardReportsPaymentStatus"></span>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#@Html.IdFor(model => model.DashboardBestSellerProductMonthChart)").click(toggleLastNMonth);
+        $("#@Html.IdFor(model => model.DashboardMonthYearChart)").click(toggleLastNYear);
+
+        toggleLastNMonth();
+        toggleLastNYear();
+    });
+
+    function toggleLastNMonth() {
+        if ($('#@Html.IdFor(model => model.DashboardBestSellerProductMonthChart)').is(':checked')) {
+            $('#pnlLastNMonth').showElement();
+        } else {
+            $('#pnlLastNMonth').hideElement();
+        }
+    }
+
+    function toggleLastNYear() {
+        if ($('#@Html.IdFor(model => model.DashboardMonthYearChart)').is(':checked')) {
+            $('#pnlLastNYear').showElement();
+        } else {
+            $('#pnlLastNYear').hideElement();
+        }
+    }
+</script>

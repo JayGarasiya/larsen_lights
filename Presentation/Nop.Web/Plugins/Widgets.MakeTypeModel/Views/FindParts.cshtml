@@ -1,0 +1,153 @@
+﻿@model FindPartsModel
+@{
+    NopHtml.AppendCssFileParts("~/Plugins/Widgets.MakeTypeModel/Content/styles.css");
+    //find parts class
+    NopHtml.AppendPageCssClassParts("html-findparts");
+}
+
+<li class="has-sublist with-dropdown-in-grid findparts-search">
+    <span class="with-subcategories single-item-categories labelfornextplusbutton">@T("Plugins.Widgets.MakeTypeModel.FindParts.MakeModel")</span>
+    <div class="plus-button"></div>
+    <div class="dropdown categories fullWidth boxes-0 search-input">
+        <ul class="sublist">
+            <li class="back-button">
+                <span>@T("SevenSpikes.MegaMenu.ResponsiveBackButton")</span>
+            </li>
+            <li class="has-sublist">
+                <form asp-route="ProductSearch" method="get" id="findparts-search-box-form">
+                    <div class="row">
+                        <div class="box">
+                            <div class="title">
+                                @T("Plugins.Widgets.MakeTypeModel.FindParts.Title")
+                                <span id="data-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait")</span>
+                            </div>
+                            <div class="wrapper full">
+                                <div class="search-select">
+                                    <select asp-for="Make" asp-items="Model.AvailableMake" name="make_" type="required"></select>
+                                    <select asp-for="Type" asp-items="Model.AvailableType" name="type_"></select>
+                                    <select asp-for="Model" asp-items="Model.AvailableModel" name="model_"></select>
+                                    <select asp-for="Category" asp-items="Model.AvailableCategories" name="cid"></select>
+                                </div>
+                                <div class="search-action">
+                                    <button type="submit" class="button-1 search-button">@T("Plugins.Widgets.MakeTypeModel.FindParts.Button")</button>
+                                    <script asp-location="Footer">
+                                $("#findparts-search-box-form").on("submit", function (event) {
+                                    if ($("select[id=@Html.IdFor(model => model.Make)]").val() === null) {
+                                        alert('@Html.Raw(JavaScriptEncoder.Default.Encode(T("Plugins.Widgets.MakeTypeModel.FindParts.Make.Required").Text))');
+                                        event.preventDefault();
+                                    }
+                                    $(".findparts-search .search-input").removeClass("findparts");
+                                });
+                                    </script>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+</li>
+
+<script type="text/javascript" asp-location="Footer">
+    $(document).on("click", function (e) {
+        $($(e.target).closest(".findparts-search").length === 0 &&
+            $(".menu-body li").each(function (n, t) {
+                $(".findparts-search .search-input").removeClass("findparts");
+            }));
+    });
+
+    $(window).on('load resize', function () {
+        if ($(".header-upper").find(".responsive-make-model").length === 0) {
+            $(".header-upper").prepend('<div class="responsive-make-model"><span class="make-model">@T("Plugins.Widgets.MakeTypeModel.FindParts.MakeModel")</span></div>')
+        }
+
+        var win = $(this); //this = window
+        if (win.width() >= 1259) {
+            $(".header-upper .responsive-make-model").removeClass("active");
+            $(".findparts-search .search-input").removeClass("sublist-wrap");
+        }
+        else {
+            $(".header-upper .responsive-make-model").addClass("active");
+            $(".findparts-search .search-input").addClass("sublist-wrap");
+        }
+    });
+
+    $(document).ready(function () {
+        $(".header-upper").on("click", ".make-model", function () {
+            $(".header-lower .header-menu .menu-open").trigger("click");
+            $(".mega-menu-responsive .findparts-search .plus-button").trigger("click");
+        });
+
+        $("select[id=@Html.IdFor(model => model.Type)]").prop('disabled', true);
+        $("select[id=@Html.IdFor(model => model.Model)]").prop('disabled', true);
+
+        $(".findparts-search .search-input").click(function () {
+            $(this).addClass("findparts");
+        });
+
+        $("select[id=@Html.IdFor(model => model.Make)]").change(function () {
+
+            $(".menu-body span[id=data-loading-progres]").show();
+            var selectedItem = $(this).val();
+            var ddlTypes = $("select[id=@Html.IdFor(model => model.Type)]");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("GetTypesByMake", "FindParts"))",
+                data: {
+                    "make": selectedItem
+                },
+                success: function (data, textStatus, jqXHR) {
+                    ddlTypes.html('');
+                    $.each(data,
+                        function (id, option) {
+                            ddlTypes.append($('<option></option>').val(option.Value).html(option.Text));
+                        });
+                    $('select[id=@Html.IdFor(model => model.Type)] option:nth-child(1)').prop('selected', true);
+                    $('select[id=@Html.IdFor(model => model.Type)] option:nth-child(1)').prop('disabled', true);
+                    ddlTypes.prop('disabled', false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Failed to retrieve equipment types.');
+                },
+                complete: function (jqXHR, textStatus) {
+                    $(".menu-body span[id=data-loading-progress]").hide();
+                }
+            });
+        });
+
+        $("select[id=@Html.IdFor(model => model.Type)]").change(function () {
+            $(".menu-body span[id=data-loading-progress]").show();
+            var selectedMake = $("select[id=@Html.IdFor(model => model.Make)].valid").val();
+            var selectedItem = $(this).val();
+            var ddlModels = $("select[id=@Html.IdFor(model => model.Model)]");
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@(Url.Action("GetModelsByMakeType", "FindParts"))",
+                data: {
+                    "make": selectedMake,
+                    "type": selectedItem
+                },
+                success: function (data, textStatus, jqXHR) {
+                    ddlModels.html('');
+                    $.each(data,
+                        function (id, option) {
+                            ddlModels.append($('<option></option>').val(option.Value).html(option.Text));
+                        });
+                    $('select[id=@Html.IdFor(model => model.Model)] option:nth-child(1)').prop('selected', true);
+                    $('select[id=@Html.IdFor(model => model.Model)] option:nth-child(1)').prop('disabled', true);
+                    ddlModels.prop('disabled', false);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Failed to retrieve equipment types.');
+                },
+                complete: function (jqXHR, textStatus) {
+                    $(".menu-body span[id=data-loading-progress]").hide();
+                }
+            });
+        });
+    });
+</script>

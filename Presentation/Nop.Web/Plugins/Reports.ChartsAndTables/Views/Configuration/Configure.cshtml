@@ -1,0 +1,103 @@
+﻿@model ConfigurationModel
+@{
+    Layout = "_AdminLayout";
+    var friendlyName = "Plugins.Reports.ChartsAndTables";
+    var configureLocale = "Admin.ContentManagement.Widgets.Configure";
+
+    //page title
+    ViewBag.PageTitle = T(configureLocale).Text + " - " + T(friendlyName).Text;
+
+    if (Model.Enabled)
+    {
+        //active menu item (system name)
+        NopHtml.SetActiveMenuItemSystemName("Plugins.Reports.ChartsAndTables.Configuration");
+    }
+    else
+    {
+        //active menu item (system name)
+        NopHtml.SetActiveMenuItemSystemName("Widgets");
+    }
+}
+
+@{
+    const string hideGeneralBlockAttributeName = "ReportsConfiguration.HideGeneralBlock";
+    var hideGeneralBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideGeneralBlockAttributeName);
+
+    const string hideDashboardBlockAttributeName = "ReportsConfiguration.HideDashboardBlock";
+    var hideDashboardBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideDashboardBlockAttributeName, defaultValue: true);
+
+    const string hideProductBlockAttributeName = "ReportsConfiguration.HideProductBlock";
+    var hideProductBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideProductBlockAttributeName, defaultValue: true);
+
+    const string hideCategoryBlockAttributeName = "ReportsConfiguration.HideCategoryBlock";
+    var hideCategoryBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideCategoryBlockAttributeName, defaultValue: true);
+
+    const string hideManufacturerBlockAttributeName = "ReportsConfiguration.HideManufacturerBlock";
+    var hideManufacturerBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideManufacturerBlockAttributeName, defaultValue: true);
+
+    const string hideCustomerBlockAttributeName = "ReportsConfiguration.HideCustomerBlock";
+    var hideCustomerBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideCustomerBlockAttributeName, defaultValue: true);
+
+    const string hideVendorBlockAttributeName = "ReportsConfiguration.HideVendorBlock";
+    var hideVendorBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideVendorBlockAttributeName, defaultValue: true);
+
+    const string hideOrderBlockAttributeName = "ReportsConfiguration.HideOrderBlock";
+    var hideOrderBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideOrderBlockAttributeName, defaultValue: true);
+}
+
+
+<form asp-controller="ChartsAndTables" asp-action="Configure" method="post">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T(configureLocale) - @T(friendlyName)
+        </h1>
+        <div class="float-right">
+            <button type="submit" name="save" class="btn bg-blue" value="save">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                @await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+
+                <nop-cards id="generalcommon-cards">
+                    <nop-card asp-name="reports-common" asp-icon="fas fa-info" asp-title="@T("Plugins.Reports.ChartsAndTables.Configuration.Tab.General")" asp-hide-block-attribute-name="@hideGeneralBlockAttributeName" asp-hide="@hideGeneralBlock">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Configuration/_Configure.Common.cshtml", Model)</nop-card>
+                    @if (Model.Enabled)
+                    {
+                        if (Model.DashboardReport)
+                        {
+                            <nop-card asp-name="reports-dashboard" asp-icon="fas fa-tachometer-alt" asp-title="@T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Dashboard")" asp-hide-block-attribute-name="@hideDashboardBlockAttributeName" asp-hide="@hideDashboardBlock">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Configuration/_Configure.Dashboard.cshtml", Model)</nop-card>
+                        }
+                        if (Model.ProductReport)
+                        {
+                            <nop-card asp-name="reports-product" asp-icon="fab fa-product-hunt" asp-title="@T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Product")" asp-hide-block-attribute-name="@hideProductBlockAttributeName" asp-hide="@hideProductBlock">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Configuration/_Configure.Product.cshtml", Model)</nop-card>
+                        }
+                        if (Model.CategoryReport)
+                        {
+                            <nop-card asp-name="reports-category" asp-icon="fas fa-th-large" asp-title="@T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Category")" asp-hide-block-attribute-name="@hideCategoryBlockAttributeName" asp-hide="@hideCategoryBlock">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Configuration/_Configure.Category.cshtml", Model)</nop-card>
+                        }
+                        if (Model.ManufacturerReport)
+                        {
+                            <nop-card asp-name="reports-manufacturer" asp-icon="fas fa-industry" asp-title="@T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Manufacturer")" asp-hide-block-attribute-name="@hideManufacturerBlockAttributeName" asp-hide="@hideManufacturerBlock">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Configuration/_Configure.Manufacturer.cshtml", Model)</nop-card>
+                        }
+                        if (Model.CustomerReport)
+                        {
+                            <nop-card asp-name="reports-customer" asp-icon="fas fa-user" asp-title="@T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Customer")" asp-hide-block-attribute-name="@hideCustomerBlockAttributeName" asp-hide="@hideCustomerBlock">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Configuration/_Configure.Customer.cshtml", Model)</nop-card>
+                        }
+                        if (Model.VendorReport)
+                        {
+                            <nop-card asp-name="reports-vendor" asp-icon="far fa-user" asp-title="@T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Vendor")" asp-hide-block-attribute-name="@hideVendorBlockAttributeName" asp-hide="@hideVendorBlock">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Configuration/_Configure.Vendor.cshtml", Model)</nop-card>
+                        }
+                        if (Model.OrderReport)
+                        {
+                            <nop-card asp-name="reports-order" asp-icon="far fa-money-bill-alt" asp-title="@T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Order")" asp-hide-block-attribute-name="@hideOrderBlockAttributeName" asp-hide="@hideOrderBlock">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Configuration/_Configure.Order.cshtml", Model)</nop-card>
+                        }
+                    }
+                </nop-cards>
+            </div>
+        </div>
+    </section>
+</form>

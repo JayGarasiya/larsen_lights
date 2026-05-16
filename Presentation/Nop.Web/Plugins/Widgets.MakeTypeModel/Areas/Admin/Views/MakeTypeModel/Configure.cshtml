@@ -1,0 +1,415 @@
+﻿@model ConfigurationModel
+@{
+    Layout = "_ConfigurePlugin";
+
+    var customer = await workContext.GetCurrentCustomerAsync();
+
+    const string hideConfigBlockAttributeName = "ConfigurationPage.HideConfigBlock";
+    var hideInfoBlock = await genericAttributeService.GetAttributeAsync<bool>(customer, hideConfigBlockAttributeName, defaultValue: true);
+
+    const string hideAPIConfigBlockAttributeName = "ConfigurationPage.HideAPIConfigBlock";
+    var HideAPIConfigBlock = await genericAttributeService.GetAttributeAsync<bool>(customer, hideAPIConfigBlockAttributeName, defaultValue: true);
+
+    const string hideFreeItemSkuAttributeName = "ConfigurationPage.HideFreeItemSkuConfigBlock";
+    var hideFreeItemSkuConfigBlock = await genericAttributeService.GetAttributeAsync<bool>(customer, hideFreeItemSkuAttributeName, defaultValue: true);
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+
+<form asp-controller="MakeTypeModel" asp-action="Configure" method="post">
+    <div class="content-header clearfix">
+        <div class="float-right">
+            <button type="submit" name="save" class="btn btn-primary">
+                <i class="far fa-save"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+
+    <div class="cards-group">
+        <nop-card asp-name="CommonSetting" asp-icon="fas fa-cogs" asp-title="@T("Plugins.Widgets.MakeTypeModel.CommonSettings")" asp-hide-block-attribute-name="@hideConfigBlockAttributeName" asp-hide="@hideInfoBlock" asp-advanced="false">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Enabled_OverrideForStore" asp-input="Enabled" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                <nop-nested-setting asp-for="Enabled">
+                    <div class="form-group row" id="pnlHyCapacityCategoryId">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="HyCapacityCategoryId_OverrideForStore" asp-input="HyCapacityCategoryId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="HyCapacityCategoryId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="HyCapacityCategoryId" asp-items="@Model.AvailableCategories" />
+                            <span asp-validation-for="HyCapacityCategoryId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlHyCapacityManufacturerId">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="HyCapacityManufacturerId_OverrideForStore" asp-input="HyCapacityManufacturerId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="HyCapacityManufacturerId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="HyCapacityManufacturerId" asp-items="@Model.AvailableManufacturers" />
+                            <span asp-validation-for="HyCapacityManufacturerId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlHyCapacityVendorId">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="HyCapacityVendorId_OverrideForStore" asp-input="HyCapacityVendorId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="HyCapacityVendorId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="HyCapacityVendorId" asp-items="@Model.AvailableVendors" />
+                            <span asp-validation-for="HyCapacityVendorId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlHyCapacityWarehouseId">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="HyCapacityWarehouseId_OverrideForStore" asp-input="HyCapacityWarehouseId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="HyCapacityWarehouseId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="HyCapacityWarehouseId" asp-items="@Model.AvailableWarehouses" />
+                            <span asp-validation-for="HyCapacityWarehouseId"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" id="pnlGranitCategoryId">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="GranitCategoryId_OverrideForStore" asp-input="GranitCategoryId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="GranitCategoryId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="GranitCategoryId" asp-items="@Model.AvailableCategories" />
+                            <span asp-validation-for="GranitCategoryId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlGranitVendorId">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="GranitVendorId_OverrideForStore" asp-input="GranitVendorId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="GranitVendorId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="GranitVendorId" asp-items="@Model.AvailableVendors" />
+                            <span asp-validation-for="GranitVendorId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlGranitWarehouseId">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="GranitWarehouseId_OverrideForStore" asp-input="GranitWarehouseId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="GranitWarehouseId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="GranitWarehouseId" asp-items="@Model.AvailableWarehouses" />
+                            <span asp-validation-for="GranitWarehouseId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlGranitUpdateProductImage">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="UpdateProductImage_OverrideForStore" asp-input="UpdateProductImage" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="UpdateProductImage" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="UpdateProductImage" />
+                            <span asp-validation-for="UpdateProductImage"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlKitProductModelCategoryId">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="KitProductModelCategoryId_OverrideForStore" asp-input="KitProductModelCategoryId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="KitProductModelCategoryId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="KitProductModelCategoryId" asp-items="@Model.AvailableModelCategories" />
+                            <span asp-validation-for="KitProductModelCategoryId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlKitProductCategoryId">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="KitProductCategoryId_OverrideForStore" asp-input="KitProductCategoryId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="KitProductCategoryId" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="KitProductCategoryId" asp-items="@Model.AvailableProductCategories" />
+                            <span asp-validation-for="KitProductCategoryId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlFindPartsCategoryIds">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="FindPartsCategoryIds_OverrideForStore" asp-input="FindPartsCategoryIds" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="FindPartsCategoryIds" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="FindPartsCategoryIds" asp-items="Model.AvailableCategories" asp-multiple="true" />
+                            <script>
+                                $(document).ready(function () {
+                                    var rolesIdsInput = $('#@Html.IdFor(model => model.FindPartsCategoryIds)').data("kendoMultiSelect");
+                                    rolesIdsInput.setOptions({
+                                        autoClose: false,
+                                        filter: "contains"
+                                    });
+
+                                @if (Model.AvailableCategories.Count == 0)
+                                {
+                                    <text>
+                                             rolesIdsInput.setOptions({
+                                                 enable: false,
+                                                 placeholder: '@T("Admin.Catalog.Products.Fields.Categories.NoCategoriesAvailable")'
+                                             });
+                                             rolesIdsInput._placeholder();
+                                             rolesIdsInput._enable();
+                                    </text>
+                                }
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="pnlFindPartsIncludeSubCategories">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="FindPartsIncludeSubCategories_OverrideForStore" asp-input="FindPartsIncludeSubCategories" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="FindPartsIncludeSubCategories" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="FindPartsIncludeSubCategories" />
+                            <span asp-validation-for="FindPartsIncludeSubCategories"></span>
+                        </div>
+                    </div>
+                </nop-nested-setting>
+
+            </div>
+        </nop-card>
+
+        <script>
+            $(document).ready(function () {
+                $("#@Html.IdFor(model => model.Enabled)").click(toggleEnables);
+
+                toggleEnables();
+            });
+
+            function toggleEnables() {
+                if ($('#@Html.IdFor(model => model.Enabled)').is(':checked')) {
+                    $('#pnlHyCapacityCategoryId').showElement();
+                    $('#pnlHyCapacityManufacturerId').showElement();
+                    $('#pnlHyCapacityVendorId').showElement();
+                    $('#pnlHyCapacityWarehouseId').showElement();
+                    $('#pnlKitProductModelCategoryId').showElement();
+                    $('#pnlKitProductCategoryId').showElement();
+                    $('#pnlFindPartsCategoryIds').showElement();
+                    $('#pnlFindPartsIncludeSubCategories').showElement();
+                    $('#pnlGranitCategoryId').showElement();
+                    $('#pnlGranitVendorId').showElement();
+                    $('#pnlGranitWarehouseId').showElement();
+                    $('#pnlGranitUpdateProductImage').showElement();
+
+                } else {
+                    $('#pnlHyCapacityCategoryId').hideElement();
+                    $('#pnlHyCapacityManufacturerId').hideElement();
+                    $('#pnlHyCapacityVendorId').hideElement();
+                    $('#pnlHyCapacityWarehouseId').hideElement();
+                    $('#pnlKitProductModelCategoryId').hideElement();
+                    $('#pnlKitProductCategoryId').hideElement();
+                    $('#pnlFindPartsCategoryIds').hideElement();
+                    $('#pnlFindPartsIncludeSubCategories').hideElement();
+                    $('#pnlGranitCategoryId').hideElement();
+                    $('#pnlGranitVendorId').hideElement();
+                    $('#pnlGranitWarehouseId').hideElement();
+                    $('#pnlGranitUpdateProductImage').hideElement();
+
+                }
+            }
+        </script>
+
+        <nop-card asp-name="Hy-CapacityAPI" asp-icon="fas fa-info" asp-title="@T("Plugins.Widgets.MakeTypeModel.Hy-CapacityAPI")" asp-hide-block-attribute-name="@hideAPIConfigBlockAttributeName" asp-hide="@HideAPIConfigBlock" asp-advanced="false">
+            <div class=" card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="AuthorizationAPIURL_OverrideForStore" asp-input="AuthorizationAPIURL" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="AuthorizationAPIURL" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="AuthorizationAPIURL" />
+                        <span asp-validation-for="AuthorizationAPIURL"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ProductsAPIURL_OverrideForStore" asp-input="ProductsAPIURL" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ProductsAPIURL" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ProductsAPIURL" />
+                        <span asp-validation-for="ProductsAPIURL"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="InventoryAPIURL_OverrideForStore" asp-input="InventoryAPIURL" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="InventoryAPIURL" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="InventoryAPIURL" />
+                        <span asp-validation-for="InventoryAPIURL"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Username_OverrideForStore" asp-input="Username" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Username" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Username" />
+                        <span asp-validation-for="Username"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="Password_OverrideForStore" asp-input="Password" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="Password" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Password" />
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="TokenGuidId_OverrideForStore" asp-input="TokenGuidId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="TokenGuidId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="TokenGuidId" />
+                        <span asp-validation-for="TokenGuidId"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ExcludeCategory_OverrideForStore" asp-input="ExcludeCategory" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ExcludeCategory" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="ExcludeCategory" />
+                        <span asp-validation-for="ExcludeCategory"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ProductUpdateAPIPagesize_OverrideForStore " asp-input="ProductUpdateAPIPagesize" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ProductUpdateAPIPagesize" />
+                    </div>
+                    <div class="col-md-9">
+                        <input asp-for="ProductUpdateAPIPagesize" class="form-control" readonly />
+                        <span asp-validation-for="ProductUpdateAPIPagesize"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ProductUpdateAPICurrentPage_OverrideForStore" asp-input="ProductUpdateAPICurrentPage" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ProductUpdateAPICurrentPage" />
+                    </div>
+                    <div class="col-md-9">
+                        <input asp-for="ProductUpdateAPICurrentPage" class="form-control" readonly />
+                        <span asp-validation-for="ProductUpdateAPICurrentPage"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="ProductUpdateAPINoOfPages_OverrideForStore" asp-input="ProductUpdateAPINoOfPages" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="ProductUpdateAPINoOfPages" />
+                    </div>
+                    <div class="col-md-9">
+                        <input asp-for="ProductUpdateAPINoOfPages" class="form-control" readonly />
+                        <span asp-validation-for="ProductUpdateAPINoOfPages"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="LastExecutedProductAPI_OverrideForStore" asp-input="LastExecutedProductAPI" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="LastExecutedProductAPI" />
+                    </div>
+                    <div class="col-md-9">
+                        <input asp-for="LastExecutedProductAPI" class="form-control" readonly />
+                        <span asp-validation-for="LastExecutedProductAPI"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="LastExecutedStockAPI_OverrideForStore" asp-input="LastExecutedStockAPI" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="LastExecutedStockAPI" />
+                    </div>
+                    <div class="col-md-9">
+                        <input asp-for="LastExecutedStockAPI" class="form-control" readonly />
+                        <span asp-validation-for="LastExecutedStockAPI"></span>
+                    </div>
+                </div>
+            </div>
+        </nop-card>
+
+        <nop-card asp-name="FreeItemSku" asp-icon="fas fa-cog" asp-title="@T("Plugins.Widgets.MakeTypeModel.FreeItemSku")" asp-hide-block-attribute-name="@hideFreeItemSkuAttributeName" asp-hide="@hideFreeItemSkuConfigBlock" asp-advanced="false">
+            <div class=" card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="EnabledFreeSkus_OverrideForStore" asp-input="EnabledFreeSkus" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="EnabledFreeSkus" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="EnabledFreeSkus" />
+                        <span asp-validation-for="EnabledFreeSkus"></span>
+                    </div>
+                </div>
+
+                <nop-nested-setting asp-for="EnabledFreeSkus">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="SubTotalGreaterThan_OverrideForStore" asp-input="SubTotalGreaterThan" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="SubTotalGreaterThan" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="SubTotalGreaterThan" />
+                            <span asp-validation-for="SubTotalGreaterThan"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="FreeItemsSkus_OverrideForStore" asp-input="FreeItemsSkus" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="FreeItemsSkus" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-editor asp-for="FreeItemsSkus" />
+                            <span asp-validation-for="FreeItemsSkus"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-override-store-checkbox asp-for="FreeItemsWarehouseIds_OverrideForStore" asp-input="FreeItemsWarehouseIds" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                            <nop-label asp-for="FreeItemsWarehouseIds" />
+                        </div>
+                        <div class="col-md-9">
+                            <nop-select asp-for="FreeItemsWarehouseIds" asp-items="Model.AvailableWarehouses" asp-multiple="true" />
+                            <script>
+                                $(function() {
+                                    var warehouseIdsInput = $('#@Html.IdFor(model => model.FreeItemsWarehouseIds)').select2({
+                                        closeOnSelect: false,
+                                        @if (!Model.AvailableWarehouses.Any())
+                                        {
+                                            <text>
+                                            disabled: true,
+                                            placeholder: 'No warehouse available',
+                                            </text>
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </nop-nested-setting>
+            </div>
+        </nop-card>
+    </div>
+</form>

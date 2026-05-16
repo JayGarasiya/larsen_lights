@@ -1,0 +1,126 @@
+﻿@model ChartsAndTablesSearchModel
+@{
+    const string reportTabsBlockAttributeName = "ProductPage.ProductReport";
+    var hideReportTabsBlock = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), reportTabsBlockAttributeName, defaultValue: true);
+
+    if (Model.ProductReport)
+    {
+        NopHtml.AppendScriptParts(ResourceLocation.Footer, "~/lib_npm/chart.js/chart.umd.min.js", excludeFromBundle: true);
+        NopHtml.AppendScriptParts(ResourceLocation.Footer, "~/lib_npm/datatables.net-buttons/js/buttons.html5.min.js", excludeFromBundle: true);
+        NopHtml.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Reports.ChartsAndTables/Content/Js/report.chart.js", excludeFromBundle: true);
+        NopHtml.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/Reports.ChartsAndTables/Content/Js/jszip.min.js", excludeFromBundle: true);
+    }
+}
+
+@if (Model.ProductReport && Model.ProductId > 0)
+{
+    <nop-card asp-name="product-report-tabs" asp-icon="fa fa-chart-line" asp-title="@T("Admin.Reports")" asp-hide-block-attribute-name="@reportTabsBlockAttributeName" asp-hide="@hideReportTabsBlock" asp-advanced="false">
+        <div class="card-body">
+            <div class="card card-default">
+                <div class="card-body">
+                    <input asp-for="ProductId" type="hidden" />
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="StartDate" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="StartDate" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="EndDate" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-editor asp-for="EndDate" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="SearchGroupId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="SearchGroupId" asp-items="Model.GroupByOptions" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="RoleId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="RoleId" asp-items="Model.AvailableRoles" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group row" @(Model.AvailableStores.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                <div class="col-md-4">
+                                    <nop-label asp-for="StoreId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="StoreId" asp-items="Model.AvailableStores" />
+                                </div>
+                            </div>
+                            <div class="form-group row" @(Model.IsLoggedInAsVendor ? Html.Raw("style='display: none;'") : null)>
+                                <div class="col-md-4">
+                                    <nop-label asp-for="OrderStatusId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="OrderStatusId" asp-items="Model.AvailableOrderStatuses" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="PaymentStatusId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="PaymentStatusId" asp-items="Model.AvailablePaymentStatuses" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <nop-label asp-for="CountryId" />
+                                </div>
+                                <div class="col-md-8">
+                                    <nop-select asp-for="CountryId" asp-items="Model.AvailableCountries" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="text-center col-12">
+                            <button type="button" id="btnGenerate" class="btn btn-primary btn-search">
+                                <i class="fas fa-chart-line"></i>
+                                @T("Plugins.Reports.ChartsAndTables.Generate")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nop-tabs id="productreport-edit" asp-tab-name-to-select="tab-detail-product" asp-render-selected-tab-input="false">
+                @if (Model.ProductDetailProductReport)
+                {
+                    <nop-tab asp-name="tab-detail-product" asp-title="@T("Plugins.Reports.ChartsAndTables.Products.Detail.Product")">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Product/_ProductDetailReport.Products.cshtml", Model)</nop-tab>
+                }
+                @if (Model.ProductDetailProductAttributeReport)
+                {
+                    <nop-tab asp-name="tab-detail-productattribute" asp-title="@T("Plugins.Reports.ChartsAndTables.Products.Detail.ProductAttributeCombination")">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Product/_ProductDetailReport.ProductsAttribute.cshtml", Model)</nop-tab>
+                }
+                @if (Model.ProductDetailCustomerReport)
+                {
+                    <nop-tab asp-name="tab-detail-customer" asp-title="@T("Plugins.Reports.ChartsAndTables.Products.Detail.Customer")">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Product/_ProductDetailReport.Customer.cshtml", Model)</nop-tab>
+                }
+                @if (Model.ProductDetailCountryReport)
+                {
+                    <nop-tab asp-name="tab-detail-country" asp-title="@T("Plugins.Reports.ChartsAndTables.Products.Detail.Country")">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Product/_ProductDetailReport.Country.cshtml", Model)</nop-tab>
+                }
+                @if (Model.ProductDetailGlobalReport)
+                {
+                    <nop-tab asp-name="tab-detail-global" asp-title="@T("Plugins.Reports.ChartsAndTables.Products.Detail.Global")">@await Html.PartialAsync("~/Plugins/Reports.ChartsAndTables/Views/Product/_ProductDetailReport.Global.cshtml", Model)</nop-tab>
+                }
+            </nop-tabs>
+        </div>
+    </nop-card>
+}

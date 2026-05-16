@@ -1,0 +1,39 @@
+﻿@model Nop.Web.Areas.Admin.Models.Orders.OrderModel
+@{
+    Layout = "";
+}
+<a id="pnregisterguestslabelselected" class="btn btn-primary" href="#" onclick="fnsregisterguest();return false;">
+    @T("Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.ButtonInOrder")
+</a>
+<script>
+    $(document).ready(function () {
+        $('#pnregisterguestslabelselected').prependTo($('.content-header').find('.float-right'));
+    });
+    function fnsregisterguest()
+    {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Misc.AutoRegisterGuest.QuestionInOrder")'))
+            return false;
+        var postData = {
+            orderid: @(Model.Id)
+        };
+        addAntiForgeryToken(postData);
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: '@Url.Action("RegisterGuest", "AutoRegisterGuestSettings")',
+            data: postData,
+            dataType: 'json',
+            success: function (data) {
+                if (data.message.length>0){
+                    alert(data.message);
+                }
+                if (data.success){
+                    location.reload(true);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to register the customer.');
+            }
+        });
+    }
+</script>

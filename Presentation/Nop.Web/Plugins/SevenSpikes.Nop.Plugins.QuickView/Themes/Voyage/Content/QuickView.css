@@ -1,0 +1,314 @@
+﻿ /*
+* Copyright 2014 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+.quickViewData {
+    display: none;
+}
+.quick-view-button {
+    font-size: 0;
+}
+.quick-view-button:before {
+    content: "\e905";
+    font-size: 18px;
+}
+.product-grid .quick-view-button {
+	height: 30px !important;
+	opacity: 0;
+}
+.item-box:hover .quick-view-button {
+	opacity: 1;
+}
+.product-list .quick-view-button {
+	margin-left: 15px;
+}
+
+/* DATA LOADER */
+
+.k-overlay {
+    position: fixed;
+    top: 0; right: 0;
+    bottom: 0; left: 0;
+    z-index: 1060 !important;
+    background-color: rgba(0,0,0,.5);
+	transition: background 0.3s ease;
+	opacity: 1 !important;
+}
+.quickView .k-loading-mask {
+    position: absolute;
+    top: 0; right: 0;
+    bottom: 0; left: 0;
+    width: auto !important;
+    height: auto !important;
+}
+.quickView .k-loading-image {
+	position: absolute;
+	top: 0; right: 0;
+    bottom: 0; left: 0;
+	z-index: 2; margin: auto;
+	width: 50px !important;
+	height: 50px !important;
+    border-radius: 100%;
+    border: 2px solid #e43d51;
+    animation: loader 1s 0s infinite cubic-bezier(.21,.53,.56,.8);
+}
+
+/* MAIN WINDOW & HEADERS */
+
+.quickView {
+	flex-flow: column;
+    position: absolute;
+	left: 0 !important;
+	right: 0; margin: auto;
+    z-index: 1070 !important;
+	width: 800px;
+	max-width: 95%;
+	min-width: 0 !important;
+    box-shadow: 0 0 20px rgba(0,0,0,.15);
+    background-color: #fff;
+	padding: 30px !important;
+}
+.quickView .k-window-title {
+	display: none !important;
+}
+.quickView .k-window-titlebar-action {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0; right: 0;
+	z-index: 1;
+	width: 40px;
+	height: 40px;
+	border: 1px solid #eee;
+	background-color: #fff;
+	font-size: 0;
+}
+.quickView .k-window-titlebar-action:after {
+	content: "\e919";
+	font-size: 14px;
+}
+.quickView .k-window-titlebar-action:hover {
+	color: #e43d51;
+}
+
+.quickView .product-essential {
+	float: none;
+	width: auto;
+	max-width: none;
+    margin: 0;
+}
+.quickView .product-essential + div {
+	margin-top: 30px;
+}
+
+/* PRODUCT GALLERY */
+
+.quickView .gallery {
+	display: block; /*Cloud Zoom css override*/
+	float: left;
+    width: calc(50% - 15px);
+	padding: 0 !important;
+}
+.quickView .cloudzoom-blank {
+	display: none !important;
+}
+.quickView .cloudzoom-zoom-inside,
+.quickView .picture a ~ img {
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: auto;
+}
+.quickView .cloudzoom-zoom-inside img {
+    right: auto !important;
+    bottom: auto !important;
+    max-width: none !important;
+}
+.quickView .cloudzoom-ajax-loader {
+	top: 0 !important;
+	left: 0 !important;
+    width: 100%;
+    height: 100%;
+	background: rgba(255,255,255,0.9);
+}
+.quickView .cloudzoom-ajax-loader:before {
+	content: "";
+	position: absolute;
+	top: 0; right: 0;
+	bottom: 0; left: 0;
+    height: 50px;
+	width: 50px;
+	margin: auto;
+    border-radius: 100%;
+    border: 2px solid #e43d51;
+    animation: loader 1s 0s infinite cubic-bezier(.21,.53,.56,.8);
+}
+.quickView .thumbnails {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 10px 10px;
+    margin: 10px auto 0;
+}
+.quickView .thumbnails a {
+	border: 1px solid #eee;
+}
+
+.quickView .links-panel {
+    margin: 20px 0 0;
+}
+.quickView .links-panel a {
+	border-bottom: 1px solid #000;
+    font-size: 13px;
+	font-weight: 600;
+}
+.quickView .links-panel a:after {
+	content: "\e910";
+	display: inline-block;
+	margin-left: 5px;
+	vertical-align: middle;
+}
+.quickView .links-panel a:hover {
+	border-color: #e43d51;
+    color: #e43d51;
+}
+
+/* PRODUCT OVERVIEW */
+
+.quickView .overview {
+    float: right;
+    width: calc(50% - 15px);
+	padding: 0 !important;
+}
+.quickView .overview > h1 {
+	display: block;
+	max-width: calc(100% - 15px);
+	margin-bottom: 20px;
+	font-family: 'DM Serif Display', serif;
+	font-size: 20px;
+	font-weight: 400;
+}
+.quickView .ui-accordion-header {
+	position: relative;
+	border-width: 1px 0;
+    border-style: solid;
+    border-color: #eee;
+	padding: 10px;
+    cursor: pointer;  
+}
+.ui-accordion-header ~ .ui-accordion-header {
+    margin-top: -1px;
+}
+.quickView .ui-icon-circle-arrow-s:after,
+.quickView .ui-icon-circle-arrow-e:after {
+    position: absolute;
+    top: 0; bottom: 0;
+    right: 4px;
+    z-index: -1;
+    width: 9px;
+    height: 9px;
+    margin: auto;
+    font-size: 9px;
+}
+.quickView .ui-icon-circle-arrow-s:after {
+    content: "\e916";
+}
+.quickView .ui-icon-circle-arrow-e:after {
+    content: "\e917";
+}
+.quickView .ui-accordion-content {
+	box-sizing: content-box; /* scroll fix*/
+	padding: 10px;
+}
+.quickView .rental-attributes dl {
+	display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: auto auto;
+	grid-column-gap: 10px;
+	margin-bottom: 0;
+}
+.quickView .overview .giftcard {
+	width: auto;
+}
+.quickView .giftcard textarea {
+	resize: none;
+}
+.quickView .cart-buttons-wrapper {
+	margin-bottom: 25px;
+}
+.quickView .overview .add-to-cart {
+	flex-grow: 1;
+}
+.quickView .overview .add-to-cart-button {
+	flex-grow: 1;
+	width: auto;
+}
+
+/* PRODUCT GRIDS */
+
+.quickView .product-grid + div {
+	margin-top: 15px;
+}
+.quickView .product-grid .title {
+	margin-bottom: 10px;
+	padding: 0 !important;
+	font-family: 'Poppins', sans-serif;
+	font-size: 15px;
+}
+.quickView .product-grid .title strong {
+	font-weight: 600;
+}
+.quickView .product-grid .item-grid {
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.quickView .item-box:nth-child(n+5) {
+	display: none !important;
+}
+.quickView .item-box .add-info {
+	margin-top: 0;
+}
+.quickView .item-box .product-rating-box,
+.quickView .item-box .description,
+.quickView .item-box .add-info {
+	display: none; /*only product-names are visible*/
+}
+
+/* PRODUCT VARIANTS */
+
+.quickView .product-variant-list {
+	margin: 15px 0 !important;
+}
+.quickView .product-variant {
+	display: grid;
+	grid-template-columns: 100px auto;
+	grid-gap: 5px 15px;
+}
+.quickView .product-variant + div,
+.quickView .item-row + .item-row {
+	margin-top: 5px;
+}
+.quickView .variant-picture {
+	width: 100%;
+	min-width: 0;
+	margin: 0;
+}
+.quickView .variant-picture a {
+	display: block;
+}
+
+
+@media all and (max-width: 480px) {
+
+	.quickView .gallery,
+	.quickView .overview {
+		float: none;
+		width: auto;
+	}
+	.quickView .gallery {
+		margin-bottom: 20px;
+	}
+	.quickView .product-grid {
+		display: none;
+	}
+}

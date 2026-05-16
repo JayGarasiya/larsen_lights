@@ -1,0 +1,170 @@
+﻿@model AddressLookupModel
+@{
+    var button = Model.IsShippingAddress ? "#checkout-step-shipping" : "#checkout-step-billing";
+}
+
+@if (Model.Validate)
+{
+    <script asp-location="Footer">
+        $(document).ready(function () {
+            var form = '@Model.FormId';
+            var isShippingAddress = @Model.IsShippingAddress.ToString().ToLower();
+            var onePageCheckoutEnabled = @Model.OnePageCheckoutEnabled.ToString().ToLower();
+
+            if (isShippingAddress && !onePageCheckoutEnabled) {
+                form = $("@Model.ButtonClass").closest('form').eq(0).attr("id");
+            }
+
+            function UpdateAddress(data) {
+                if (data.AddressId > 0) {
+                    var addressText = `${data.AvailableAddress.FirstName} ${data.AvailableAddress.LastName}`
+                    if (data.AvailableAddress.StreetAddressEnabled && data.AvailableAddress.Address1.length > 0) {
+                        addressText = addressText.concat(", ", data.AvailableAddress.Address1);
+                    }
+                    if (data.AvailableAddress.CityEnabled && data.AvailableAddress.City.length > 0) {
+                        addressText = addressText.concat(", ", data.AvailableAddress.City);
+                    }
+                    if (data.AvailableAddress.CountyEnabled && data.AvailableAddress.County.length > 0) {
+                        addressText = addressText.concat(", ", data.AvailableAddress.County);
+                    }
+                    if (data.AvailableAddress.StateProvinceEnabled && data.AvailableAddress.StateProvinceName.length > 0) {
+                        addressText = addressText.concat(", ", data.AvailableAddress.StateProvinceName);
+                    }
+                    if (data.AvailableAddress.ZipPostalCodeEnabled && data.AvailableAddress.ZipPostalCode.length > 0) {
+                        addressText = addressText.concat(" ", data.AvailableAddress.ZipPostalCode);
+                    }
+                    if (data.AvailableAddress.CountryEnabled && data.AvailableAddress.CountryName.length > 0) {
+                        addressText = addressText.concat(", ", data.AvailableAddress.CountryName);
+                    }
+
+                    $("@Model.SelectListId").find(`option[value="${data.AddressId}"]`).text(addressText);
+                } else {
+                    var prefix = `${'@Model.Prefix'}_`;
+                    $.each(data.AvailableAddress, function (id, value) {
+                       console.log("id:" + id + "\nvalue:" + value);
+                        if (value !== null) {
+                            var val = $(`#${prefix}${id}`).val(value);
+                            if (id.indexOf('CountryId') >= 0) {
+                                $(id).find(`option[value="${value}"]`).attr("selected", "selected");
+                            }
+                            if (id.indexOf('StateProvinceId') >= 0) {
+                                $(id).find(`option[value="${value}"]`).attr("selected", "selected");
+                            }
+                        }
+                    });
+                }
+
+                if (!data.IsError) {
+                    SubmitDetail();
+                }
+            }
+
+            function SubmitDetail() {
+                if (onePageCheckoutEnabled)
+                {
+                    if (isShippingAddress) {
+                        Shipping.save();
+                    }
+                    else {
+                        Billing.save();
+                    }
+                }
+                else {
+                    $(form).submit();
+                }
+            }
+
+            var confirmDialog = function (message, cb, data) {
+                $.magnificPopup.open({
+                    modal: true,
+                    items: {
+                        src: message,
+                        type: 'inline'
+                    },
+                    callbacks: {
+                        open: function () {
+                            var $content = $(this.content);
+
+                            $content.on('click', '.apply-address-button', function () {
+                                if (typeof cb == 'function') {
+                                    var postData = {
+                                        addressId: data.AddressId,
+                                        model: data.AvailableAddress
+                                    };
+                                    addAntiForgeryToken(postData);
+
+                                    if (data.AddressId > 0) {
+                                        $.ajax({
+                                            cache: false,
+                                            type: "POST",
+                                            url: "@Url.Action("UseValidatedAddress", "TaxJarAddressValidation")",
+                                            data: postData,
+                                            dataType: "json"
+                                        });
+                                    }
+
+                                    if (!data.IsError) {
+                                        cb(data);
+                                    }
+                                }
+                                $.magnificPopup.close();
+                            });
+
+                            $content.on('click', '.error-address-button', function () {
+                                $.magnificPopup.close();
+                            });
+
+                            $content.on('click', '.apply-not-address-button', function () {
+                                if (!data.IsError) {
+                                    SubmitDetail();
+                                }
+                                $.magnificPopup.close();
+                            });
+
+                            $content.on('click', '.continue-address-button', function () {
+                                SubmitDetail();
+                                $.magnificPopup.close();
+                            });
+                        }
+                    }
+                });
+            };
+
+            var element = $("@(Model.OnePageCheckoutEnabled ? string.Format("{0} {1}", button, Model.ButtonClass)  : Model.ButtonClass)").eq(0);
+            element.removeAttr("onClick");
+            element.unbind().click(function (event) {
+                if (!onePageCheckoutEnabled) {
+                    event.preventDefault();
+                }
+                var data = $(form).serializeArray().filter(function (element) {
+                    if (element.name.indexOf("@(Model.Prefix)") != -1) {
+                        element.name = element.name.replace("@(Model.Prefix).", "");
+                    }
+                    return element;
+                });
+
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: '@Url.Action("AddressVerification", "TaxJarAddressValidation")',
+                    data: data,
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.HasAddress) {
+                            if (!data.ShowModel && !data.IsError) {
+                                UpdateAddress(data);
+                            }
+                            else {
+                                confirmDialog(data.Message, UpdateAddress, data);
+                            }
+                        }
+                        else {
+                            SubmitDetail();
+                        }
+                    },
+                    error: function (err) {
+                    }
+                });
+            });
+        });
+    </script>
+}

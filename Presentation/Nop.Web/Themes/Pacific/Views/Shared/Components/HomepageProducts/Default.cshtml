@@ -1,0 +1,36 @@
+﻿@model IList<ProductOverviewModel>
+@if (Model.Count > 0)
+{
+    <div class="product-grid home-page-product-grid">
+        <h2 class="title">
+            @T("Homepage.Products")
+        </h2>
+        <div class="item-grid">
+            @{
+                var featuredProductsBannerFirst = await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = "home_page_featured_products_banner_first" });
+                var featuredProductsBannerLast = await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = "home_page_featured_products_banner_last" }); ;
+            }
+
+            @if (!String.IsNullOrEmpty(await featuredProductsBannerFirst.RenderHtmlContentAsync()))
+            {
+                <div class="item-box banner-box">
+                    @featuredProductsBannerFirst
+                </div>
+            }
+
+            @foreach (var item in Model)
+            {
+                <div class="item-box">
+                    @await Html.PartialAsync("_ProductBox", item)
+                </div>
+            }
+
+            @if (!String.IsNullOrEmpty(await featuredProductsBannerLast.RenderHtmlContentAsync()))
+            {
+                <div class="item-box banner-box">
+                    @featuredProductsBannerLast
+                </div>
+            }
+        </div>
+    </div>
+}

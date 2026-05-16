@@ -1,0 +1,8 @@
+﻿
+.ui-tabs .ui-tabs-panel .product-specs-box td {
+    border-width: 1px 1px 0 0;
+}
+.ui-tabs .ui-tabs-panel .product-specs-box td:first-child {
+    border-right-width: 0;
+    border-left-width: 1px;
+}

@@ -1,0 +1,34 @@
+﻿
+.spc-header:has(.slick-arrow) .title {
+    text-align: right;
+}
+.spc .mobile-navigation select {
+    background-position: left 14px center;
+    padding: 0 15px 0 25px;
+}
+.spc .slick-prev:before {
+    content: "\e90c";
+    padding-right: unset;
+    padding-left: 2px;
+}
+.spc .slick-next:before {
+    content: "\e90b";
+    padding-right: 2px;
+    padding-left: unset;
+}
+.spc-categories .item-box .picture {
+    border-radius: 0 6px 6px 0;
+}
+
+@media all and (min-width: 768px) {
+
+    .spc-header .title {
+        text-align: right;
+    }
+}
+@media all and (min-width: 1345px) {
+
+    .spc-header:has(.slick-arrow) {
+        padding: 13px 20px 13px 15px;
+    }
+}

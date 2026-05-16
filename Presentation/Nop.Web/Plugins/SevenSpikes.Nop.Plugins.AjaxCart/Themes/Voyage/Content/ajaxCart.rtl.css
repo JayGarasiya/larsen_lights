@@ -1,0 +1,38 @@
+
+.ajaxCart .k-window-titlebar .k-button {
+    left: 0;
+    right: auto;
+}
+.productAddedToCartWindowImage {
+    float: right;
+}
+.productAddedToCartWindowDescription {
+    float: left;
+}
+.productAddedToCartWindowSummary {
+    float: left;
+    clear: left;
+}
+.productAddedToCartWindowSummary a:after {
+    transform: scaleX(-1);
+    margin-right: 5px;
+    margin-left: 0;
+}
+.miniProductDetailsView .gallery {
+    float: right;
+}
+.miniProductDetailsView .overview {
+    float: left;
+}
+.miniProductDetailsView .tier-prices {
+    float: left;
+    clear: left;
+}
+.miniProductDetailsView .giftcard {
+    float: left;
+    clear: left;
+}
+.miniProductDetailsView .message-error li {
+    margin-left: 15px;
+    margin-right: 0;
+}

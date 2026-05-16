@@ -1,0 +1,29 @@
+
+.nop-jcarousel .slick-prev {
+    right: 0;
+    left: auto;
+}
+.nop-jcarousel .slick-next {
+    left: 0;
+    right: auto;
+}
+.nop-jcarousel .slick-prev:after {
+    content: "\e915";
+}
+.nop-jcarousel .slick-next:after {
+    content: "\e914";
+}
+
+@media all and (max-width: 479px) {
+
+    .nop-jcarousel .slick-prev {
+        right: 50%;
+        left: auto;
+         transform: translateX(100%);
+    }
+    .nop-jcarousel .slick-next {
+        left: 50%;
+        right: auto;
+        transform: translateX(-100%);
+    }
+}

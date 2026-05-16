@@ -1,0 +1,124 @@
+
+.anywhere-slider {
+	position: relative;
+}
+.anywhere-slider:before {
+    content: "";
+	position: absolute;
+	top: 0; right: 0;
+	bottom: 0; left: 0;
+    height: 50px;
+	width: 50px;
+	margin: auto;
+    border-radius: 100%;
+    border: 2px solid #4e30a4;
+    animation: loader 1s 0s infinite cubic-bezier(.21,.53,.56,.8);
+}
+.anywhere-slider .slick-track {
+    background-color: #f3f3f3;
+}
+.anywhere-slider > .picture-slide {
+    position: relative;
+}
+.anywhere-slider .picture-slide a {
+    display: block;
+}
+.anywhere-slider .picture-slide img {
+    width: 100%;
+	display: none;
+	border-radius: 6px;
+}
+.anywhere-slider .first-slide img {
+    display: block;
+}
+.anywhere-slider .html-slide {
+	display: none;
+}
+.anywhere-slider .first-slide,
+.slick-initialized .html-slide {
+    display: block;
+}
+.anywhere-slider img[data-lazy] {
+	max-height: 1px;
+}
+
+/* NAVIGATION */
+
+.anywhere-slider .slick-arrow {
+	position: absolute;
+    top: 0;
+	bottom: 0;
+	width: 50px;
+	height: 50px;
+    margin: auto;
+	background-color: rgba(255,255,255,.5);
+    font-size: 0;
+	color: #333;
+	transition: 0.2s ease;
+}
+.anywhere-slider .slick-prev {
+	left: 15px;
+	padding-right: 2px;
+}
+.anywhere-slider .slick-prev:before {
+	content: "\e90b";
+	font-size: 15px;
+}
+.anywhere-slider .slick-next {
+	right: 15px;
+	padding-left: 2px;
+}
+.anywhere-slider .slick-next:before {
+	content: "\e90c";
+	font-size: 15px;
+}
+.anywhere-slider .slick-arrow:hover {
+	background-color: rgba(255,255,255,.75);
+}
+.anywhere-slider .slick-dots {
+	display: flex;
+	justify-content: center;
+	height: 0; /**/
+}
+.anywhere-slider .slick-dots li {
+	position: relative;
+	top: -30px;
+	margin: 0 3px;
+}
+.anywhere-slider .slick-dots button {
+	display: block;
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+    background-color: #fff;
+	font-size: 0;
+}
+.anywhere-slider .slick-active button {
+	width: 20px;
+	background-color: #4e30a4;
+}
+
+@media (max-width: 767px) {
+
+	.anywhere-slider .slick-arrow {
+		display: none !important;
+	}
+	.banners .slider-wrapper {
+		margin-top: 10px;
+	}
+	.banners .slider-wrapper:first-child {
+		margin-top: 50px;
+	}
+}
+@media (max-width: 1024px) {
+
+	.anywhere-slider {
+		margin: 0 -2.5%;
+	}
+	.banners .anywhere-slider {
+		margin: 0px 0px;
+	}
+	.anywhere-slider .picture-slide img {
+		border-radius: 0;
+	}
+}

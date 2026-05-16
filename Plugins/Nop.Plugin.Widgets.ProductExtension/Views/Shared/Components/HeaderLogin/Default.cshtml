@@ -1,0 +1,18 @@
+﻿@model HeaderLinksModel
+
+@if (Model.IsAuthenticated)
+{
+    <div class="hedar-login-item">
+        <a href="@Url.RouteUrl(NopRouteNames.Standard.LOGOUT)" class="ico-logout">@T("Account.Logout")</a>
+    </div>
+}
+else
+{
+	var returnUrl = Context.Request.Query.TryGetValue("returnUrl", out var url) && !StringValues.IsNullOrEmpty(url) 
+        ? url.ToString()
+        : webHelper.GetRawUrl(Context.Request);
+
+    <div class="hedar-login-item">
+        <a href="@Url.RouteUrl(NopRouteNames.General.LOGIN, new { returnUrl })" class="ico-account">@T("Account.Login")</a>
+    </div>
+}

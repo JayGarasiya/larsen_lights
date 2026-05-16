@@ -1,0 +1,546 @@
+﻿.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  list-style: none;
+  padding: 0;
+}
+
+.payment-option {
+  flex: 1 1 auto;
+  min-width: 200px;
+  max-width: 250px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.payment-details input {
+  margin-right: 8px;
+}
+
+.error-message {
+  height: 25px;
+  line-height: 26px;
+  text-align: left !important;
+  margin: 0px 5px;
+}
+
+.info {
+  margin-bottom: -25px;
+}
+
+#threeDSMountPoint {
+  align-items: center;
+  display: flex;
+  text-align: right;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.custom-modal {
+  display: none;
+  position: fixed;
+  z-index: 1050;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: -webkit-radial-gradient(50% 50%, ellipse closest-corner, rgba(0, 0, 0, 1) 1%, rgba(0, 0, 0, 0.75) 100%);
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.custom-modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 480px;
+  position: relative;
+  pointer-events: auto;
+  z-index: 1051;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.html-checkout-page .master-wrapper-content {
+  z-index: 99;
+}
+
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.payment-info .info.rotating {
+  display: inherit;
+  pointer-events: none;
+  cursor: default;
+  position: relative;
+}
+
+  .payment-info .info.rotating::before {
+    content: '';
+    background: url('Images/cardLoader.png') no-repeat center;
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    font-size: 40px;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    z-index: 1;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-animation: rotating 2s linear infinite;
+    -moz-animation: rotating 2s linear infinite;
+    -ms-animation: rotating 2s linear infinite;
+    -o-animation: rotating 2s linear infinite;
+    animation: rotating 2s linear infinite;
+  }
+
+.info.rotating .payment-option-container {
+  opacity: 0.3;
+}
+
+#cardholder-error {
+  color: red;
+  font-size: 12px;
+  text-align: left;
+}
+
+.html-checkout-page .payment-info .info tr {
+  margin-bottom: 0px !important;
+  position: relative;
+}
+
+.payment-info .info td > label {
+  display: block;
+  margin: 0 0 7px;
+  line-height: normal;
+  background-color: transparent;
+  font-weight: normal;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  padding: 3px 15px;
+  margin: 0;
+  transform-origin: 0 0;
+  transform: translate3d(0, 0, 0);
+  transition: all .2s ease;
+  pointer-events: none;
+  color: #888;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: normal;
+  border: 0px;
+}
+
+label.save-card {
+  padding-left: 54px !important;
+  margin-top: 3px !important;
+}
+
+.accordion-body {
+  display: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.accordion-item.active .accordion-body {
+  display: block;
+}
+
+.accordion-container {
+  border-radius: 5px;
+}
+
+.accordion-item {
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 10px 40px 0 rgba(62, 57, 107, .1), 0 2px 9px 0 rgba(62, 57, 107, .1);
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.payment-name {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.accordion-arrow {
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+
+.payment-logo-small {
+  margin-right: 10px;
+  width: 40px;
+  height: 30px;
+  background-size: cover;
+  object-fit: contain;
+}
+
+div#googlepay-form, #applepay-form {
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+div#googlepaybutton, div#applepaybutton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accordion-arrow {
+  background-image: url('Images/down.png');
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 40px;
+  height: 40px;
+  transform: rotate(180deg);
+  transition: transform 0.5s ease-in-out;
+}
+
+.accordion-item.active .accordion-arrow {
+  transform: rotate(0deg);
+  transition: transform 0.5s ease-in-out;
+}
+
+
+input[type="checkbox"] {
+  position: relative;
+  width: 45px;
+  height: 25px;
+  -webkit-appearance: none;
+  background: #c6c6c6;
+  outline: 0;
+  border-radius: 20px;
+  transition: .7s;
+}
+
+input:checked[type="checkbox"] {
+  background: #03a9f4;
+}
+
+input[type="checkbox"]:before {
+  content: '';
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  border-radius: 20px;
+  top: 4px;
+  left: 4px;
+  background: white;
+  transform: scale(1.1);
+  transition: .5s;
+}
+
+input:checked[type="checkbox"]:before {
+  left: 24px;
+}
+
+@media only screen and (min-width: 575px) {
+  div#googlepaybutton, div#applepaybutton {
+    width: 50% !important;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 335px) {
+  div#googlepay-form, #applepay-form {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+  }
+}
+
+.save-cards-main label {
+  font-size: 16px;
+}
+
+.save-cards-main .accordion-header {
+  background-color: transparent;
+  padding: 10px 10px 0px 15px;
+}
+
+label.exp-date {
+  margin-left: 12px;
+}
+
+img.card-photo {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.payment-form {
+  display: none;
+  padding: 15px;
+}
+
+  .payment-form.new-card {
+    display: block !important;
+  }
+
+.save-cards-main .card-logo {
+  width: 40px;
+  height: 30px;
+}
+
+  .save-cards-main .card-logo img {
+    width: 100%;
+    height: 100%;
+  }
+
+.save-cards-main .card-information, div#exist-account-number {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.save-cards-main .card-exp-date {
+  margin-left: auto;
+}
+
+#achpayment-form .card-title, .save-cards-main .card-title {
+  text-align: start;
+}
+
+#achpayment-form .save-account-main {
+  text-align: start;
+  margin-bottom: 10px;
+}
+
+#ach-form .save-bank {
+  margin-bottom: 10px;
+  padding: 0 10px;
+}
+
+.card-information .radio-seleceted-card {
+  padding: 10px;
+}
+
+.save-card, .save-account-number {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  text-align: left;
+  padding: 5px 10px;
+  margin-top: 7px;
+}
+
+.apend-active-card, .apend-active-number {
+  border: 0px;
+  background-color: #faebd7;
+}
+
+.cvv-input-number, .saved-card-cvv {
+  height: 30px !important;
+  max-width: 50px;
+  padding: 5px !important;
+  background: #fff !important;
+  color: #888 !important;
+  border: 1px solid #000;
+  border-radius: 5px !important;
+}
+
+div#exist-account-number {
+  padding: 5px 10px;
+}
+
+div#savedCvvError {
+  color: red;
+  font-size: 13px;
+  text-align: center;
+}
+
+form#card-form, form#ach-form {
+  padding: 15px;
+  margin-top: 10px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+}
+
+.card-logo {
+  width: 40px;
+  height: 30px;
+}
+
+  .card-logo img {
+    width: 100%;
+    height: 100%;
+  }
+
+.button-2::before {
+  font-family: 'pacific';
+  font-size: 20px;
+  transition: 0.3s ease;
+  font-weight: normal;
+}
+
+
+/*my account page */
+
+.card-container .card-title label, .account-container .account-title label {
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #444;
+  display: inline-block;
+}
+
+.card-container, .account-container {
+  background: #fff;
+  border-radius: 5px;
+  border: 1px dashed #e6e6e6;
+  margin-bottom: 20px;
+}
+
+  .card-container .card-title, .account-container .account-title {
+    border-bottom: 1px dashed #e6e6e6;
+    padding: 15px;
+  }
+
+  .card-container .card-details, .account-container .save-account-information {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    gap: 15px;
+  }
+
+  .card-container .card-information, .account-container .card-information {
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+    .card-container .card-information .card-logo {
+      margin: 0 auto 10px;
+      width: 50px;
+    }
+
+      .card-container .card-information .card-logo img {
+        height: max-content;
+      }
+
+    .card-container .card-information .card-number {
+      margin: 5px 0;
+    }
+
+.deleteVault button {
+  border: 0;
+  background: transparent;
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  justify-content: center;
+  border-top: 1px solid #eee;
+  padding-top: 5px;
+  color: #c09e6c;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+  .deleteVault button::before {
+    font-size: 15px;
+    color: #000;
+    opacity: 0.3;
+  }
+
+  .deleteVault button:hover::before {
+    opacity: 0.5;
+  }
+
+@media (max-width:480px) {
+  .card-container .card-details, .account-container .save-account-information {
+    grid-template-columns: repeat(1,1fr);
+  }
+
+  .save-cards-main .card-information, div#exist-account-number {
+    gap: 5px;
+  }
+
+  #threeDSMountPoint iframe {
+    width: 100% !important;
+  }
+}
+
+@media (max-width:600px) {
+  .custom-modal-content {
+    width: 90%;
+  }
+}
+
+@media (min-width:481px) and (max-width:767px) {
+  .card-container .card-details, .account-container .save-account-information {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media (min-width:768px) and (max-width:1200px) {
+  .card-container .card-details, .account-container .save-account-information {
+    grid-template-columns: repeat(5,1fr);
+  }
+}
+
+@media (min-width:1261px) and (max-width:1366px) {
+  .card-container .card-details, .account-container .save-account-information {
+    grid-template-columns: repeat(5,1fr);
+  }
+}
+
+@media (max-width:1366px) {
+  .card-container .card-details, .account-container .save-account-information {
+    padding: 10px;
+  }
+}

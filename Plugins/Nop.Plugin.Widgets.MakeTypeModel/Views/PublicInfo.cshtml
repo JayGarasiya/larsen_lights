@@ -1,0 +1,55 @@
+﻿@model AccordionModel
+@{
+    if (Model.MakeModels.Count > 0)
+    {
+        NopHtml.AppendCssFileParts("~/Plugins/Widgets.MakeTypeModel/Content/styles.css");
+    }
+}
+@if (Model.MakeModels.Count > 0)
+{
+    <div class="block-model-products">
+        <div class="title">
+            <strong>@T("Plugins.Widgets.MakeTypeModel.ProductDetails.Accordion")</strong>
+        </div>
+        <div id="accordion" class="accordion-container block">
+            @foreach (var make in Model.MakeModels)
+            {
+                <div class="accordion-title js-accordion-title title">
+                    <span>@make.MakeName</span>
+                </div>
+                <div class="accordion-content">
+                    @foreach (var type in make.TypeModels)
+                    {
+                        <dl class="product-tags-list">
+                            <dt class="type-title">@type.TypeName</dt>
+                            <dd class="type-content">
+                                @foreach (var item in type.ModelsProduct)
+                                {
+                                    <span class="item-title tag">
+                                        <a href="@item.QueryString">
+                                            @item.Name
+                                            @if (!string.IsNullOrEmpty(item.Description))
+                                            {
+                                                <span class="item-content">@item.Description</span>
+                                            }
+                                        </a>
+                                    </span>
+                                }
+                            </dd>
+                        </dl>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    <script asp-location="Footer">
+        $(function () {
+            $(".accordion-content:not(:first-of-type)").css("display", "none");
+            $(".js-accordion-title:first-of-type").addClass("open").next().slideToggle("slow");
+            $(".js-accordion-title").click(function () {
+                $(".open").not(this).removeClass("open").next().slideUp("slow");
+                $(this).toggleClass("open").next().slideToggle("slow");
+            });
+        });
+    </script>
+}

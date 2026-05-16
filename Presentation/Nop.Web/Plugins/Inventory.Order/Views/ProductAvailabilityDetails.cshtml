@@ -1,0 +1,14 @@
+﻿@model string
+
+@{
+    NopHtml.AppendCssFileParts("~/Plugins/Inventory.Order/Content/Css/style.css");
+}
+
+@if (!string.IsNullOrEmpty(Model))
+{
+    <div class="availability-note">
+        <div class="availability-description">
+            <span style="color: #000000">@Model</span>
+        </div>
+    </div>
+}

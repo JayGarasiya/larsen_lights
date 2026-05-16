@@ -1,0 +1,93 @@
+
+.item-box .quantityWrapper span,
+.item-box .quantityWrapper .productQuantityTextBox {
+    float: right;
+}
+.item-box .quantityWrapper .minus {
+    border-radius: 0 2px 2px 0;
+}
+.item-box .quantityWrapper .plus {
+    border-radius: 2px 0 0 2px;
+}
+.ajaxCart .k-window-titlebar-actions {
+    right: unset;
+    left: 18px;
+}
+.productAddedToCartWindowTitle, 
+.miniProductDetailsView .product-name {
+    left: unset;
+    right: 0;
+}
+.productAddedToCartWindowImage {
+    float: right;
+}
+.productAddedToCartWindowDescription {
+    float: left;
+}
+.productAddedToCartWindowSummary *:nth-child(1) {
+    float: right;
+}
+.productAddedToCartWindowSummary *:nth-child(2) {
+    float: left;
+}
+.ajaxCart .item-box { /*item box behavior is determined by the theme*/
+	margin: 0 2% 0 0 !important;
+}
+.ajaxCart .item-box:first-child {
+    margin-left: unset !important;
+    margin-right: 0 !important;    
+}
+.miniProductDetailsView .gallery {
+	float: right;
+}
+.miniProductDetailsView .overview {
+    float: left;
+}
+.miniProductDetailsView .quantityWrapper,
+.miniProductDetailsView .quantityWrapper span,
+.miniProductDetailsView .quantityWrapper .qty-input {
+    float: right;
+}
+.miniProductDetailsView .quantityWrapper .minus {
+    border-radius: 0 2px 2px 0;
+}
+.miniProductDetailsView .quantityWrapper .plus {
+    border-radius: 2px 0 0 2px;
+}
+.miniProductDetailsView .add-to-cart-button {
+    float: left;
+}
+
+
+@media all and (min-width: 768px) {
+
+    .product-list .item-box .ajax-cart-button-wrapper.qty-enabled .quantityWrapper {
+        float: right;
+    }
+    .product-list .item-box .ajax-cart-button-wrapper.qty-enabled button {
+        float: right !important;
+        margin-left: 5px;
+        margin-right: 0;
+    }
+}
+
+@media all and (min-width: 1451px) {
+
+    .product-list .item-box .ajax-cart-button-wrapper.qty-enabled + .additional-buttons {
+        text-align: right;
+    }
+    .product-list .item-box .ajax-cart-button-wrapper.qty-enabled + .additional-buttons > *:first-child {
+        margin-right: 0;
+    }
+}
+
+@media all and (min-width: 1650px) {
+
+    .product-grid .item-box .ajax-cart-button-wrapper.qty-enabled .quantityWrapper,
+    .product-grid .item-box .ajax-cart-button-wrapper.qty-enabled .select-box {
+        float: right;
+    }
+    .product-grid .item-box .ajax-cart-button-wrapper.qty-enabled button {
+        float: left;
+    }
+}

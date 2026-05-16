@@ -1,0 +1,209 @@
+﻿@model ChartsAndTablesSearchModel
+@{
+    const string prefix = "customersmenureportcustomergender-statistics";
+}
+
+<div class="card-body">
+    <div class="chart" style="height: 300px;">
+        <canvas id="@(prefix)-chart" height="300"></canvas>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var osConfig = nopChart.Pie('@T("Plugins.Reports.ChartsAndTables.Customers.Menu.CustomerGender.TitleChart")');
+
+        function changeReportCustomerMenuCustomerGenderStatistics() {
+            var osLabels = [];
+            var osDataSale = [];
+            var backgroundColor = [];
+            var borderColor = [];
+
+            var additionalData = {
+                IsChartReport: true,
+                StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+                EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+                StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+                OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+                PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+                RoleId: $('#@Html.IdFor(model => model.RoleId)').val(),
+                CountryId: $('#@Html.IdFor(model => model.CountryId)').val(),
+            };
+
+            addAntiForgeryToken(additionalData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: '@Url.Action("ReportCustomerMenuCustomerGenderList", "ChartsAndTablesMenu")',
+                data: additionalData,
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        osLabels.push(data[i].Title);
+                        osDataSale.push(data[i].TotalSales);
+                        var bcolour = colour("0.2");
+                        borderColor.push(bcolour.withoutgrade);
+                        backgroundColor.push(bcolour.withgrade);
+                    }
+
+                    if (!window.reportsCustomersTabCustomerGenderStatistics) {
+                        osConfig.data.datasets[0].backgroundColor = backgroundColor;
+                        osConfig.data.datasets[0].borderColor = borderColor;
+                        osConfig.data.labels = osLabels;
+                        osConfig.data.datasets[0].data = osDataSale;
+                        osConfig.data.scales =
+                            window.reportsCustomersTabCustomerGenderStatistics = new Chart(document.getElementById("@prefix-chart").getContext("2d"), osConfig);
+                    } else {
+                        window.reportsCustomersTabCustomerGenderStatistics.config.data.datasets[0].backgroundColor = backgroundColor;
+                        window.reportsCustomersTabCustomerGenderStatistics.config.data.datasets[0].borderColor = borderColor;
+                        window.reportsCustomersTabCustomerGenderStatistics.config.data.labels = osLabels;
+                        window.reportsCustomersTabCustomerGenderStatistics.data.datasets[0].data = osDataSale;
+                        window.reportsCustomersTabCustomerGenderStatistics.update();
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to load statistics.');
+                }
+            });
+        }
+        changeReportCustomerMenuCustomerGenderStatistics();
+
+        $('#btnGenerate').on('click', function () {
+            changeReportCustomerMenuCustomerGenderStatistics();
+        });
+    });
+</script>
+
+<div class="card-body">
+    @{
+        <div class="mb-1">
+            <div id="customersmenureportGender"></div>
+        </div>
+        var gridModel = new DataTablesModel
+        {
+            Name = "customersmenureportcustomergender-grid",
+            UrlRead = new DataUrl("ReportCustomerMenuCustomerGenderList", "ChartsAndTablesMenu", null),
+            SearchButtonId = "btnGenerate",
+            Length = Model.PageSize,
+            LengthMenu = Model.AvailablePageSizes,
+            FooterCallback = "customersmenureportcustomergenderfootercallback",
+            FooterColumns = 2,
+            DrawCallback = "customersmenureportGender",
+            Filters = new List<FilterParameter>
+            {
+                new FilterParameter(nameof(Model.StartDate), typeof(DateTime?)),
+                new FilterParameter(nameof(Model.EndDate), typeof(DateTime?)),
+                new FilterParameter(nameof(Model.StoreId)),
+                new FilterParameter(nameof(Model.OrderStatusId)),
+                new FilterParameter(nameof(Model.PaymentStatusId)),
+                new FilterParameter(nameof(Model.RoleId)),
+                new FilterParameter(nameof(Model.CountryId))
+            },
+            ColumnCollection = new List<ColumnProperty>
+            {
+                new ColumnProperty(nameof(ChartsAndTablesDataModel.Title))
+                {
+                    Title = T("Plugins.Reports.ChartsAndTables.Customers.Menu.CustomerGender.Title").Text
+                },
+                new ColumnProperty(nameof(ChartsAndTablesDataModel.TotalSales))
+                {
+                    Title = T("Plugins.Reports.ChartsAndTables.Customers.Menu.CustomerGender.TotalSales").Text,
+                    Width = "150",
+                    ClassName =  NopColumnClassDefaults.CenterAll,
+                }
+            }
+        };
+
+        var reportTotalSaleSummaryColumnNumber = 1;
+    }
+
+    @await Html.PartialAsync("Table", gridModel)
+
+    <script>
+        function customersmenureportcustomergenderfootercallback(tfoot, data, start, end, display) {
+        //update summary
+        var postData = {
+            StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+            EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+            StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+            OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+            PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+            RoleId: $('#@Html.IdFor(model => model.RoleId)').val(),
+            CountryId: $('#@Html.IdFor(model => model.CountryId)').val(),
+        };
+
+        addAntiForgeryToken(postData);
+
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '@Url.Action("ReportCustomerMenuCustomerGenderAggregates", "ChartsAndTablesMenu")',
+            data: postData,
+            success: function (data, textStatus, jqXHR) {
+                if (data) {
+                    for (var key in data) {
+                        var reportTotalSaleSummary = '<div><strong>@T("Plugins.Reports.ChartsAndTables.Aggrerator.Summary").Text</strong></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.TotalSalesValue").Text: <span>' + data['TotalSalesValue'] + '</span></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.AverageSalesValue").Text: <span>' + data['AverageSalesValue'] + '</span></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MinSalesValue").Text: <span>' + data['MinSalesValue'] + '</span></div>' +
+                            '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MaxSalesValue").Text: <span>' + data['MaxSalesValue'] + '</span></div>'
+                        var reportTotalSaleColumn = $('#customersmenureportcustomergender-grid').DataTable().column(@(reportTotalSaleSummaryColumnNumber));
+                        $(reportTotalSaleColumn.footer()).html(reportTotalSaleSummary);
+                    }
+                }
+            }
+        });
+    }
+    </script>
+    <script>
+        function customersmenureportGender(settings, json) {
+            const $container = $('#customersmenureportGender');
+
+            if ($container.children('button').length === 0) {
+                const reportTotalSaleColumn = $('#customersmenureportcustomergender-grid').DataTable();
+                const pageTitle = document.title || 'Exported Report';
+
+                // Create buttons instance but do not auto-append the full container
+                const buttons = new $.fn.dataTable.Buttons(reportTotalSaleColumn, {
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: '@T("Admin.Common.ExportToExcel").Text',
+                            title: pageTitle,
+                            filename: pageTitle,
+                            className: 'btn btn-secondary',
+                            exportOptions: {
+                            columns: ':visible',
+                            format: {
+                                header: function (data, columnIdx) {
+                                    const columnHeaders = [];
+                                    $('#customersmenureportcustomergender-grid thead th').each(function () {
+                                        columnHeaders.push($(this).text().trim());
+                                    });
+                                    return columnHeaders[columnIdx] || data;
+                                },
+                                body: function (data, row, column) {
+                                    const num = parseFloat(data);
+                                    return !isNaN(num) && isFinite(num) ? num.toFixed(2) : data;
+                                },
+                                footer: function (data, row, column) {
+                                    return null;
+                                }
+                                }
+                            }
+                        }
+                    ]
+                });
+
+                // Get the button element only (not the wrapping div)
+                const $button = buttons.container().find('button');
+                $container.append($button);
+
+                // Register the button to DataTable
+                reportTotalSaleColumn.buttons().container(); // activate the buttons internally
+            }
+        }
+    </script>
+</div>

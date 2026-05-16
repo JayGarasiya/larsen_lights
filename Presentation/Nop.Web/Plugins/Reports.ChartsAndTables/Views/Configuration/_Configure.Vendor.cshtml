@@ -1,0 +1,78 @@
+@model ConfigurationModel
+
+<div class="card-body">
+    <div class="card card-default">
+        <div class="card-header">
+            @T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Vendor.CommonInfo")
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="VendorTopNChart_OverrideForStore" asp-input="VendorTopNChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="VendorTopNChart" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="VendorTopNChart" />
+                    <span asp-validation-for="VendorTopNChart"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card card-default">
+        <div class="card-header">
+            @T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Vendor.DetailReports")
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="VendorDetailVendorReport_OverrideForStore" asp-input="VendorDetailVendorReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="VendorDetailVendorReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="VendorDetailVendorReport" />
+                    <span asp-validation-for="VendorDetailVendorReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="VendorDetailProductReport_OverrideForStore" asp-input="VendorDetailProductReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="VendorDetailProductReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="VendorDetailProductReport" />
+                    <span asp-validation-for="VendorDetailProductReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="VendorDetailCategoryReport_OverrideForStore" asp-input="VendorDetailCategoryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="VendorDetailCategoryReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="VendorDetailCategoryReport" />
+                    <span asp-validation-for="VendorDetailCategoryReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="VendorDetailManufacturerReport_OverrideForStore" asp-input="VendorDetailManufacturerReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="VendorDetailManufacturerReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="VendorDetailManufacturerReport" />
+                    <span asp-validation-for="VendorDetailManufacturerReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="VendorDetailShareVendorReport_OverrideForStore" asp-input="VendorDetailShareVendorReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="VendorDetailShareVendorReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="VendorDetailShareVendorReport" />
+                    <span asp-validation-for="VendorDetailShareVendorReport"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

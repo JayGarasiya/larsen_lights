@@ -1,0 +1,58 @@
+﻿@model ModelProductModel
+
+<div class="card-body">
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="Name" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Name" asp-required="true" />
+            <span asp-validation-for="Name"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="Description" />
+        </div>
+        <div class="col-md-9">
+            <nop-textarea asp-for="Description" />
+            <span asp-validation-for="Description"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="MakeName" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="MakeName" asp-items="Model.AvailableMakes" />
+            <span asp-validation-for="MakeName"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="TypeName" />
+        </div>
+        <div class="col-md-9">
+            <nop-select asp-for="TypeName" asp-items="Model.AvailableTypes" />
+            <span asp-validation-for="TypeName"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="Published" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Published" />
+            <span asp-validation-for="Published"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3">
+            <nop-label asp-for="DisplayOrder" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="DisplayOrder" />
+            <span asp-validation-for="DisplayOrder"></span>
+        </div>
+    </div>
+</div>

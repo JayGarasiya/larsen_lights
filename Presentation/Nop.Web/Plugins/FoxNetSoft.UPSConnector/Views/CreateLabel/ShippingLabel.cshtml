@@ -1,0 +1,32 @@
+﻿@model FoxNetSoft.Plugin.Shipping.UPSConnector.Models.ShippingLabelModel
+@{
+    Layout = "_AdminLayout";
+    //page title
+    ViewBag.PageTitle = @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabel").Text;
+
+    NopHtml.SetActiveMenuItemSystemName("Orders");
+}
+<form asp-controller="UPSConnectorAdmin" asp-action="ShippingLabel" asp-route-orderId="@Model.OrderId" asp-route-shipmentId="@Model.ShipmentId" method="post" id="upsconnector-form">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.ShippingLabel")
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a asp-controller="Order" asp-action="Edit" asp-route-id="@Model.OrderId">@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.BackToOrder") #@(Model.OrderId)</a>
+                @if (Model.ShipmentId > 0)
+                {
+                    <i class="fa fa-arrow-circle-left"></i>
+                    <a asp-controller="Order" asp-action="ShipmentDetails" asp-route-id="@Model.ShipmentId">@T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.BackToShipment") #@(Model.ShipmentId)</a>
+                }
+            </small>
+        </h1>
+        <div class="float-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.FoxNetSoft.Plugin.Shipping.UPSConnector.CreateLabel")
+            </button>
+        </div>
+    </div>
+    @await Html.PartialAsync("~/Plugins/FoxNetSoft.UPSConnector/Views/CreateLabel/_CreateOrUpdate.cshtml", Model)
+</form>
+

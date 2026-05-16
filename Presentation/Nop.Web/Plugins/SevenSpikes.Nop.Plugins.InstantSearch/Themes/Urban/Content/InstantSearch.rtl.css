@@ -1,0 +1,32 @@
+﻿
+*{
+	direction: rtl;
+}
+input.instant-search-busy {
+	background-position: left 2% center !important;
+}
+span.search-box-text,
+.search-box select,
+.instant-search-item .img-block {
+	float: right;
+}
+.search-box select {
+	margin-right: -1px;
+	margin-left: 0;
+}
+.instantSearch .k-no-data {
+    text-align: right;
+}
+.instant-search-item .detail {
+	margin-right: 90px;
+	margin-left: 0;
+	text-align: right;
+}
+.search-box .custom-select {
+	float: right;
+	text-align: right;
+}
+.search-box .custom-select-text {
+	right: 0;
+	left: auto;
+}

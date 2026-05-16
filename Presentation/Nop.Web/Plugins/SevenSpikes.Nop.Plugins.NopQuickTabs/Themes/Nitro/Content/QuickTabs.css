@@ -1,0 +1,11 @@
+﻿
+.full-description {
+	margin-bottom: 0;
+}
+.product-specs-box,
+.product-specs-box .data-table {
+	margin: 0;
+}
+.product-reviews-page .message-error {
+    margin: 0 0 10px;
+}

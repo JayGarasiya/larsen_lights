@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "Auto Assign Guest Orders",
+  "SystemName": "FoxNetSoft.AssignGuestOrders",
+  "Version": "1.00",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "FoxNetSoft",
+  "DisplayOrder": 1,
+  "FileName": "FoxNetSoft.Plugin.Misc.AssignGuestOrders.dll",
+  "Description": "This is Anti Bot protection."
+}

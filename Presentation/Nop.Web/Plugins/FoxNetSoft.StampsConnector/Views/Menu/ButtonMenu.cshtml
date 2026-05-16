@@ -1,0 +1,176 @@
+﻿@model FoxNetSoft.Plugin.Misc.StampsConnector.Models.StampsMenuModel
+@{
+    Layout = "";
+}
+@*shipping labels for selected (Pdf). We don't use GET approach because it's limited to 2K-4K chars and won't work for large number of entities*@
+<form asp-controller="StampsAdmin" asp-action="RePrintShippingLabel" method="post" id="stamps-reprint-shippinglabels-pdf-form">
+    <nop-antiforgery-token />
+    <input type="hidden" id="shipmentId" name="shipmentId" value="@Model.ShipmentId" />
+    <input type="hidden" id="orderId" name="orderId" value="@Model.OrderId" />
+</form>
+<form asp-controller="StampsAdmin" asp-action="RePrintReturnLabel" method="post" id="stamps-reprint-returnlabels-pdf-form">
+    <nop-antiforgery-token />
+    <input type="hidden" id="shipmentId" name="shipmentId" value="@Model.ShipmentId" />
+    <input type="hidden" id="orderId" name="orderId" value="@Model.OrderId" />
+</form>
+
+<div class="btn-group" id="stampsexpressbuttongroup">
+    <button type="button" class="btn bg-purple">
+        <i class="fa fa-file-pdf-o"></i>
+        @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.NameButtonGroup")
+    </button>
+    <button type="button" class="btn bg-purple dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        <span class="caret"></span>
+        <span class="sr-only">&nbsp;</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        @if (Model.AllowCreatingLabel)
+        {
+            <text>
+            <li>
+                <button onclick="fnsstampscreatelabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.GenerateLabel")
+                </button>
+            </li>
+            </text>
+        }
+        @if (Model.AllowPeprintShippingLabel)
+        {
+            <text>
+            <li>
+                <button onclick="fnsstampsreprintlabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.RePrintLabel")
+                </button>
+            </li>
+            </text>
+        }
+        @if (Model.AllowCheckDeliveryConfirmation)
+        {
+            <text>
+            <li>
+                <button onclick="fnsstampscheckdeliveryconfirmation();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.CheckDeliveryConfirmation")
+                </button>
+            </li>
+            </text>
+        }
+        @if (Model.AllowVoidLabel)
+        {
+            <text>
+            <li>
+                <button onclick="fnsstampsvoidlabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.VoidLabel")
+                </button>
+            </li>
+            </text>
+        }
+        @if (Model.AllowReturnLabel)
+        {
+            <text>
+            <li>
+                <button onclick="fnsstampsreturnlabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.ReturnLabel")
+                </button>
+            </li>
+            </text>
+        }
+        @if (Model.AllowPeprintReturnLabel)
+        {
+            <text>
+            <li>
+                <button onclick="fnsstampsreprintreturnlabel();return false;">
+                        @T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Menu.RePrintReturnLabel")
+                </button>
+            </li>
+            </text>
+        }
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#stampsexpressbuttongroup').prependTo($('.content-header').find('.float-right'));
+    });
+
+    function fnsstampscreatelabel() {
+        location.href = '@Html.Raw(Url.Action("ShippingLabel", "StampsAdmin", new { orderId = Model.OrderId, shipmentId = Model.ShipmentId }))';
+        return false;
+    }
+
+    function fnsstampsreturnlabel() {
+        location.href = '@Html.Raw(Url.Action("ReturnLabel", "StampsAdmin", new { orderId = Model.OrderId, shipmentId = Model.ShipmentId }))';
+    }
+
+    function fnsstampsreprintlabel() {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Question2")'))
+            return;
+        $('#stamps-reprint-shippinglabels-pdf-form').submit();
+    }
+
+    function fnsstampsreprintreturnlabel() {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Question5")'))
+            return;
+        $('#stamps-reprint-returnlabels-pdf-form').submit();
+    }
+    function fnsstampscheckdeliveryconfirmation() {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Question3")'))
+            return;
+        var postData = {
+            orderId: @(Model.OrderId),
+            shipmentId: @(Model.ShipmentId)
+        };
+        addAntiForgeryToken(postData);
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: '@Url.Action("CheckDeliveryConfirmation", "StampsAdmin")',
+            data: postData,
+            dataType: 'json',
+            success: function (data) {
+                if (data.message.length>0){
+                    alert(data.message);
+                }
+                location.reload(true);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to check delivery confirmation.');
+            }
+        });
+    }
+
+    function fnsstampsvoidlabel()
+    {
+        if (!confirm('@T("Admin.FoxNetSoft.Plugin.Misc.StampsConnector.Question4")'))
+            return;
+        var postData = {
+            orderId: @(Model.OrderId),
+            shipmentId: @(Model.ShipmentId)
+        };
+        addAntiForgeryToken(postData);
+        $.ajax({
+            cache: false,
+            type: 'POST',
+            url: '@Url.Action("VoidLabel", "StampsAdmin")',
+            data: postData,
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    //alert('Good');
+                    //return false;
+                }
+                if (data.message.length>0){
+                    alert(data.message);
+                }
+                if (data.url.length>0){
+                    location=data.url;
+                }
+                else {
+                    location.reload(true);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert('Failed to void indicium.');
+            }
+        });
+    }
+</script> 

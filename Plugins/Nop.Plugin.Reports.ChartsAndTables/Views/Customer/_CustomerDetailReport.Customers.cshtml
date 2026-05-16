@@ -1,0 +1,236 @@
+﻿@model ChartsAndTablesSearchModel
+@{
+    const string prefix = "customersdetailreportcustomer-statistics";
+}
+
+<div class="chart" style="height: 300px;">
+    <canvas id="@(prefix)-chart" height="300"></canvas>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var osConfig = nopChart.LineBarMix('@T("Plugins.Reports.ChartsAndTables.Customers.Detail.Customer.TitleChart")',
+            '@T("Plugins.Reports.ChartsAndTables.Customers.Detail.Customer.Quantity")',
+            '@T("Plugins.Reports.ChartsAndTables.Customers.Detail.Customer.Totalsales")');
+
+        function changeReportCustomerDetailCustomerStatistics() {
+            var osLabels = [];
+            var osDataQue = [];
+            var osDataSale = [];
+            var backgroundColor = [];
+            var borderColor = [];
+
+            var additionalData = {
+                IsChartReport: true,
+                CustomerId: $('#@Html.IdFor(model => model.CustomerId)').val(),
+                StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+                EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+                StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+                OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+                PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+                SearchGroupId: $('#@Html.IdFor(model => model.SearchGroupId)').val(),
+                CategoryId: $('#@Html.IdFor(model => model.CategoryId)').val(),
+                ManufacturerId: $('#@Html.IdFor(model => model.ManufacturerId)').val(),
+                VendorId: $('#@Html.IdFor(model => model.VendorId)').val(),
+            };
+
+            addAntiForgeryToken(additionalData);
+
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: '@Url.Action("ReportCustomerDetailCustomerList", "ChartsAndTablesDetail")',
+                data: additionalData,
+                success: function (data) {
+
+                    for (var i = 0; i < data.length; i++) {
+                        osLabels.push(data[i].Title);
+                        osDataSale.push(data[i].TotalSales);
+                        osDataQue.push(data[i].Quantity);
+                        var bcolour = colour("0.2");
+                        borderColor.push(bcolour.withoutgrade);
+                        backgroundColor.push(bcolour.withgrade);
+                    }
+
+                    if (!window.reportsCustomersTabCustomerStatistics) {
+                        osConfig.data.datasets[1].backgroundColor = backgroundColor;
+                        osConfig.data.datasets[1].borderColor = borderColor;
+                        osConfig.data.labels = osLabels;
+                        osConfig.data.datasets[1].data = osDataSale;
+                        osConfig.data.datasets[0].data = osDataQue;
+                        osConfig.data.scales =
+                            window.reportsCustomersTabCustomerStatistics = new Chart(document.getElementById("@prefix-chart").getContext("2d"), osConfig);
+                    } else {
+                        window.reportsCustomersTabCustomerStatistics.config.data.datasets[1].backgroundColor = backgroundColor;
+                        window.reportsCustomersTabCustomerStatistics.config.data.datasets[1].borderColor = borderColor;
+                        window.reportsCustomersTabCustomerStatistics.config.data.labels = osLabels;
+                        window.reportsCustomersTabCustomerStatistics.data.datasets[1].data = osDataSale;
+                        window.reportsCustomersTabCustomerStatistics.config.data.datasets[0].data = osDataQue;
+                        window.reportsCustomersTabCustomerStatistics.update();
+                    }
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to load statistics.');
+                }
+            });
+        }
+        changeReportCustomerDetailCustomerStatistics();
+
+        $('#btnGenerate').on('click', function () {
+            changeReportCustomerDetailCustomerStatistics();
+        });
+    });
+</script>
+
+@{
+    <div class="mb-1">
+        <div id="customerdetailreportCustomers"></div>
+    </div>
+    var gridModel = new DataTablesModel
+    {
+        Name = "customersdetailreportcustomer-grid",
+        UrlRead = new DataUrl("ReportCustomerDetailCustomerList", "ChartsAndTablesDetail", null),
+        SearchButtonId = "btnGenerate",
+        Length = Model.PageSize,
+        LengthMenu = Model.AvailablePageSizes,
+        FooterCallback = "customersdetailreportcustomerfootercallback",
+        FooterColumns = 3,
+        DrawCallback = "customerdetailreportCustomers",
+        Filters = new List<FilterParameter>
+        {
+            new FilterParameter(nameof(Model.StartDate), typeof(DateTime?)),
+            new FilterParameter(nameof(Model.EndDate), typeof(DateTime?)),
+            new FilterParameter(nameof(Model.CustomerId)),
+            new FilterParameter(nameof(Model.StoreId)),
+            new FilterParameter(nameof(Model.OrderStatusId)),
+            new FilterParameter(nameof(Model.PaymentStatusId)),
+            new FilterParameter(nameof(Model.SearchGroupId)),
+            new FilterParameter(nameof(Model.CategoryId)),
+            new FilterParameter(nameof(Model.ManufacturerId)),
+            new FilterParameter(nameof(Model.VendorId))
+        },
+        ColumnCollection = new List<ColumnProperty>
+        {
+            new ColumnProperty(nameof(ChartsAndTablesDataModel.Title))
+            {
+                Title = T("Plugins.Reports.ChartsAndTables.Customers.Detail.Customer.Title").Text
+            },
+            new ColumnProperty(nameof(ChartsAndTablesDataModel.TotalSales))
+            {
+                Title = T("Plugins.Reports.ChartsAndTables.Customers.Detail.Customer.TotalSales").Text,
+                Width = "150",
+                ClassName =  NopColumnClassDefaults.CenterAll,
+            },
+            new ColumnProperty(nameof(ChartsAndTablesDataModel.Quantity))
+            {
+                Title = T("Plugins.Reports.ChartsAndTables.Customers.Detail.Customer.Quantity").Text,
+                Width = "150",
+                ClassName =  NopColumnClassDefaults.CenterAll
+            }
+        }
+    };
+
+    var reportTotalSaleSummaryColumnNumber = 1;
+    var reportQuantitySummaryColumnNumber = 2;
+}
+
+@await Html.PartialAsync("Table", gridModel)
+
+<script>
+    function customersdetailreportcustomerfootercallback(tfoot, data, start, end, display) {
+    //update summary
+    var postData = {
+        CustomerId: $('#@Html.IdFor(model => model.CustomerId)').val(),
+        StartDate: $('#@Html.IdFor(model => model.StartDate)').val(),
+        EndDate: $('#@Html.IdFor(model => model.EndDate)').val(),
+        StoreId: $('#@Html.IdFor(model => model.StoreId)').val(),
+        OrderStatusId: $('#@Html.IdFor(model => model.OrderStatusId)').val(),
+        PaymentStatusId: $('#@Html.IdFor(model => model.PaymentStatusId)').val(),
+        SearchGroupId: $('#@Html.IdFor(model => model.SearchGroupId)').val(),
+        CategoryId: $('#@Html.IdFor(model => model.CategoryId)').val(),
+        ManufacturerId: $('#@Html.IdFor(model => model.ManufacturerId)').val(),
+        VendorId: $('#@Html.IdFor(model => model.VendorId)').val(),
+    };
+
+    addAntiForgeryToken(postData);
+
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url: '@Url.Action("ReportCustomerDetailCustomerAggregates", "ChartsAndTablesDetail")',
+        data: postData,
+        success: function (data, textStatus, jqXHR) {
+            if (data) {
+                for (var key in data) {
+                    var reportTotalSaleSummary = '<div><strong>@T("Plugins.Reports.ChartsAndTables.Aggrerator.Summary").Text</strong></div>' +
+                        '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.TotalSalesValue").Text: <span>' + data['TotalSalesValue'] + '</span></div>' +
+                        '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.AverageSalesValue").Text: <span>' + data['AverageSalesValue'] + '</span></div>' +
+                        '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MinSalesValue").Text: <span>' + data['MinSalesValue'] + '</span></div>' +
+                        '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MaxSalesValue").Text: <span>' + data['MaxSalesValue'] + '</span></div>'
+                    var reportTotalSaleColumn = $('#customersdetailreportcustomer-grid').DataTable().column(@(reportTotalSaleSummaryColumnNumber));
+                    $(reportTotalSaleColumn.footer()).html(reportTotalSaleSummary);
+
+                    var reportQuantitySummary = '<div><strong>@T("Plugins.Reports.ChartsAndTables.Aggrerator.Summary").Text</strong></div>' +
+                        '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.TotalQuantity").Text: <span>' + data['TotalQuantity'] + '</span></div>' +
+                        '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.AverageQuantity").Text: <span>' + data['AverageQuantity'] + '</span></div>' +
+                        '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MinQuantity").Text: <span>' + data['MinQuantity'] + '</span></div>' +
+                        '<div>@T("Plugins.Reports.ChartsAndTables.Aggrerator.MaxQuantity").Text: <span>' + data['MaxQuantity'] + '</span></div>'
+                    var reportQuantityColumn = $('#customersdetailreportcustomer-grid').DataTable().column(@(reportQuantitySummaryColumnNumber));
+                    $(reportQuantityColumn.footer()).html(reportQuantitySummary);
+                }
+            }
+        }
+    });
+}
+</script>
+<script>
+    function customerdetailreportCustomers(settings, json) {
+        const $container = $('#customerdetailreportCustomers');
+
+        if ($container.children('button').length === 0) {
+            const reportTotalSaleColumn = $('#customersdetailreportcustomer-grid').DataTable();
+            const pageTitle = document.title || 'Exported Report';
+
+            // Create buttons instance but do not auto-append the full container
+            const buttons = new $.fn.dataTable.Buttons(reportTotalSaleColumn, {
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: '@T("Admin.Common.ExportToExcel").Text',
+                        title: pageTitle,
+                        filename: pageTitle,
+                        className: 'btn btn-secondary',
+                        exportOptions: {
+                        columns: ':visible',
+                        format: {
+                            header: function (data, columnIdx) {
+                                const columnHeaders = [];
+                                $('#customersdetailreportcustomer-grid thead th').each(function () {
+                                    columnHeaders.push($(this).text().trim());
+                                });
+                                return columnHeaders[columnIdx] || data;
+                            },
+                            body: function (data, row, column) {
+                                const num = parseFloat(data);
+                                return !isNaN(num) && isFinite(num) ? num.toFixed(2) : data;
+                            },
+                            footer: function (data, row, column) {
+                                return null;
+                            }
+                            }
+                        }
+                    }
+                ]
+            });
+
+            // Get the button element only (not the wrapping div)
+            const $button = buttons.container().find('button');
+            $container.append($button);
+
+            // Register the button to DataTable
+            reportTotalSaleColumn.buttons().container(); // activate the buttons internally
+        }
+    }
+</script>

@@ -1,0 +1,92 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Copyright>Copyright © nopCommercePlus</Copyright>
+		<Company>nopCommercePlus</Company>
+		<Authors>Forefront Infotech</Authors>
+		<OutputPath>$(SolutionDir)\Presentation\Nop.Web\Plugins\Misc.InvoicePDF</OutputPath>
+		<OutDir>$(OutputPath)</OutDir>
+		<!--Set this parameter to true to get the dlls copied from the NuGet cache to the output of your project.
+    You need to set this parameter to true if your plugin has a nuget package 
+    to ensure that the dlls copied from the NuGet cache to the output of your project-->
+		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Areas\Admin\Views\MessageTemplate\Edit.cshtml" />
+		<None Remove="Areas\Admin\Views\MessageTemplate\_CreateOrUpdate.cshtml" />
+		<None Remove="Areas\Admin\Views\_ViewImports.cshtml" />
+		<None Remove="Content\billing.png" />
+		<None Remove="Content\calendar.png" />
+		<None Remove="Content\delivery-status.png" />
+		<None Remove="Content\due-stamp.png" />
+		<None Remove="Content\fold.png" />
+		<None Remove="Content\mail.png" />
+		<None Remove="Content\paid-stamp.png" />
+		<None Remove="Content\phone-call.png" />
+		<None Remove="logo.png" />
+		<None Remove="plugin.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Areas\Admin\Views\MessageTemplate\Edit.cshtml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Areas\Admin\Views\MessageTemplate\_CreateOrUpdate.cshtml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Areas\Admin\Views\_ViewImports.cshtml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\Images\billing.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\Images\calendar.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\Images\delivery-status.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\Images\due-stamp.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\Images\fold.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\Images\mail.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\Images\paid-stamp.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Content\Images\phone-call.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="logo.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="plugin.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Views\Configure.cshtml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Views\_ViewImports.cshtml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ClearPluginAssemblies Include="$(SolutionDir)\Build\ClearPluginAssemblies.proj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="$(SolutionDir)\Presentation\Nop.Web\Nop.Web.csproj" />
+	</ItemGroup>
+	<!-- This target execute after "Build" target -->
+	<Target Name="NopTarget" AfterTargets="Build">
+		<!-- Delete unnecessary libraries from plugins path -->
+		<MSBuild Projects="@(ClearPluginAssemblies)" Properties="PluginPath=$(OutDir)" Targets="NopClear" />
+	</Target>
+</Project>

@@ -1,0 +1,78 @@
+﻿
+.productTabs {
+	background-color: #fff;
+    padding-top: 10px;
+}
+.productTabs .data-table {
+	margin-bottom: 0;
+}
+.productTabs .data-table a {
+    font-size: 14px;
+}
+.productTabs .inputs:before,
+.productTabs .inputs:after {
+    display: none;
+}
+.productTabs .inputs input,
+.productTabs .inputs textarea {
+    height: 50px;
+    border-width: 2px;
+}
+.productTabs .full-description {
+	margin-bottom: 0;
+}
+.productTabs .product-specs-box .title,
+.productTabs .write-review .title {
+    display: none;
+}
+.productTabs .product-reviews {
+	margin-top: 0;
+	background-color: transparent;
+}
+.productTabs .write-review .form {
+    padding: 0 20px 50px;
+}
+.productTabs .product-review-list .title {
+	background-color: #f8f8f8;
+	padding: 28px 0 32px;
+}
+.productTabs .contact-page .form-fields {
+    margin: 0 0 30px;
+}
+.productTabs .contact-page .button-1 {
+    position: static;
+}
+/*review links are hidden*/
+.product-reviews-overview {
+	display: none;
+}
+
+
+@media all and (min-width: 769px) {
+
+	.productTabs {
+		background-color: transparent;
+	}
+}
+@media all and (min-width: 1281px) {
+
+	.productTabs .inputs label {
+		padding: 0;
+		text-align: center;
+	}
+	.productTabs .product-reviews {
+		margin-bottom: -50px;
+	}
+}
+@media all and (min-width: 1347px) {
+
+	.product-essential {
+		margin-bottom: 60px;
+	}
+}
+@media all and (min-width: 1901px) {
+
+	.product-essential {
+		margin-bottom: 80px;
+	}
+}

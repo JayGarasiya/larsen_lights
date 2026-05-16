@@ -1,0 +1,39 @@
+﻿@model ConfigurationModel
+@{
+    Layout = "_ConfigurePlugin";
+}
+
+@await Component.InvokeAsync(typeof(StoreScopeConfigurationViewComponent))
+<form asp-controller="OnePageCheckout" asp-action="Configure" method="post">
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="EnableOnePageCheckout_OverrideForStore" asp-input="EnableOnePageCheckout" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="EnableOnePageCheckout" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="EnableOnePageCheckout" />
+                        <span asp-validation-for="EnableOnePageCheckout"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-override-store-checkbox asp-for="LoginRegisterPopUp_OverrideForStore" asp-input="LoginRegisterPopUp" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                        <nop-label asp-for="LoginRegisterPopUp" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="LoginRegisterPopUp" />
+                        <span asp-validation-for="LoginRegisterPopUp"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <button type="submit" name="save" class="btn btn-primary">@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

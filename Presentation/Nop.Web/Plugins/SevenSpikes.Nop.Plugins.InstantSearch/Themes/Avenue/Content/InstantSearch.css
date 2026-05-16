@@ -1,0 +1,203 @@
+﻿/*
+* Copyright 2014 Seven Spikes Ltd. All rights reserved. (http://www.nop-templates.com)
+* http://www.nop-templates.com/t/licensinginfo
+*/
+
+/* SEARCH BOX */
+
+.store-search-box form:after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.store-search-box span.search-box-text {
+	display: block;
+	position: relative;
+	padding: 0;
+}
+.store-search-box input.instant-search-busy {
+	background-image: none !important;
+}
+.store-search-box .search-box-select {
+	float: left;
+    width: 120px;
+	border-right: none;
+}
+.store-search-box span.narrow {
+	float: right;
+	width: calc(100% - 120px);
+}
+.store-search-box span.narrow:before {
+	content: ""; /*border replacement*/
+	position: absolute;
+	top: 0; left: 0;
+	width: 1px; height: 50px;
+	background-color: #ebebeb;
+}
+.store-search-box input.narrow {
+	border-left: none;
+}
+
+/* RESET */
+
+.search-box-text .k-clear-value {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    right: 45px;
+	background-color: #fff;
+	padding: 0 5px;
+    cursor: pointer;
+}
+.search-box-text:focus +.k-clear-value {
+	background-color: #f6f6f6;
+}
+.search-box-text .k-clear-value:after {
+    content: "\e905";
+    font-size: 10px;
+    color: #555;
+}
+.search-box-text .k-clear-value.k-hidden {
+    display: none;
+}
+.search-box-text .k-clear-value .k-icon {
+    display: none;
+}
+
+/* AUTOCOMPLETE */
+
+.instantSearch {
+	position: static !important;
+	width: auto !important;
+	height: auto !important;
+	clear: both;
+	background-color: #fff;
+	padding-top: 20px;
+}
+.k-child-animation-container {
+    width: 100% !important;
+    height: auto !important;
+}
+.instantSearch .k-list-container {
+	position: relative !important;
+	width: auto !important;
+	height: auto !important;
+}
+.instantSearch .k-popup:before { /*fix for disappearing search results when clicking inside the "padding" area of the dropdown*/
+    content: "";
+    position: absolute;
+    left: -20px;
+    right: -20px;
+    top: -20px;
+    bottom: -20px;
+}
+.instantSearch .k-list {
+	position: relative;
+    height: auto !important;
+}
+.instantSearch .k-list-item {
+	display: none;
+}
+.instantSearch .k-list-item:nth-child(1),
+.instantSearch .k-list-item:nth-child(2),
+.instantSearch .k-list-item:nth-child(3) {
+	display: block;
+}
+.instantSearch .k-list-item:first-child {
+	padding-top: 0;
+}
+.instantSearch .k-list-item:last-child {
+	padding-bottom: 0;
+}
+.instantSearch .k-list-item +.k-list-item {
+	margin-top: 20px;
+}
+
+.instantSearch .k-list-item.k-hover img,
+.instantSearch .k-list-item.k-focus img {
+	opacity: 1;
+}
+.instantSearch .k-list-item.k-hover .title,
+.instantSearch .k-list-item.k-focus .title {
+	font-weight: 400;
+	color: #222;
+}
+.instant-search-item {
+	overflow: hidden;
+	cursor: pointer;
+}
+.instant-search-item .picture {
+	float: left;
+	width: 80px;
+	text-align: center;
+	font-size: 0;
+}
+.instant-search-item .picture img {
+	opacity: 0.9;
+	transition: all 0.2s ease;
+}
+.instant-search-item .details {
+	position: relative;
+	float: right;
+	width: calc(100% - 100px);
+}
+.instant-search-item .details .title {
+	margin: 0 0 10px;
+	transition: all 0.1s ease;
+}
+.instant-search-item .details .sku {
+    margin: 0 0 5px;
+}
+.instant-search-item .details .price {
+	font-size: 16px;
+	font-weight: 400;
+	color: #f61853;
+}
+/*.instant-search-item .remove {
+	position: absolute;
+	top: 24px;
+	right: -1px;
+	height: 30px;
+	font-size: 0;
+	line-height: 30px;
+	cursor: pointer;
+}
+.instant-search-item .remove:after {
+	content: "\e082";
+	font-size: 18px;
+	color: #222;
+}*/
+.store-search-box .all-results {
+	display: block;
+	position: relative;
+	margin-top: 20px;
+	outline: 1px solid transparent;
+	background-color: #222;
+	padding: 12px 20px;
+	text-align: center;
+	color: #fff;
+	text-transform: uppercase;
+	transition: all 0.2s ease;
+}
+.store-search-box .all-results:hover {
+	outline-color: #222;
+}
+
+
+@media all and (min-width: 1201px) {
+
+	.instantSearch {
+		padding-top: 25px;
+	}
+	.instantSearch .k-popup:before {
+		left: -30px;
+		right: -30px;
+		top: -30px;
+		bottom: -30px;
+	}
+	.store-search-box .all-results {
+		margin-top: 25px;
+	}
+}

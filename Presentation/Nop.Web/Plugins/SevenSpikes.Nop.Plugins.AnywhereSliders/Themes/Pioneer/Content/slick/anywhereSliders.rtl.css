@@ -1,0 +1,21 @@
+
+/* NAVIGATION */
+
+.anywhere-slider .slick-prev {
+	right: 15px;
+	left: unset;
+	padding-right: unset;
+	padding-left: 2px;
+}
+.anywhere-slider .slick-prev:before {
+	content: "\e90c";
+}
+.anywhere-slider .slick-next {
+	right: unset;
+	left: 15px;
+	padding-right: 2px;
+	padding-left: unset;
+}
+.anywhere-slider .slick-next:before {
+	content: "\e90b";
+}

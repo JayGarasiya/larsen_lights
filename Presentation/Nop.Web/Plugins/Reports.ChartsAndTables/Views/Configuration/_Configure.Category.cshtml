@@ -1,0 +1,78 @@
+@model ConfigurationModel
+
+<div class="card-body">
+    <div class="card card-default">
+        <div class="card-header">
+            @T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Category.CommonInfo")
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="CategoryTopNChart_OverrideForStore" asp-input="CategoryTopNChart" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="CategoryTopNChart" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="CategoryTopNChart" />
+                    <span asp-validation-for="CategoryTopNChart"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card card-default">
+        <div class="card-header">
+            @T("Plugins.Reports.ChartsAndTables.Configuration.Tab.Category.DetailReports")
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="CategoryDetailCategoryReport_OverrideForStore" asp-input="CategoryDetailCategoryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="CategoryDetailCategoryReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="CategoryDetailCategoryReport" />
+                    <span asp-validation-for="CategoryDetailCategoryReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="CategoryDetailProductReport_OverrideForStore" asp-input="CategoryDetailProductReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="CategoryDetailProductReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="CategoryDetailProductReport" />
+                    <span asp-validation-for="CategoryDetailProductReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="CategoryDetailManufacturerReport_OverrideForStore" asp-input="CategoryDetailManufacturerReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="CategoryDetailManufacturerReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="CategoryDetailManufacturerReport" />
+                    <span asp-validation-for="CategoryDetailManufacturerReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="CategoryDetailVendorReport_OverrideForStore" asp-input="CategoryDetailVendorReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="CategoryDetailVendorReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="CategoryDetailVendorReport" />
+                    <span asp-validation-for="CategoryDetailVendorReport"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-3">
+                    <nop-override-store-checkbox asp-for="CategoryDetailShareCategoryReport_OverrideForStore" asp-input="CategoryDetailShareCategoryReport" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="CategoryDetailShareCategoryReport" />
+                </div>
+                <div class="col-md-9">
+                    <nop-editor asp-for="CategoryDetailShareCategoryReport" />
+                    <span asp-validation-for="CategoryDetailShareCategoryReport"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

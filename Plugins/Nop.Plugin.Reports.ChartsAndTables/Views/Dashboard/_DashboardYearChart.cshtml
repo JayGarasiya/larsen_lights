@@ -1,0 +1,117 @@
+﻿@{
+    const string prefix = "dashboardyear-statistics";
+    const string hideCardAttributeName = "HideDashboardYearStatisticsPanel";
+    var hideCard = await genericAttributeService.GetAttributeAsync<bool>(await workContext.GetCurrentCustomerAsync(), hideCardAttributeName);
+}
+
+<div class="card card-primary card-outline @if (hideCard){<text>collapsed-card</text>}" id="@(prefix)-card">
+    <div class="card-header with-border">
+        <h3 class="card-title">
+            <i class="fas fa-chart-line"></i>
+            @T("Plugins.Reports.ChartsAndTables.Dashboard.DashboardYearStatistics")
+        </h3>
+        <div class="card-tools float-right">
+            <button class="btn btn-xs btn-info btn-flat" @if (hideCard) { <text> disabled="disabled" </text> } data-chart-role="toggle-chart" data-chart-period="refresh"><i class="fas fa-sync-alt" style="padding-left: 5px"></i></button>
+            <button type="button" class="btn btn-tool margin-l-10" data-card-widget="collapse">
+                @if (hideCard)
+                {
+                    <text><i class="fas fa-plus"></i></text>
+                }
+                else
+                {
+                    <text><i class="fas fa-minus"></i></text>
+                }
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="chart" style="height: 300px;">
+            <canvas id="@(prefix)-chart" height="300"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var osCurrentPeriod;
+
+        $('#@(prefix)-card').on('click', 'button[data-card-widget="collapse"]', function () {
+            var collapsed = !$('#@(prefix)-card').hasClass('collapsed-card');
+            saveUserPreferences('@(Url.Action("SavePreference", "Preferences"))', '@hideCardAttributeName', collapsed);
+
+            if (!collapsed) {
+                $('#@(prefix)-card button[data-chart-role="toggle-chart"]').removeAttr('disabled');
+                if (!osCurrentPeriod) {
+                    $('#@(prefix)-card button[data-chart-role="toggle-chart"][data-chart-period="refresh"]').trigger('click');
+                }
+            } else {
+                $('#@(prefix)-card button[data-chart-role="toggle-chart"]').attr('disabled', 'disabled');
+            }
+        });
+
+        var osConfig = nopChart.DoubleLine('@T("Plugins.Reports.ChartsAndTables.Dashboard.Current")', '@T("Plugins.Reports.ChartsAndTables.Dashboard.Previous")');
+
+        function changeOsPeriod(period) {
+            var osLabels = getMonthNames("@((await workContext.GetWorkingLanguageAsync()).LanguageCulture)", "short");;
+            var osDataPre = [];
+            var osDataCur = [];
+
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: "@Url.Action("LoadDashboardYearStatistics", "ChartsAndTablesMenu")",
+                success: function (data, textStatus, jqXHR) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].Interval == "Previous") {
+                            osDataPre.push(data[i].TotalSales);
+                        }
+                        else {
+                            osDataCur.push(data[i].TotalSales);
+                        }
+                    }
+                    osConfig.data.labels = osLabels;
+                    var rgbcurColor = colour("0.6");
+                    var rgbpreColor = colour("0.6");
+
+                    if (!window.dashboardYearStatistics) {
+                        osConfig.data.datasets[0].data = osDataCur;
+                        osConfig.data.datasets[0].backgroundColor = rgbcurColor.withgrade;
+                        osConfig.data.datasets[0].borderColor = rgbcurColor.withgrade;
+                        osConfig.data.datasets[1].data = osDataPre;
+                        osConfig.data.datasets[1].backgroundColor = rgbpreColor.withgrade;
+                        osConfig.data.datasets[1].borderColor = rgbpreColor.withgrade;
+                        osConfig.data.scales =
+                            window.dashboardYearStatistics = new Chart(document.getElementById("@prefix-chart").getContext("2d"), osConfig);
+                    } else {
+                        window.dashboardYearStatistics.config.data.datasets[0].data = osDataCur;
+                        window.dashboardYearStatistics.config.data.datasets[0].backgroundColor = rgbcurColor.withgrade;
+                        window.dashboardYearStatistics.config.data.datasets[0].borderColor = rgbcurColor.withgrade;
+                        window.dashboardYearStatistics.config.data.datasets[1].data = osDataPre;
+                        window.dashboardYearStatistics.config.data.datasets[1].backgroundColor = rgbpreColor.withgrade;
+                        window.dashboardYearStatistics.config.data.datasets[1].borderColor = rgbpreColor.withgrade;
+                        window.dashboardYearStatistics.update();
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $("#loadOrderStatisticsAlert").click();
+                }
+            });
+        }
+
+        $('#@(prefix)-card button[data-chart-role="toggle-chart"]').on('click', function () {
+            var period = $(this).attr('data-chart-period');
+            osCurrentPeriod = period;
+            changeOsPeriod(period);
+            $('#@(prefix)-card button[data-chart-role="toggle-chart"]').removeClass('bg-light-blue');
+            $(this).addClass('bg-light-blue');
+        });
+
+        @if (!hideCard)
+        {
+
+            <text>
+                $('#@(prefix)-card button[data-chart-role="toggle-chart"][data-chart-period="refresh"]').trigger('click');
+            </text>
+        }
+    });
+</script>

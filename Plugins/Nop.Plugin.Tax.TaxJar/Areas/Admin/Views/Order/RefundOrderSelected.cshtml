@@ -1,0 +1,816 @@
+@model RefundOrderModel
+
+@{
+    Layout = "_AdminLayout";
+
+    //page title
+    ViewBag.PageTitle = Model.OnlineRefund ? T("Plugins.Tax.TaxJar.Fields.RefundSelected").Text : T("Plugins.Tax.TaxJar.Fields.RefundSelectedOffline").Text;
+    //active menu item (system name)
+    NopHtml.SetActiveMenuItemSystemName("Orders");
+}
+
+@{
+    var itemChangeScriptsBuilder = new StringBuilder();
+    var itemChangeHandlerFuncName = $"item_change_handler_{Model.Id}";
+    @if (Model.PricesIncludeTax)
+    {
+        itemChangeScriptsBuilder.AppendFormat("$('#{0}').on('input propertychange paste', function(){{{1}();}});\n", Html.IdFor(model => model.OrderShippingInclTaxValue), itemChangeHandlerFuncName);
+        if (Model.PaymentMethodAdditionalFeeInclTaxValue > decimal.Zero)
+        {
+            itemChangeScriptsBuilder.AppendFormat("$('#{0}').on('input propertychange paste', function(){{{1}();}});\n", Html.IdFor(model => model.PaymentMethodAdditionalFeeInclTaxValue), itemChangeHandlerFuncName);
+
+        }
+    }
+    else
+    {
+        itemChangeScriptsBuilder.AppendFormat("$('#{0}').on('input propertychange paste', function(){{{1}();}});\n", Html.IdFor(model => model.OrderShippingExclTaxValue), itemChangeHandlerFuncName);
+        if (Model.PaymentMethodAdditionalFeeExclTaxValue > decimal.Zero)
+        {
+            itemChangeScriptsBuilder.AppendFormat("$('#{0}').on('input propertychange paste', function(){{{1}();}});\n", Html.IdFor(model => model.PaymentMethodAdditionalFeeExclTaxValue), itemChangeHandlerFuncName);
+        }
+    }
+}
+
+<form asp-controller="TaxJar" asp-action="RefundOrderSelected" asp-route-orderId="@Model.Id" asp-route-online="@Model.OnlineRefund" method="post" id="refund-order-form">
+    <div class="content-header clearfix">
+        <h1 class="float-left">
+            @(Model.OnlineRefund ? T("Plugins.Tax.TaxJar.Fields.RefundSelected") : T("Plugins.Tax.TaxJar.Fields.RefundSelectedOffline")) - @Model.CustomOrderNumber
+            <small>
+                <i class="fas fa-arrow-circle-left"></i>
+                <a asp-controller="Order" asp-action="Edit" asp-route-id="@Model.Id">@T("Admin.Orders.Address.BackToOrder")</a>
+            </small>
+        </h1>
+        <div class="float-right">
+            &nbsp;
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="form-horizontal">
+                <div class="cards-group">
+                    <div class="card card-default">
+                        <div class="card-header">
+                            @string.Format(T("Plugins.Tax.TaxJar.Fields.RefundSelected.OrderInfo").Text, Model.Id)
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                @foreach (var itemGroup in Model.Items)
+                                {
+                                    var item = itemGroup.Item;
+                                    itemChangeScriptsBuilder.AppendFormat("$('#orderitems_{0}_0').on('click', function(){{{1}();}});\n", item.Id, itemChangeHandlerFuncName);
+                                    if (Model.PricesIncludeTax)
+                                    {
+                                        itemChangeScriptsBuilder.AppendFormat("$('#pvUnitPriceInclTax{0}').on('input propertychange paste', function(){{{1}();}});\n", item.Id, itemChangeHandlerFuncName);
+                                    }
+                                    else
+                                    {
+                                        itemChangeScriptsBuilder.AppendFormat("$('#pvUnitPriceExclTax{0}').on('input propertychange paste', function(){{{1}();}});\n", item.Id, itemChangeHandlerFuncName);
+                                    }
+                                    itemChangeScriptsBuilder.AppendFormat("$('#pvQuantity{0}').on('input propertychange paste', function(){{{1}();}});\n", item.Id, itemChangeHandlerFuncName);
+                                    <script>
+                                        $(document).ready(function () {
+                                            toggleOrderItemEdit@(item.Id)(false, false);
+                                        });
+                                    </script>
+
+                                    <script>
+                                        function toggleOrderItemEdit@(item.Id)(editMode, change) {
+                                            if (editMode) {
+                                                $('#pnlEditPvUnitPrice_lable@(item.Id)').hideElement();
+                                                $('#pnlEditPvUnitPrice@(item.Id)').showElement();
+                                                $('#pnlEditPvQuantity_lable@(item.Id)').hideElement();
+                                                $('#pnlEditPvQuantity@(item.Id)').showElement();
+                                                $('#pnlEditPvPrice_lable@(item.Id)').hideElement();
+                                                $('#pnlEditPvPrice@(item.Id)').showElement();
+                                                $("#pvPriceInclTax@(item.Id), #pvPriceExclTax@(item.Id)").prop('disabled', false);
+                                            } else {
+                                                $('#pnlEditPvUnitPrice_lable@(item.Id)').showElement();
+                                                $('#pnlEditPvUnitPrice@(item.Id)').hideElement();
+                                                $('#pnlEditPvQuantity_lable@(item.Id)').showElement();
+                                                $('#pnlEditPvQuantity@(item.Id)').hideElement();
+                                                $('#pnlEditPvPrice_lable@(item.Id)').showElement();
+                                                $('#pnlEditPvPrice@(item.Id)').hideElement();
+                                                if (change) {
+                                                    @if(Model.PricesIncludeTax)
+                                                    {
+                                                        <text>
+                                                            var value = $("#pvUnitPriceInclTax_value@(item.Id)").val();
+                                                            var qty = $("#pvQuantity_value@(item.Id)").val();
+                                                            $("#pvUnitPriceInclTax@(item.Id)").val(value);
+                                                            $("#pvQuantity@(item.Id)").val(qty);
+                                                            $("#pvPriceInclTax@(item.Id)").val(value * qty);
+                                                        </text>
+                                                    }
+                                                    else
+                                                    {
+                                                        <text>
+                                                            var value = $("#pvUnitPriceExclTax_value@(item.Id)").val();
+                                                            var qty = $("#pvQuantity_value@(item.Id)").val();
+                                                            $("#pvUnitPriceExclTax@(item.Id)").val(value);
+                                                            $("#pvQuantity@(item.Id)").val(qty);
+                                                            $("#pvPriceExclTax@(item.Id)").val(value * qty);
+                                                        </text>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </script>
+                                    foreach (var itemAssociated in itemGroup.AssociatedItems)
+                                    {
+                                        itemChangeScriptsBuilder.AppendFormat("$('#orderitems_{0}_{1}').on('click', function(){{{2}();}});\n", item.Id, itemAssociated.Id, itemChangeHandlerFuncName);
+                                        if (Model.PricesIncludeTax)
+                                        {
+                                            itemChangeScriptsBuilder.AppendFormat("$('#pvUnitPriceInclTax{0}_{1}').on('input propertychange paste', function(){{{2}();}});\n", item.Id, itemAssociated.Id, itemChangeHandlerFuncName);
+                                        }
+                                        else
+                                        {
+                                            itemChangeScriptsBuilder.AppendFormat("$('#pvUnitPriceExclTax{0}_{1}').on('input propertychange paste', function(){{{2}();}});\n", item.Id, itemAssociated.Id, itemChangeHandlerFuncName);
+                                        }
+                                        itemChangeScriptsBuilder.AppendFormat("$('#pvQuantity{0}_{1}').on('input propertychange paste', function(){{{2}();}});\n", item.Id, itemAssociated.Id, itemChangeHandlerFuncName);
+                                        <script>
+                                            $(document).ready(function () {
+                                                @(item.Id)_@(itemAssociated.Id)(false, false);
+                                            });
+                                        </script>
+
+                                        <script>
+                                            function toggleOrderItemEdit@(item.Id)_@(itemAssociated.Id)(editMode, change) {
+                                                if (editMode) {
+                                                    $('#pnlEditPvUnitPrice_lable@(item.Id)_@(itemAssociated.Id)').hideElement();
+                                                    $('#pnlEditPvUnitPrice@(item.Id)_@(itemAssociated.Id)').showElement();
+                                                    $('#pnlEditPvQuantity_lable@(item.Id)_@(itemAssociated.Id)').hideElement();
+                                                    $('#pnlEditPvQuantity@(item.Id)_@(itemAssociated.Id)').showElement();
+                                                    $('#pnlEditPvPrice_lable@(item.Id)_@(itemAssociated.Id)').hideElement();
+                                                    $('#pnlEditPvPrice@(item.Id)_@(itemAssociated.Id)').showElement();
+                                                    if ($("#orderitems_@(item.Id)_0").is(':checked'))
+                                                        $("#orderitems_@(item.Id)_0").prop('checked', false).change();
+                                                    $("#pvPriceInclTax@(item.Id)_@(itemAssociated.Id), #pvPriceExclTax@(item.Id)_@(itemAssociated.Id)").prop('disabled', false);
+                                                } else {
+                                                    $('#pnlEditPvUnitPrice_lable@(item.Id)_@(itemAssociated.Id)').showElement();
+                                                    $('#pnlEditPvUnitPrice@(item.Id)_@(itemAssociated.Id)').hideElement();
+                                                    $('#pnlEditPvQuantity_lable@(item.Id)_@(itemAssociated.Id)').showElement();
+                                                    $('#pnlEditPvQuantity@(item.Id)_@(itemAssociated.Id)').hideElement();
+                                                    $('#pnlEditPvPrice_lable@(item.Id)_@(itemAssociated.Id)').showElement();
+                                                    $('#pnlEditPvPrice@(item.Id)_@(itemAssociated.Id)').hideElement();
+                                                    if (change) {
+                                                        @if(Model.PricesIncludeTax)
+                                                        {
+                                                            <text>
+                                                                var value = $("#pvUnitPriceInclTax_value@(item.Id)_@(itemAssociated.Id)").val();
+                                                                var qty = $("#pvQuantity_value@(item.Id)_@(itemAssociated.Id)").val();
+                                                                $("#pvUnitPriceInclTax@(item.Id)_@(itemAssociated.Id)").val(value);
+                                                                $("#pvQuantity@(item.Id)_@(itemAssociated.Id)").val(qty);
+                                                                $("#pvPriceInclTax@(item.Id)_@(itemAssociated.Id)").val(value * qty);
+                                                            </text>
+                                                        }
+                                                        else
+                                                        {
+                                                            <text>
+                                                                var value = $("#pvUnitPriceExclTax_value@(item.Id)_@(itemAssociated.Id)").val();
+                                                                var qty = $("#pvQuantity_value@(item.Id)_@(itemAssociated.Id)").val();
+                                                                $("#pvUnitPriceExclTax@(item.Id)_@(itemAssociated.Id)").val(value);
+                                                                $("#pvQuantity@(item.Id)_@(itemAssociated.Id)").val(qty);
+                                                                $("#pvPriceExclTax@(item.Id)_@(itemAssociated.Id)").val(value * qty);
+                                                            </text>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </script>
+                                    }
+                                }
+                                <div class="col-md-12 dataTables_wrapper" style="overflow-x: auto;">
+                                    <table class="table table-hover table-bordered" id="refund-selected">
+                                        <thead>
+                                            <tr>
+                                                @if(Model.HasAssociatedProducts)
+                                                {
+                                                    <th />
+                                                }
+                                                <th />
+                                                <th>
+                                                    @T("Admin.Orders.Products.Picture")
+                                                </th>
+                                                <th>
+                                                    @T("Admin.Orders.Products.ProductName")
+                                                </th>
+                                                <th>
+                                                    @T("Admin.Orders.Products.Price")
+                                                </th>
+                                                <th>
+                                                    @T("Admin.Orders.Products.Quantity")
+                                                </th>
+                                                <th>
+                                                    @T("Admin.Orders.Products.Total")
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var itemGroup in Model.Items)
+                                            {
+                                                var item = itemGroup.Item;
+                                                <tr class="parent-item">
+                                                    @if(Model.HasAssociatedProducts)
+                                                    {
+                                                        <td class="child-control text-center" style="width: 2%;">
+                                                            @if (itemGroup.HasAssociatedProducts)
+                                                            {
+                                                                <i aria-hidden="true" class="fas fa-caret-right"></i>
+                                                            }
+                                                        </td>
+                                                    }
+                                                    <td class="text-center" style="width: 3%;">
+                                                        <input id="orderitems_@(item.Id)_0" name="orderitems_@(item.Id)_0" value="@item.Id" type="checkbox" class="checkboxGroups" onchange="toggleOrderItemEditTrigger('#orderitems_@(item.Id)_0', toggleOrderItemEdit@(item.Id))">
+                                                    </td>
+                                                    <td class="text-center" style="width: 5%;">
+                                                        <img src="@item.PictureThumbnailUrl" alt="" title="" />
+                                                    </td>
+                                                    <td style="width: 55%;" class="text-left">
+                                                        <em><a asp-controller="Product" asp-action="Edit" asp-route-id="@item.ProductId">@item.ProductName</a></em>
+                                                        @if (!string.IsNullOrEmpty(item.Sku))
+                                                            {
+                                                        <p>
+                                                            <strong>@T("Admin.Orders.Products.SKU")</strong><text>:</text>
+                                                            @item.Sku
+                                                        </p>
+                                                            }
+                                                        @if (!string.IsNullOrEmpty(item.VendorName))
+                                                            {
+                                                        <p>
+                                                            <strong>@T("Admin.Orders.Products.Vendor")</strong><text>:</text>
+                                                            @item.VendorName
+                                                        </p>
+                                                            }
+                                                    </td>
+                                                    <td style="width: 10%;" class="text-center">
+                                                        <div id="pnlEditPvUnitPrice_lable@(item.Id)">
+                                                            @if (Model.PricesIncludeTax)
+                                                                {
+                                                                    <div>@Html.Raw(item.UnitPriceInclTax)</div>
+                                                                    <input id="pvUnitPriceExclTax_value@(item.Id)" type="hidden" value="@item.UnitPriceInclTaxValue" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div>@Html.Raw(item.UnitPriceExclTax)</div>
+                                                                    <input id="pvUnitPriceExclTax_value@(item.Id)" type="hidden" value="@item.UnitPriceExclTaxValue" />
+                                                                }
+                                                        </div>
+                                                        <div id="pnlEditPvUnitPrice@(item.Id)">
+                                                            @if (Model.PricesIncludeTax)
+                                                            {
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-8 offset-md-2">
+                                                                        <input name="pvUnitPriceInclTax@(item.Id)" type="text" value="@item.UnitPriceInclTaxValue" id="pvUnitPriceInclTax@(item.Id)" class="form-control input-sm decimal" />
+                                                                    </div>
+                                                                </div>
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                        $("#pvUnitPriceInclTax@(item.Id)").on('input change', function (e) {
+                                                                            var value = $(this).val();
+                                                                            var qty = $("#pvQuantity@(item.Id)").val();
+                                                                            $("#pvPriceInclTax@(item.Id)").val(value * qty);
+                                                                        });
+
+                                                                        $("#pvQuantity@(item.Id)").on('input change', function (e) {
+                                                                            var value = $(this).val();
+                                                                            var unitPrice = $("#pvUnitPriceInclTax@(item.Id)").val();
+                                                                            $("#pvPriceInclTax@(item.Id)").val(value * unitPrice);
+                                                                        });
+                                                                    });
+                                                                </script>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-8 offset-md-2">
+                                                                        <input name="pvUnitPriceExclTax@(item.Id)" type="text" value="@item.UnitPriceExclTaxValue" id="pvUnitPriceExclTax@(item.Id)" class="form-control input-sm decimal" />
+                                                                    </div>
+                                                                </div>
+                                                                <script>
+                                                                    $(document).ready(function() {
+                                                                        $("#pvUnitPriceExclTax@(item.Id)").on('input change', function (e) {
+                                                                            var value = $(this).val();
+                                                                            var qty = $("#pvQuantity@(item.Id)").val();
+                                                                            $("#pvPriceExclTax@(item.Id)").val(value * qty);
+                                                                        });
+
+                                                                        $("#pvQuantity@(item.Id)").on('input change', function (e) {
+                                                                            var value = $(this).val();
+                                                                            var unitPrice = $("#pvUnitPriceExclTax@(item.Id)").val();
+                                                                            $("#pvPriceExclTax@(item.Id)").val(value * unitPrice);
+                                                                        });
+                                                                    });
+                                                                </script>
+                                                            }
+                                                        </div>
+                                                    </td>
+                                                    <td style="width: 5%;" class="text-center">
+                                                        <div id="pnlEditPvQuantity_lable@(item.Id)">
+                                                            @item.Quantity
+                                                            <input id="pvQuantity_value@(item.Id)" type="hidden" value="@item.Quantity" />
+                                                        </div>
+                                                        <div id="pnlEditPvQuantity@(item.Id)">
+                                                            <div class="form-group row">
+                                                                <div class="col-md-8 offset-md-2">
+                                                                    <input name="pvQuantity@(item.Id)" type="text" value="@item.Quantity" id="pvQuantity@(item.Id)" class="form-control input-sm number" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td style="width: 10%;" class="text-center">
+                                                        <div id="pnlEditPvPrice_lable@(item.Id)">
+                                                            @if (Model.PricesIncludeTax)
+                                                            {
+                                                                <div>@Html.Raw(item.SubTotalInclTax)</div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div>@Html.Raw(item.SubTotalExclTax)</div>
+                                                            }
+                                                        </div>
+                                                        <div id="pnlEditPvPrice@(item.Id)">
+                                                            @if (Model.PricesIncludeTax)
+                                                            {
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-8 offset-md-2">
+                                                                        <input name="pvPriceInclTax@(item.Id)" type="text" value="@item.SubTotalInclTaxValue" id="pvPriceInclTax@(item.Id)" class="form-control input-sm decimal" />
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="form-group row">
+                                                                    <div class="col-md-8 offset-md-2">
+                                                                        <input name="pvPriceExclTax@(item.Id)" type="text" value="@item.SubTotalExclTaxValue" id="pvPriceExclTax@(item.Id)" class="form-control input-sm decimal" />
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                                if (itemGroup.HasAssociatedProducts)
+                                                {
+                                                    <tr class="child-item" style="display:none;">
+                                                        <td colspan="@(itemGroup.HasAmountMissMatch ? 4 : 7)">
+                                                            <table class="table table-hover table-bordered mt-3">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th />
+                                                                        <th>
+                                                                            @T("Admin.Orders.Products.Picture")
+                                                                        </th>
+                                                                        <th>
+                                                                            @T("Admin.Orders.Products.ProductName")
+                                                                        </th>
+                                                                        <th>
+                                                                            @T("Admin.Orders.Products.Price")
+                                                                        </th>
+                                                                        <th>
+                                                                            @T("Admin.Orders.Products.Quantity")
+                                                                        </th>
+                                                                        <th>
+                                                                            @T("Admin.Orders.Products.Total")
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @foreach (var itemAssociated in itemGroup.AssociatedItems)
+                                                                    {
+                                                                        <tr>
+                                                                            <td class="text-center" style="width: 3%;">
+                                                                                <input id="orderitems_@(item.Id)_@(itemAssociated.Id)" name="orderitems_@(item.Id)_@(itemAssociated.Id)" value="@(itemAssociated.Id)" type="checkbox" class="checkboxGroups" onchange="toggleOrderItemEditTrigger('#orderitems_@(item.Id)_@(itemAssociated.Id)', toggleOrderItemEdit@(item.Id)_@(itemAssociated.Id))">
+                                                                            </td>
+                                                                            <td class="text-center" style="width: 5%;">
+                                                                                <img src="@itemAssociated.PictureThumbnailUrl" alt="" title="" />
+                                                                            </td>
+                                                                            <td style="width: 45%;" class="text-left">
+                                                                                <em><a asp-controller="Product" asp-action="Edit" asp-route-id="@itemAssociated.ProductId">@itemAssociated.ProductName</a></em>
+                                                                                @if (!string.IsNullOrEmpty(itemAssociated.Sku))
+                                                                                {
+                                                                                    <p>
+                                                                                        <strong>@T("Admin.Orders.Products.SKU")</strong><text>:</text>
+                                                                                        @itemAssociated.Sku
+                                                                                    </p>
+                                                                                }
+                                                                                @if (!string.IsNullOrEmpty(itemAssociated.VendorName))
+                                                                                {
+                                                                                    <p>
+                                                                                        <strong>@T("Admin.Orders.Products.Vendor")</strong><text>:</text>
+                                                                                        @itemAssociated.VendorName
+                                                                                    </p>
+                                                                                }
+                                                                            </td>
+                                                                            <td style="width: 10%;" class="text-center">
+                                                                                <div id="pnlEditPvUnitPrice_lable@(item.Id)_@(itemAssociated.Id)">
+                                                                                    @if (Model.PricesIncludeTax)
+                                                                                    {
+                                                                                        <div>@Html.Raw(itemAssociated.UnitPriceInclTax)</div>
+                                                                                        <input id="pvUnitPriceInclTax_value@(item.Id)_@(itemAssociated.Id)" type="hidden" value="@itemAssociated.UnitPriceInclTaxValue" />
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <div>@Html.Raw(itemAssociated.UnitPriceExclTax)</div>
+                                                                                        <input id="pvUnitPriceExclTax_value@(item.Id)_@(itemAssociated.Id)" type="hidden" value="@itemAssociated.UnitPriceExclTaxValue" />
+                                                                                    }
+                                                                                </div>
+                                                                                <div id="pnlEditPvUnitPrice@(item.Id)_@(itemAssociated.Id)">
+                                                                                    @if (Model.PricesIncludeTax)
+                                                                                    {
+                                                                                        <div class="form-group row">
+                                                                                            <div class="col-md-8 offset-md-2">
+                                                                                                <input name="pvUnitPriceInclTax@(item.Id)_@(itemAssociated.Id)" type="text" value="@itemAssociated.UnitPriceInclTaxValue" id="pvUnitPriceInclTax@(item.Id)_@(itemAssociated.Id)" class="form-control input-sm decimal" />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <script>
+                                                                                            $(document).ready(function() {
+                                                                                                $("#pvUnitPriceInclTax@(item.Id)_@(itemAssociated.Id)").on('input change', function (e) {
+                                                                                                    var value = $(this).val();
+                                                                                                    var qty = $("#pvQuantity@(item.Id)_@(itemAssociated.Id)").val();
+                                                                                                    $("#pvPriceInclTax@(item.Id)_@(itemAssociated.Id)").val(value * qty);
+                                                                                                });
+
+                                                                                                $("#pvQuantity@(item.Id)_@(itemAssociated.Id)").on('input change', function (e) {
+                                                                                                    var value = $(this).val();
+                                                                                                    var unitPrice = $("#pvUnitPriceInclTax@(item.Id)_@(itemAssociated.Id)").val();
+                                                                                                    $("#pvPriceInclTax@(item.Id)_@(itemAssociated.Id)").val(value * unitPrice);
+                                                                                                });
+                                                                                            });
+                                                                                        </script>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <div class="form-group row">
+                                                                                            <div class="col-md-8 offset-md-2">
+                                                                                                <input name="pvUnitPriceExclTax@(item.Id)_@(itemAssociated.Id)" type="text" value="@itemAssociated.UnitPriceExclTaxValue" id="pvUnitPriceExclTax@(item.Id)_@(itemAssociated.Id)" class="form-control input-sm decimal" />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <script>
+                                                                                            $(document).ready(function() {
+                                                                                                $("#pvUnitPriceExclTax@(item.Id)_@(itemAssociated.Id)").on('input change', function (e) {
+                                                                                                    var value = $(this).val();
+                                                                                                    var qty = $("#pvQuantity@(item.Id)_@(itemAssociated.Id)").val();
+                                                                                                    $("#pvPriceExclTax@(item.Id)_@(itemAssociated.Id)").val(value * qty);
+                                                                                                });
+
+                                                                                                $("#pvQuantity@(item.Id)_@(itemAssociated.Id)").on('input change', function (e) {
+                                                                                                    var value = $(this).val();
+                                                                                                    var unitPrice = $("#pvUnitPriceExclTax@(item.Id)_@(itemAssociated.Id)").val();
+                                                                                                    $("#pvPriceExclTax@(item.Id)_@(itemAssociated.Id)").val(value * unitPrice);
+                                                                                                });
+                                                                                            });
+                                                                                        </script>
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td style="width: 5%;" class="text-center">
+                                                                                <div id="pnlEditPvQuantity_lable@(item.Id)_@(itemAssociated.Id)">
+                                                                                    @itemAssociated.Quantity
+                                                                                    <input id="pvQuantity_value@(item.Id)_@(itemAssociated.Id)" type="hidden" value="@itemAssociated.Quantity" />
+                                                                                </div>
+                                                                                <div id="pnlEditPvQuantity@(item.Id)_@(itemAssociated.Id)">
+                                                                                    <div class="form-group row">
+                                                                                        <div class="col-md-8 offset-md-2">
+                                                                                            <input name="pvQuantity@(item.Id)_@(itemAssociated.Id)" type="text" value="@itemAssociated.Quantity" id="pvQuantity@(item.Id)_@(itemAssociated.Id)" class="form-control input-sm number" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td style="width: 10%;" class="text-center">
+                                                                                <div id="pnlEditPvPrice_lable@(item.Id)_@(itemAssociated.Id)">
+                                                                                    @if (Model.PricesIncludeTax)
+                                                                                    {
+                                                                                        <div>@Html.Raw(itemAssociated.SubTotalInclTax)</div>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <div>@Html.Raw(itemAssociated.SubTotalExclTax)</div>
+                                                                                    }
+                                                                                </div>
+                                                                                <div id="pnlEditPvPrice@(item.Id)_@(itemAssociated.Id)">
+                                                                                    @if (Model.PricesIncludeTax)
+                                                                                    {
+                                                                                        <div class="form-group row">
+                                                                                            <div class="col-md-8 offset-md-2">
+                                                                                                <input name="pvPriceInclTax@(item.Id)_@(itemAssociated.Id)" type="text" value="@itemAssociated.SubTotalInclTaxValue" id="pvPriceInclTax@(item.Id)_@(itemAssociated.Id)" class="form-control input-sm decimal" />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <div class="form-group row">
+                                                                                            <div class="col-md-8 offset-md-2">
+                                                                                                <input name="pvPriceExclTax@(item.Id)_@(itemAssociated.Id)" type="text" value="@itemAssociated.SubTotalExclTaxValue" id="pvPriceExclTax@(item.Id)_@(itemAssociated.Id)" class="form-control input-sm decimal" />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                        @if (itemGroup.HasAmountMissMatch)
+                                                        {
+                                                            <td colspan="3">
+                                                                <div class="row text-center">
+                                                                    <span class="field-validation-error mx-auto mb-5">
+                                                                        @Html.Raw(string.Format(T("Plugins.Tax.TaxJar.Fields.RefundSelected.HasAmountMissMatch").Text, itemGroup.AssociatedProductsTotal, itemGroup.AmountMissMatch))
+                                                                    </span>
+                                                                    <span>
+                                                                        @Html.Raw(item.AttributeInfo.Replace("<br />", "<br /><br />"))
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">&nbsp;</div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <div class="col-md-7">
+                                            <nop-label asp-for="OrderSubtotalInclTaxValue" />
+                                        </div>
+                                        <div class="col-md-5">
+                                            @if (Model.PricesIncludeTax)
+                                            {
+                                                <nop-editor asp-for="OrderSubtotalInclTaxValue" />
+                                            }
+                                            else
+                                            {
+                                                <nop-editor asp-for="OrderSubtotalExclTaxValue" />
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-7">
+                                            <nop-label asp-for="OrderSubTotalDiscountInclTaxValue" />
+                                        </div>
+                                        <div class="col-md-5">
+                                            @if (Model.PricesIncludeTax)
+                                            {
+                                                <nop-editor asp-for="OrderSubTotalDiscountInclTaxValue" contenteditable="" />
+                                            }
+                                            else
+                                            {
+                                                <nop-editor asp-for="OrderSubTotalDiscountExclTaxValue" />
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-7">
+                                            <nop-label asp-for="OrderShippingInclTaxValue" />
+                                        </div>
+                                        <div class="col-md-5">
+                                            @if (Model.PricesIncludeTax)
+                                            {
+                                                <nop-editor asp-for="OrderShippingInclTaxValue" />
+                                            }
+                                            else
+                                            {
+                                                <nop-editor asp-for="OrderShippingExclTaxValue" />
+                                            }
+                                        </div>
+                                    </div>
+                                    @if (Model.PaymentMethodAdditionalFeeInclTaxValue > decimal.Zero || Model.PaymentMethodAdditionalFeeExclTaxValue > decimal.Zero)
+                                    {
+                                    <div class="form-group row">
+                                        <div class="col-md-7">
+                                            <nop-label asp-for="PaymentMethodAdditionalFeeInclTaxValue" />
+                                        </div>
+                                        <div class="col-md-5">
+                                            @if (Model.PricesIncludeTax)
+                                            {
+                                                <nop-editor asp-for="PaymentMethodAdditionalFeeInclTaxValue" />
+                                            }
+                                            else
+                                            {
+                                                <nop-editor asp-for="PaymentMethodAdditionalFeeExclTaxValue" />
+                                            }
+                                        </div>
+                                    </div>
+                                    }
+                                    @foreach (var tr in Model.TaxRates)
+                                    {
+                                        <div class="form-group row">
+                                            <div class="col-md-7">
+                                                <div class="label-wrapper">
+                                                    <label class="col-form-label">@T("Admin.Orders.Fields.Edit.TaxRates")</label>
+                                                    <div class="ico-help" title="@T("Admin.Orders.Fields.Edit.TaxRates.Hint")">
+                                                        <i class="fas fa-question-circle"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-text-row">@tr.Rate%</div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="form-group row">
+                                        <div class="col-md-7">
+                                            <div class="label-wrapper">
+                                                <label class="col-form-label">@T("Admin.Orders.Fields.Edit.Tax")</label>
+                                                <div class="ico-help" title="@T("Admin.Orders.Fields.Edit.Tax.Hint")">
+                                                    <i class="fas fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <nop-editor asp-for="TaxValue" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-7">
+                                            <nop-label asp-for="OrderTotalDiscountValue" />
+                                        </div>
+                                        <div class="col-md-5">
+                                            <nop-editor asp-for="OrderTotalDiscountValue" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-7">
+                                            <nop-label asp-for="OrderTotal" />
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-text-row">@Html.Raw(Model.OrderTotal)</div>
+                                        </div>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(Model.RefundedAmount))
+                                    {
+                                        <div class="form-group row">
+                                            <div class="col-md-7">
+                                                <nop-label asp-for="RefundedAmount" />
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-text-row">@Model.RefundedAmount</div>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="form-group row">
+                                        <div class="col-md-5 offset-md-7">
+                                            <button type="submit" name="calculaterefund" id="calculaterefund" class="btn btn-primary">
+                                                @Html.Raw(string.Format(T("Plugins.Tax.TaxJar.Fields.CalculatedRefund").Text, Model.AmountToRefund > decimal.Zero ? Model.AmountToRefund : string.Empty))
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row text-center">
+                                        <div class="col-md-7 offset-md-5">
+                                            <span class="field-validation-error max-refund-error">
+                                                &nbsp;
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+<script>
+    function toggleOrderItemEditTrigger(element, togglefun) {
+        if (typeof togglefun == 'function') {
+            if ($(element).is(':checked'))
+                togglefun(true, true);
+            else
+                togglefun(false, true);
+        }
+    }
+    $(document).ready(function () {
+
+
+        $('#refund-selected tr.parent-item td.child-control').click(function () {
+            var childItem = $(this).parent().next('tr.child-item')
+            childItem.slideToggle("slow", "swing", function () {
+                if ($(this).is(':hidden')) {
+                    $(this).find('input[type=checkbox][class=checkboxGroups]:checked').each(function () {
+                        $(this).prop('checked', false).change();
+                    });
+                }
+            });
+        });
+
+        $(window).keydown(function (event) {
+            if (event.keyCode == 13) {
+                event.preventDefault();
+                return false;
+            }
+        });
+
+        $("#refund-selected .decimal").on("input", function () {
+            var value = parseFloat($(this).val());
+            if (!isNaN(value)) {
+                // Format the value to 2 decimal places
+                $(this).val(value.toFixed(2));
+            }
+        }).on("blur", function () {
+            var value = parseFloat($(this).val());
+            if (!isNaN(value)) {
+                $(this).val(value.toFixed(2));
+            }
+        });
+
+        // For "number" class (0 decimals)
+        $("#refund-selected .number").on("input", function () {
+            var value = parseInt($(this).val(), 10);
+            if (!isNaN(value)) {
+                $(this).val(value);
+            }
+        }).on("blur", function () {
+            var value = parseInt($(this).val(), 10);
+            if (!isNaN(value)) {
+                $(this).val(value);
+            }
+        });
+
+        // Add manual increment/decrement functionality
+        $("#refund-selected .decimal, #refund-selected .number").each(function () {
+            var $this = $(this);
+            var step = $this.hasClass("decimal") ? 0.1 : 1;
+        
+            // Adding event listener for arrow keys (up/down)
+            $this.on("keydown", function (e) {
+                if (e.key === "ArrowUp") {
+                    var currentValue = parseFloat($this.val());
+                    if (!isNaN(currentValue)) {
+                        $this.val((currentValue + step).toFixed($this.hasClass("decimal") ? 2 : 0)); // Increment
+                    }
+                     $(this).trigger('input');
+                } else if (e.key === "ArrowDown") {
+                    var currentValue = parseFloat($this.val());
+                    if (!isNaN(currentValue)) {
+                        $this.val((currentValue - step).toFixed($this.hasClass("decimal") ? 2 : 0)); // Decrement
+                    }
+                     $(this).trigger('input');
+                }
+            });
+        });
+
+        $("#@Html.IdFor(model => model.OrderSubtotalInclTaxValue),#@Html.IdFor(model => model.OrderSubtotalExclTaxValue)").prop('disabled', true);
+        $("#@Html.IdFor(model => model.OrderSubTotalDiscountInclTaxValue),#@Html.IdFor(model => model.OrderSubTotalDiscountExclTaxValue)").prop('disabled', true);
+        $("#@Html.IdFor(model => model.TaxValue)").prop('disabled', true);
+        $("#@Html.IdFor(model => model.OrderTotalDiscountValue)").prop('disabled', true);
+
+        @if(Model.PaymentMethodAdditionalFeeInclTaxValue > decimal.Zero || Model.PaymentMethodAdditionalFeeExclTaxValue > decimal.Zero)
+        {
+            <text>
+                $("#@Html.IdFor(model => model.PaymentMethodAdditionalFeeInclTaxValue),#@Html.IdFor(model => model.PaymentMethodAdditionalFeeExclTaxValue)").prop('disabled', false);
+            </text>
+        }
+    });
+</script>
+
+@*render scripts*@
+<script asp-location="Footer">
+    function @(itemChangeHandlerFuncName)(){
+        $('#calculaterefund').attr('disabled', true);
+        $.ajax({
+            cache: false,
+            url: "@Html.Raw(Url.Action("refundorder_itemchange", "taxjar", new { orderId = Model.Id }))",
+            data: $('#refund-order-form').serialize(),
+            type: "POST",
+            success: function (data, textStatus, jqXHR) {
+                if (data.refundOrderTotal) {
+                    $('#calculaterefund').text(data.refundOrderTotal);
+                }
+                if (data.pricesIncludeTax) {
+                    $("#@Html.IdFor(model => model.OrderSubtotalInclTaxValue)").val(data.orderSubtotal);
+                    $("#@Html.IdFor(model => model.OrderSubTotalDiscountInclTaxValue)").val(data.orderSubtotalDiscount);
+                } else {
+                    $("#@Html.IdFor(model => model.OrderSubtotalExclTaxValue)").val(data.orderSubtotal);
+                    $("#@Html.IdFor(model => model.OrderSubTotalDiscountExclTaxValue)").val(data.orderSubtotalDiscount);
+                }
+                if (data.orderTax) {
+                    $("#@Html.IdFor(model => model.TaxValue)").val(data.orderTax);
+                }
+                if (data.orderTotalDisocunt) {
+                    $("#@Html.IdFor(model => model.OrderTotalDiscountValue)").val(data.orderTotalDisocunt);
+                }
+                if (data.message) {
+                    $('.max-refund-error').text(data.message);
+                }
+                else {
+                    $('.max-refund-error').text(data.message);
+                }
+            },
+            complete: function (jqXHR, textStatus) {
+                $('#calculaterefund').attr('disabled', false);
+            }
+        });
+    }
+    $(document).ready(function() {
+        @(itemChangeHandlerFuncName)();
+        @Html.Raw(itemChangeScriptsBuilder.ToString())
+    });
+</script>

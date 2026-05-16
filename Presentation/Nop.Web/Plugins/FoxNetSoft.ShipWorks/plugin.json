@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Misc",
+  "FriendlyName": "ShipWorks Connector",
+  "SystemName": "FoxNetSoft.ShipWorks",
+  "Version": "1.04",
+  "SupportedVersions": [ "4.90" ],
+  "Author": "FoxNetSoft",
+  "DisplayOrder": 1,
+  "FileName": "FoxNetSoft.Plugin.Misc.ShipWorks.dll",
+  "Description": "This plugin connects your store with ShipWorks."
+}

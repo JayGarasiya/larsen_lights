@@ -1,0 +1,222 @@
+﻿@model FoxNetSoft.Plugin.Misc.AddressAutocomplete.Areas.Admin.Models.ConfigureModel
+@using FoxNetSoft.Plugin.Misc.AddressAutocomplete.Domain
+@using FoxNetSoft.Plugin.Misc.AddressAutocomplete.Logger
+@{
+    Layout = "_ConfigurePlugin";
+}
+<form asp-controller="AddressAutocompleteSettings" asp-action="Configure" method="post">
+    <script>
+        $(document).ready(function () {
+            $("#showDebugInfo").click(toggleshowDebugInfo);
+            $("#@Html.IdFor(model => model.AutocompleteServiceId)").change(toggleAutocompleteService);
+
+            toggleAutocompleteService();
+            toggleshowDebugInfo();
+        });
+
+        function toggleshowDebugInfo() {
+            if ($('#showDebugInfo').is(':checked')) {
+                $('#pnlclearlogfile, #pnlgetlogfile').showElement();
+            }
+            else {
+                $('#pnlclearlogfile, #pnlgetlogfile').hideElement();
+            }
+        }
+        function toggleAutocompleteService() {
+            var autocompleteServiceId = $("#@Html.IdFor(model => model.AutocompleteServiceId)").val();
+
+            $('#smartysettings, #googlesettings, #geoapifysettings').hideElement();
+
+            switch (autocompleteServiceId) {
+                case '@(((int)AutocompleteService.Google).ToString())':
+                    {
+                        $('#googlesettings').showElement();
+                        break;
+                    }
+            }
+        }
+    </script>
+    <div class="cards-group">
+        <div class="card card-default">
+            <div class="card-body">
+                @if (Model.LicenseStatus == LicenseStatus.Registered)
+                {
+                    <p>
+                        @T("Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.IsRegisted")
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        @T("Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.IsNoRegisted")
+                        <br />
+                        <a href="https://www.foxnetsoft.com/nopaddressautocomplete" target="blank">Buy It Now</a>
+                    </p>
+                }
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Enabled" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Enabled" />
+                        <span asp-validation-for="Enabled"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="EnableInBackend" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="EnableInBackend" />
+                        <span asp-validation-for="EnableInBackend"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="UseGeoLocationData" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="UseGeoLocationData" />
+                        <span asp-validation-for="UseGeoLocationData"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="AutocompleteServiceId" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-select asp-for="AutocompleteServiceId" asp-items="Model.AutocompleteServiceValues" />
+                        <span asp-validation-for="AutocompleteServiceId"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default" id="smartysettings">
+            <div class="card-header">
+                @T("Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Smarty.Description")
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Smarty_APIKey" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Smarty_APIKey" />
+                        <span asp-validation-for="Smarty_APIKey"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default" id="googlesettings">
+            <div class="card-header">
+                @T("Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Google.Description")
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Google_APIKey" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Google_APIKey" />
+                        <span asp-validation-for="Google_APIKey"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default" id="geoapifysettings">
+            <div class="card-header">
+                @T("Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.Geoapify.Description")
+            </div>
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="Geoapify_APIKey" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="Geoapify_APIKey" />
+                        <span asp-validation-for="Geoapify_APIKey"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="EnabledRestrictCountry" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="EnabledRestrictCountry" />
+                        <span asp-validation-for="EnabledRestrictCountry"></span>
+                    </div>
+                </div>
+                <nop-nested-setting asp-for="EnabledRestrictCountry">
+                    <div class="form-group row">
+                        <div class="col-md-3">
+                            <nop-label asp-for="AvailableCountries" />
+                        </div>
+                        <div class="col-md-9">
+                            <div style="width: 450px; overflow: auto; border: solid 1px #bbb; padding: 10px;max-height: 600px;">
+                                @foreach (var country in Model.AvailableCountries)
+                                {
+                                    <input type="checkbox" name="CheckedCountries" value="@country.Value" checked="@country.Selected" />
+                                    <label>@country.Text</label>
+                                    <br />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </nop-nested-setting>
+            </div>
+        </div>
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="showDebugInfo" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="showDebugInfo" />
+                        <span asp-validation-for="showDebugInfo"></span>
+                        <div id="pnlclearlogfile">
+                            <a href="@Url.Action("ClearLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.ClearLogFile")</a>
+                        </div>
+                        <div id="pnlgetlogfile">
+                            <a href="@Url.Action("GetLogFile")" class="btn btn-primary">@T("Admin.FoxNetSoft.Plugin.Misc.AddressAutocomplete.GetLogFile")</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="StoreUrl" />
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control text-box single-line" id="StoreUrl" name="StoreUrl" value="@Model.StoreUrl" type="text" readonly="readonly">
+                        <span asp-validation-for="StoreUrl"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <nop-label asp-for="SerialNumber" />
+                    </div>
+                    <div class="col-md-9">
+                        <nop-editor asp-for="SerialNumber" />
+                        <span asp-validation-for="SerialNumber"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-9 offset-md-3">
+                        <input type="submit" name="save" class="btn bg-primary" value="@T("Admin.Common.Save")" />
+                    </div>
+                </div>
+                <p>
+                    Installation and configuring plug-in at Youtube <a href="http://www.youtube.com/foxnetsoft" target="blank">www.youtube.com/foxnetsoft</a>
+                    <br />
+                    Installation and configuring plug-in at our site <a href="https://www.foxnetsoft.com/documentation-nopaddressautocomplete" target="blank">https://www.foxnetsoft.com/documentation-nopaddressautocomplete</a>
+                    <br />
+                    <a href="https://www.foxnetsoft.com" target="blank">www.foxnetsoft.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>
